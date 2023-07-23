@@ -68,7 +68,7 @@ clean:
 	
 fclean: clean
 	@make -s -C libft fclean
-	@rm -f minishell
+	@rm -f $(NAME)
 	@echo "\033[3m\033[1m\033[42m\033[31m~~The directory have been fully wiped~~\033[0m"; \
 
 re: fclean all
