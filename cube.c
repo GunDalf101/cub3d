@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/24 14:16:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:07:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ray_caster(t_scene *scene);
 
 int map[11][10] = {{'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'},
 					{'1', 'N', 'T', 'T', '1', '1', '0', '0', '0', '1'},
-					{'1', 'T', '0', '0', '1', '1', '0', '0', '0', '1'},
+					{'1', '0', '0', '0', '1', '1', '0', '0', '0', '1'},
 					{'1', 'T', '0', '0', '0', '1', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '1', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
@@ -146,13 +146,18 @@ void	renderitall(t_scene scene)
 		}
 		i++;
 	}
-
+	
 	mlx_put_pixel(scene.mlx_img, scene.player->pos[X] / 5, scene.player->pos[Y] / 5, 0xFF0000FF);
 	mlx_put_pixel(scene.mlx_img, (scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, 0xFF0000FF);
 	drawline(scene.player->pos[X] / 5, scene.player->pos[Y] / 5, (scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, scene, 0x00FF00FF);
 	drawline((scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] + scene.player->plane[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] + scene.player->plane[Y]) / 5, scene, 0x0000FFFF);
 	drawline((scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] - scene.player->plane[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] - scene.player->plane[Y]) / 5, scene, 0x0000FFFF);
 	drawbar(scene);
+	// xpm_t *img = malloc(sizeof(xpm_t));
+	// img = mlx_load_xpm42("Death.xpm");
+	// mlx_texture_to_image(scene.mlx_ptr, &(img->texture));
+	// mlx_delete_xpm42(img);
+	if (scene.player->is_ded == FALSE)
 	mlx_image_to_window(scene.mlx_ptr, scene.mlx_img, 0, 0);
 	if (scene.player->is_ded == TRUE)
 	{
@@ -238,7 +243,7 @@ void	ray_caster(t_scene *scene)
 		int lineend = scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
 		if (lineend >= WIN_HEIGHT)
 			lineend = WIN_HEIGHT - 1;
-		drawline(x, linestart, x, lineend, *scene, 0x0000FFFF);
+		drawline(x, linestart, x, lineend, *scene, 0x998970FF);
 		// drawline(scene->player->vision_rays[x]->current_cell[X] / 5, scene->player->vision_rays[x]->current_cell[Y] / 5, scene->player->vision_rays[x]->current_cell[X] / 5 + 1, scene->player->vision_rays[x]->current_cell[Y] / 5 + 1, *scene, 0xFF0000FF);
 		x++;
 	}
@@ -251,7 +256,8 @@ void	game_logic(t_scene *scene)
 	int width = WIN_WIDTH / scene->map->map_height;
 	if (scene->player->health_points <= 0)
 		scene->player->is_ded = TRUE;
-	if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X]) / height] == 'T' && scene->player->health_points > 0 && (scene->key_data.key == MLX_KEY_W || scene->key_data.key == MLX_KEY_S) && (scene->key_data.action == 1 || scene->key_data.action == 2))
+	printf("ded = %d\n", scene->player->is_ded);
+	if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X]) / height] == 'T' && scene->player->health_points > 0 && (scene->key_data.key == MLX_KEY_W || scene->key_data.key == MLX_KEY_S || scene->key_data.key == MLX_KEY_A || scene->key_data.key == MLX_KEY_D) && (scene->key_data.action == 1 || scene->key_data.action == 2))
 	{
 		scene->player->health_points -= 10;
 		map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X]) / height] = 'T';
@@ -286,6 +292,20 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	}
 	if (keycode.key == MLX_KEY_A)
 	{
+		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] - scene->player->plane[X] / 3) / (WIN_WIDTH / scene->map->map_height)] != '1')
+			scene->player->pos[X] -= scene->player->plane[X] / 3;
+		if (map[(int)(scene->player->pos[Y] - scene->player->plane[Y] / 3) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
+			scene->player->pos[Y] -= scene->player->plane[Y] / 3;
+	}
+	if (keycode.key == MLX_KEY_D)
+	{
+		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] + scene->player->plane[X] / 3) / (WIN_WIDTH / scene->map->map_height)] != '1')
+			scene->player->pos[X] += scene->player->plane[X] / 3;
+		if (map[(int)(scene->player->pos[Y] + scene->player->plane[Y] / 3) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
+			scene->player->pos[Y] += scene->player->plane[Y] / 3;
+	}
+	if (keycode.key == MLX_KEY_LEFT)
+	{
 		scene->player->p_angle -= 0.1;
 		if (scene->player->p_angle > 2 * M_PI)
 			scene->player->p_angle -= 2 * M_PI;
@@ -294,7 +314,7 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 		scene->player->plane[X] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
 		scene->player->plane[Y] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
 	}
-	if (keycode.key == MLX_KEY_D)
+	if (keycode.key == MLX_KEY_RIGHT)
 	{
 		scene->player->p_angle += 0.1;
 		if (scene->player->p_angle < 0)
@@ -312,20 +332,16 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 		else
 			scene->player->health_points += 20;
 	}
-	printf("Health: %d\n", scene->player->health_points);
 	game_logic(scene);
-	renderitall(*scene);
 }
 
 void	hookercur(double xpos, double ypos, void* scene2)
 {
 	t_scene	*scene;
-	static int i = 0;
+
 	scene = (t_scene *)scene2;
-	// int x = xpos - WIN_WIDTH / 2;
 	(void)ypos;
-	// int y = ypos - WIN_HEIGHT / 2;
-	scene->player->p_angle = xpos / 5000;
+	scene->player->p_angle = xpos / 80;
 	if (scene->player->p_angle < 0)
 		scene->player->p_angle += 2 * M_PI;
 	if (scene->player->p_angle > 2 * M_PI)
@@ -334,10 +350,7 @@ void	hookercur(double xpos, double ypos, void* scene2)
 	scene->player->dir[Y] = (double)sinf(scene->player->p_angle) * 25;
 	scene->player->plane[X] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
 	scene->player->plane[Y] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
-	printf("mouse is going wild %d\n", i);
-	i++;
 	game_logic(scene);
-	renderitall(*scene);
 }
 
 void	initplayer(t_scene *scene)
@@ -370,6 +383,12 @@ void	initplayer(t_scene *scene)
 	scene->player->is_ded = FALSE;
 }
 
+void	gameloop(void *scene2)
+{
+	t_scene	*scene;
+	scene = (t_scene *)scene2;
+	renderitall(*scene);
+}
 
 int	main()
 {
@@ -380,8 +399,10 @@ int	main()
 	initplayer(&scene);
 	scene.mlx_ptr = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Escape From GunDalf", 1);
 	scene.mlx_img = mlx_new_image(scene.mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	mlx_key_hook(scene.mlx_ptr, hooker, &scene);
+	mlx_loop_hook(scene.mlx_ptr, gameloop, &scene);
+	mlx_set_cursor_mode(scene.mlx_ptr, MLX_MOUSE_DISABLED);
 	mlx_cursor_hook(scene.mlx_ptr, hookercur, &scene);
+	mlx_key_hook(scene.mlx_ptr, hooker, &scene);
 	renderitall(scene);
 	mlx_loop(scene.mlx_ptr);
 	return (0);

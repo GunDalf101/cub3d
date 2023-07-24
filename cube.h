@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/24 13:34:38 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:05:59 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_scene
 	t_wall		**walls;
 	int			win_width;
 	int			win_height;
+	mlx_texture_t		*texture;
 	mlx_key_data_t			key_data;
 }				t_scene;
 
