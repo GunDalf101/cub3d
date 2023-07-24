@@ -6,24 +6,23 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/23 23:54:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/24 13:34:38 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-
 # define WIN_WIDTH 1000
-# define WIN_HEIGHT 1000
+# define WIN_HEIGHT 1100
 
-# include <stdio.h>
+# include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3.h"
+# include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3native.h"
+# include "/Users/mbennani/Documents/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
-#include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3.h"
-#include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3native.h"
-#include "/Users/mbennani/Documents/MLX42/include/MLX42/MLX42.h"
+# include <stdio.h>
 
-enum	e_direction
+enum			e_direction
 {
 	NORTH,
 	SOUTH,
@@ -31,26 +30,25 @@ enum	e_direction
 	WEST
 };
 
-enum	e_general
+enum			e_general
 {
 	EW,
 	NS
 };
 
-
-enum	e_coord
+enum			e_coord
 {
 	X,
 	Y
 };
 
-enum	e_bool
+enum			e_bool
 {
 	FALSE,
 	TRUE
 };
 
-enum	e_door
+enum			e_door
 {
 	CLOSED,
 	OPEN
@@ -76,7 +74,7 @@ typedef struct s_ray
 	int			current_cell[2];
 	double		side_cell[2];
 	double		delta_ray[2];
-	int 		step[2];
+	int			step[2];
 	double		wall_dist;
 	int			will_hit;
 	int			side;
@@ -93,16 +91,19 @@ typedef struct s_player
 	double		fov;
 	t_ray		**collision_rays;
 	t_ray		**vision_rays;
+	int			health_points;
+	int			mana_points;
+	int			is_ded;
 }				t_player;
 
-typedef	struct	s_map
+typedef struct s_map
 {
 	char		**map;
-	int			map_width;
 	int			map_height;
+	int			map_width;
 }				t_map;
 
-typedef	struct	s_scene
+typedef struct s_scene
 {
 	void		*mlx_ptr;
 	void		*mlx_win;
@@ -115,6 +116,7 @@ typedef	struct	s_scene
 	t_wall		**walls;
 	int			win_width;
 	int			win_height;
+	mlx_key_data_t			key_data;
 }				t_scene;
 
 #endif
