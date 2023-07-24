@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/24 16:07:06 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:48:30 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	renderitall(t_scene scene)
 		i++;
 	}
 	
-	i = 1;
+	i = 0;
 	while (i < scene.map->map_width + 1)
 	{
 		j = 1;
@@ -135,7 +135,7 @@ void	renderitall(t_scene scene)
 		i++;
 	}
 
-	i = 1;
+	i = 0;
 	while (i < scene.map->map_height + 1)
 	{
 		j = 1;
@@ -153,17 +153,14 @@ void	renderitall(t_scene scene)
 	drawline((scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] + scene.player->plane[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] + scene.player->plane[Y]) / 5, scene, 0x0000FFFF);
 	drawline((scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] - scene.player->plane[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] - scene.player->plane[Y]) / 5, scene, 0x0000FFFF);
 	drawbar(scene);
-	// xpm_t *img = malloc(sizeof(xpm_t));
-	// img = mlx_load_xpm42("Death.xpm");
-	// mlx_texture_to_image(scene.mlx_ptr, &(img->texture));
-	// mlx_delete_xpm42(img);
-	if (scene.player->is_ded == FALSE)
-	mlx_image_to_window(scene.mlx_ptr, scene.mlx_img, 0, 0);
+	mlx_texture_t *img;
+	img = mlx_load_png("./Death.png");
 	if (scene.player->is_ded == TRUE)
 	{
-		mlx_put_string(scene.mlx_ptr, "YOU DIED", WIN_WIDTH / 2 - 50, WIN_HEIGHT / 2);
-		mlx_put_string(scene.mlx_ptr, "GAME OVER", WIN_WIDTH / 2 - 50, WIN_HEIGHT / 2 + 20);
+		mlx_image_to_window(scene.mlx_ptr, mlx_texture_to_image(scene.mlx_ptr, img), -450, 0);
 	}
+	mlx_delete_texture(img);
+	mlx_image_to_window(scene.mlx_ptr, scene.mlx_img, 0, 0);
 }
 
 void	ray_caster(t_scene *scene)
@@ -244,7 +241,7 @@ void	ray_caster(t_scene *scene)
 		if (lineend >= WIN_HEIGHT)
 			lineend = WIN_HEIGHT - 1;
 		drawline(x, linestart, x, lineend, *scene, 0x998970FF);
-		// drawline(scene->player->vision_rays[x]->current_cell[X] / 5, scene->player->vision_rays[x]->current_cell[Y] / 5, scene->player->vision_rays[x]->current_cell[X] / 5 + 1, scene->player->vision_rays[x]->current_cell[Y] / 5 + 1, *scene, 0xFF0000FF);
+		// drawline(scene->player->vision_rays[x]->current_cell[X] / 5, scene->player->vision_rays[x]->current_cell[Y] / 5, scene->player->vision_rays[x]->current_cell[X] / 5, scene->player->vision_rays[x]->current_cell[Y] / 5, *scene, 0xFF0000FF);
 		x++;
 	}
 	
