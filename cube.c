@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/24 19:48:30 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:39:04 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	ray_caster(t_scene *scene);
 int map[11][10] = {{'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'},
 					{'1', 'N', 'T', 'T', '1', '1', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '1', '1', '0', '0', '0', '1'},
-					{'1', 'T', '0', '0', '0', '1', '0', '0', '0', '1'},
-					{'1', '0', '0', '0', '1', '0', '0', '0', '0', '1'},
-					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
+					{'1', '0', '1', '1', '1', '1', '1', '1', '0', '1'},
+					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+					{'1', '0', '1', '1', '1', '1', '1', '1', '0', '1'},
 					{'1', '0', '0', '0', '1', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
@@ -77,6 +77,11 @@ void	drawbar(t_scene scene)
 	}
 }
 
+int32_t ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
+}
+
 void	renderitall(t_scene scene)
 {
 	int height = WIN_HEIGHT / scene.map->map_width / 5;
@@ -86,15 +91,15 @@ void	renderitall(t_scene scene)
 
 
 	int i = 0;
-	while (i < WIN_HEIGHT / 2)
+	while (i < scene.player->central_angle + WIN_HEIGHT / 2)
 	{
-		drawline(0 , i, WIN_WIDTH, i, scene, 0x87CEEBFF);
+		drawline(0 , i, WIN_HEIGHT, i, scene, 0x87CEEBFF);
 		i++;
 	}
-	i = WIN_HEIGHT / 2;
+	i = scene.player->central_angle + WIN_HEIGHT / 2;
 	while (i < WIN_HEIGHT)
 	{
-		drawline(0 , i, WIN_WIDTH, i, scene, 0x9b7653FF);
+		drawline(0 , i, WIN_HEIGHT, i, scene, 0x9b7653FF);
 		i++;
 	}
 	ray_caster(&scene);
@@ -153,14 +158,26 @@ void	renderitall(t_scene scene)
 	drawline((scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] + scene.player->plane[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] + scene.player->plane[Y]) / 5, scene, 0x0000FFFF);
 	drawline((scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] - scene.player->plane[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] - scene.player->plane[Y]) / 5, scene, 0x0000FFFF);
 	drawbar(scene);
-	mlx_texture_t *img;
-	img = mlx_load_png("./Death.png");
+	mlx_texture_t *death_screen;
+	mlx_image_t		*death_img;
+	death_screen = mlx_load_png("./DEAD.png");
 	if (scene.player->is_ded == TRUE)
 	{
-		mlx_image_to_window(scene.mlx_ptr, mlx_texture_to_image(scene.mlx_ptr, img), -450, 0);
+		death_img = mlx_texture_to_image(scene.mlx_ptr, death_screen);
+		for (u_int32_t i = 0; i < death_img->height; i++)
+			for (uint32_t j = 0; j < death_img->width; j++)
+			{
+				u_int8_t r = death_img->pixels[i * 4 * death_img->width + j * 4];
+				u_int8_t g = death_img->pixels[i * 4 * death_img->width + j * 4 + 1];
+				u_int8_t b = death_img->pixels[i * 4 * death_img->width + j * 4 + 2];
+				u_int8_t a = death_img->pixels[i * 4 * death_img->width + j * 4 + 3];
+				if (a == 0)
+					continue;
+				mlx_put_pixel(scene.mlx_img, j + WIN_WIDTH / 2 - death_img->width / 2, i + WIN_HEIGHT / 2 - death_img->height / 2, ft_pixel(r, g, b, a));
+			}
 	}
-	mlx_delete_texture(img);
 	mlx_image_to_window(scene.mlx_ptr, scene.mlx_img, 0, 0);
+	mlx_delete_texture(death_screen);
 }
 
 void	ray_caster(t_scene *scene)
@@ -234,10 +251,10 @@ void	ray_caster(t_scene *scene)
 		scene->player->vision_rays[x]->wall_height = (int)(WIN_HEIGHT / scene->player->vision_rays[x]->wall_dist * 3);
 		if (scene->player->vision_rays[x]->wall_height < 0)
 			scene->player->vision_rays[x]->wall_height = WIN_HEIGHT;
-		int	linestart = - scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
+		int	linestart = scene->player->central_angle - scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
 		if (linestart < 0)
 			linestart = 0;
-		int lineend = scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
+		int lineend = scene->player->central_angle + scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
 		if (lineend >= WIN_HEIGHT)
 			lineend = WIN_HEIGHT - 1;
 		drawline(x, linestart, x, lineend, *scene, 0x998970FF);
@@ -253,11 +270,13 @@ void	game_logic(t_scene *scene)
 	int width = WIN_WIDTH / scene->map->map_height;
 	if (scene->player->health_points <= 0)
 		scene->player->is_ded = TRUE;
-	printf("ded = %d\n", scene->player->is_ded);
 	if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X]) / height] == 'T' && scene->player->health_points > 0 && (scene->key_data.key == MLX_KEY_W || scene->key_data.key == MLX_KEY_S || scene->key_data.key == MLX_KEY_A || scene->key_data.key == MLX_KEY_D) && (scene->key_data.action == 1 || scene->key_data.action == 2))
 	{
-		scene->player->health_points -= 10;
-		map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X]) / height] = 'T';
+		if (scene->player->health_points - 15 < 0)
+			scene->player->health_points = 0;
+		else
+			scene->player->health_points -= 15;
+		map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X]) / height] = '0';
 	}
 }
 
@@ -274,32 +293,33 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 		exit(0);
 	if (keycode.key == MLX_KEY_W)
 	{
-		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] + scene->player->dir[X] / 3) / (WIN_WIDTH / scene->map->map_height)] != '1')
-			scene->player->pos[X] += scene->player->dir[X] / 3;
-		if (map[(int)(scene->player->pos[Y] + scene->player->dir[Y] / 3) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
-			scene->player->pos[Y] += scene->player->dir[Y] / 3;
-		
+		double delta_x = scene->player->dir[X] / 1.5;
+		double delta_y = scene->player->dir[Y] / 1.5;
+		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] + delta_x) / (WIN_WIDTH / scene->map->map_height)] != '1')
+			scene->player->pos[X] += delta_x;
+		if (map[(int)(scene->player->pos[Y] + delta_y) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
+			scene->player->pos[Y] += delta_y;
 	}
 	if (keycode.key == MLX_KEY_S)
 	{
-		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] - scene->player->dir[X] / 3) / (WIN_WIDTH / scene->map->map_height)] != '1')
-			scene->player->pos[X] -= scene->player->dir[X] / 3;
-		if (map[(int)(scene->player->pos[Y] - scene->player->dir[Y] / 3) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
-			scene->player->pos[Y] -= scene->player->dir[Y] / 3;
+		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] - scene->player->dir[X] / 1.5) / (WIN_WIDTH / scene->map->map_height)] != '1')
+			scene->player->pos[X] -= scene->player->dir[X] / 1.5;
+		if (map[(int)(scene->player->pos[Y] - scene->player->dir[Y] / 1.5) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
+			scene->player->pos[Y] -= scene->player->dir[Y] / 1.5;
 	}
 	if (keycode.key == MLX_KEY_A)
 	{
-		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] - scene->player->plane[X] / 3) / (WIN_WIDTH / scene->map->map_height)] != '1')
-			scene->player->pos[X] -= scene->player->plane[X] / 3;
-		if (map[(int)(scene->player->pos[Y] - scene->player->plane[Y] / 3) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
-			scene->player->pos[Y] -= scene->player->plane[Y] / 3;
+		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] - scene->player->plane[X] / 1.5) / (WIN_WIDTH / scene->map->map_height)] != '1')
+			scene->player->pos[X] -= scene->player->plane[X] / 1.5;
+		if (map[(int)(scene->player->pos[Y] - scene->player->plane[Y] / 1.5) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
+			scene->player->pos[Y] -= scene->player->plane[Y] / 1.5;
 	}
 	if (keycode.key == MLX_KEY_D)
 	{
-		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] + scene->player->plane[X] / 3) / (WIN_WIDTH / scene->map->map_height)] != '1')
-			scene->player->pos[X] += scene->player->plane[X] / 3;
-		if (map[(int)(scene->player->pos[Y] + scene->player->plane[Y] / 3) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
-			scene->player->pos[Y] += scene->player->plane[Y] / 3;
+		if (map[(int)(scene->player->pos[Y]) / width][(int)(scene->player->pos[X] + scene->player->plane[X] / 1.5) / (WIN_WIDTH / scene->map->map_height)] != '1')
+			scene->player->pos[X] += scene->player->plane[X] / 1.5;
+		if (map[(int)(scene->player->pos[Y] + scene->player->plane[Y] / 1.5) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[X]) / height] != '1')
+			scene->player->pos[Y] += scene->player->plane[Y] / 1.5;
 	}
 	if (keycode.key == MLX_KEY_LEFT)
 	{
@@ -335,18 +355,34 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 void	hookercur(double xpos, double ypos, void* scene2)
 {
 	t_scene	*scene;
+	static double	old_ypos;
 
 	scene = (t_scene *)scene2;
-	(void)ypos;
+	if (old_ypos == 0)
+		old_ypos = ypos;
 	scene->player->p_angle = xpos / 80;
+	if (old_ypos < ypos)
+		scene->player->central_angle -= 30.0;
+	else if (old_ypos > ypos)
+		scene->player->central_angle += 30.0;
 	if (scene->player->p_angle < 0)
 		scene->player->p_angle += 2 * M_PI;
 	if (scene->player->p_angle > 2 * M_PI)
 			scene->player->p_angle -= 2 * M_PI;
+	// if (scene->player->central_angle < 0)
+	// 	scene->player->central_angle += 2 * M_PI;
+	// if (scene->player->central_angle > 2 * M_PI)
+	// 		scene->player->central_angle -= 2 * M_PI;
+	if (scene->player->central_angle > WIN_HEIGHT / 2)
+		scene->player->central_angle = WIN_HEIGHT / 2;
+	if (scene->player->central_angle < -WIN_HEIGHT / 3)
+		scene->player->central_angle = -WIN_HEIGHT / 3;
+	printf("central angle : %f\n", scene->player->central_angle);
 	scene->player->dir[X] = (double)cosf(scene->player->p_angle) * 25;
 	scene->player->dir[Y] = (double)sinf(scene->player->p_angle) * 25;
 	scene->player->plane[X] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
 	scene->player->plane[Y] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
+	old_ypos = ypos;
 	game_logic(scene);
 }
 
@@ -377,6 +413,7 @@ void	initplayer(t_scene *scene)
 	scene->player->plane[Y] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
 	scene->player->health_points = 100;
 	scene->player->mana_points = 100;
+	scene->player->central_angle = 0;
 	scene->player->is_ded = FALSE;
 }
 

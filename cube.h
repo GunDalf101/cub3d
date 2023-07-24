@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/24 15:05:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:56:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_player
 	double		dir[2];
 	double		plane[2];
 	double		p_angle;
-	double		fov;
+	double		central_angle;
 	t_ray		**collision_rays;
 	t_ray		**vision_rays;
 	int			health_points;
