@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/23 15:09:12 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:54:22 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,23 @@ enum	e_direction
 	WEST
 };
 
+enum	e_general
+{
+	EW,
+	NS
+};
+
+
 enum	e_coord
 {
 	X,
 	Y
+};
+
+enum	e_bool
+{
+	FALSE,
+	TRUE
 };
 
 enum	e_door
@@ -45,31 +58,39 @@ enum	e_door
 
 typedef struct s_door
 {
-	float		pos[2];
-	float		dir[2];
+	double		a[2];
+	double		b[2];
 	int			state;
 }				t_door;
 
 typedef struct s_wall
 {
-	float		a[2];
-	float		b[2];
+	double		a[2];
+	double		b[2];
 }				t_wall;
 
 typedef struct s_ray
 {
-	float		pos[2];
-	float		dir[2];
-	float		ray_angle;
+	double		pos[2];
+	double		dir[2];
+	int			current_cell[2];
+	double		side_cell[2];
+	double		delta_ray[2];
+	int 		step[2];
+	double		wall_dist;
+	int			will_hit;
+	int			side;
+	int			wall_height;
+	double		ray_angle;
 }				t_ray;
 
 typedef struct s_player
 {
-	float		pos[2];
-	float		dir[2];
-	float		plane[2];
-	float		euclidean_angle;
-	float		fov;
+	double		pos[2];
+	double		dir[2];
+	double		plane[2];
+	double		p_angle;
+	double		fov;
 	t_ray		**collision_rays;
 	t_ray		**vision_rays;
 }				t_player;
@@ -86,6 +107,7 @@ typedef	struct	s_scene
 	void		*mlx_ptr;
 	void		*mlx_win;
 	mlx_image_t	*mlx_img;
+	double		camera_x;
 	int			fd;
 	int			maplol[10][10];
 	t_map		*map;
