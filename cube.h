@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/24 19:56:50 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/25 21:26:17 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3native.h"
 # include "/Users/mbennani/Documents/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 # include <stdio.h>
 
 enum			e_direction
@@ -29,6 +32,16 @@ enum			e_direction
 	EAST,
 	WEST
 };
+
+enum			e_move
+{
+	FORWARD,
+	BACKWARDS,
+	LEFT,
+	RIGHT,
+	STOP
+};
+
 
 enum			e_general
 {
@@ -82,6 +95,14 @@ typedef struct s_ray
 	double		ray_angle;
 }				t_ray;
 
+typedef struct s_sprite
+{
+	double		pos[2];
+	double		perp_dist;
+	mlx_texture_t		*sprite_texture;
+	mlx_image_t	*sprite_img;
+}				t_sprite;
+
 typedef struct s_player
 {
 	double		pos[2];
@@ -89,7 +110,13 @@ typedef struct s_player
 	double		plane[2];
 	double		p_angle;
 	double		central_angle;
-	t_ray		**collision_rays;
+	int			forward;
+	int			backwards;
+	int			left;
+	int			right;
+	double		is_running;
+	double		is_jumping;
+	double		is_trapped;
 	t_ray		**vision_rays;
 	int			health_points;
 	int			mana_points;
@@ -116,8 +143,25 @@ typedef struct s_scene
 	t_wall		**walls;
 	int			win_width;
 	int			win_height;
+	double		frame_time;
+	double		time;
+	double		oldtime;
+	double		damaged_time;
+	double		old_damaged_time;
+	double		*dist2;
+	double		*z_buffer;
+	double		*dist_buffer;
+	double		move_speed;
+	double		rot_speed;
 	mlx_texture_t		*texture;
 	mlx_key_data_t			key_data;
 }				t_scene;
+
+void	ray_caster(t_scene *scene);
+void	renderitall(t_scene scene);
+void	drawbar(t_scene scene);
+void	drawline(int x1, int y1, int x2, int y2, t_scene scene, int color);
+void	hookercur(double xpos, double ypos, void* scene2);
+void	hooker(mlx_key_data_t keycode, void *scene2);
 
 #endif

@@ -1,11 +1,13 @@
 NAME = cub3d
 
-SOURCES = cube.c
-
+SOURCES = cube.c \
+		ray_wizard.c \
+		renderer.c \
+		cross_hooks.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 
-INCLUDES = cube.h
+INCLUDES = cube.h \
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -17,7 +19,7 @@ all: elderscroll libft linear $(NAME)
 	fi 
 
 $(NAME):$(OBJECTS) $(GNLOBJ) 
-	@cc  $(OBJECTS) $(LIBFT) $(LINEAR) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
+	@cc $(OBJECTS) $(LIBFT) $(LINEAR) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c minishell.h
