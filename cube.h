@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/26 04:02:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:44:23 by GunDalf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 1100
 
-# include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3.h"
-# include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3native.h"
-# include "/Users/mbennani/Documents/MLX42/include/MLX42/MLX42.h"
+# include "/usr/local/opt/glfw/include/GLFW/glfw3.h"
+# include "/usr/local/opt/glfw/include/GLFW/glfw3native.h"
+# include "/Users/GunDalf/Documents/MLX42/include/MLX42/MLX42.h"
+# include "libft/libft.h"
 # include <math.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -97,10 +98,23 @@ typedef struct s_ray
 
 typedef struct s_sprite
 {
-	double		pos[2];
-	double		perp_dist;
+	double				pos[2];
+	double				relative_pos[2];
+	double				transform[2];
+	double				inverse_det;
+	double				sprite_distance;
+	double				perp_dist;
+	int					sprite_screen_x;
+	int					sprite_height;
+	int					sprite_width;
+	int					tex[2];
+	int 				d;
+	int					v_move;
+	int					v_move_screen;
+	int					start[2];
+	int					end[2];
 	mlx_texture_t		*sprite_texture;
-	mlx_image_t	*sprite_img;
+	mlx_image_t			*sprite_img;
 }				t_sprite;
 
 typedef struct s_player
@@ -140,6 +154,7 @@ typedef struct s_scene
 	int			fd;
 	int			maplol[10][10];
 	t_map		*map;
+	t_sprite	**sprites;
 	t_player	*player;
 	t_wall		**walls;
 	int			win_width;
@@ -154,7 +169,12 @@ typedef struct s_scene
 	double		*dist_buffer;
 	double		move_speed;
 	double		rot_speed;
+	int			sprite_count;
 	mlx_texture_t		*texture;
+	mlx_texture_t	*barrel_tex;
+	mlx_image_t		*barrel_img;
+	mlx_texture_t	*pillar_tex;
+	mlx_image_t		*pillar_img;
 	mlx_key_data_t			key_data;
 }				t_scene;
 

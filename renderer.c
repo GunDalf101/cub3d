@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/26 04:13:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:24:21 by GunDalf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,61 +66,70 @@ int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void	spawn_sprites(t_scene *scene, int i, int j, int height, int width)
+void	spawn_sprites(t_scene *scene, int count)
 {
-	double		sprite_x;
-	double		sprite_y;
-	double		inverse_det;
-	double		sprite_distance;
-	double		transform_x;
-	double		transform_y;
-	mlx_texture_t *death_screen;
-	mlx_image_t		*death_img;
-	death_screen = mlx_load_png("./Barrel.png");
-	death_img = mlx_texture_to_image(scene->mlx_ptr, death_screen);
-	mlx_resize_image(death_img, 160, 300);
-	sprite_x = j * width + width / 2;
-	sprite_y = i * height + height / 2;
-	sprite_distance = sqrt((scene->player->pos[Y] - sprite_x) * (scene->player->pos[Y] - sprite_x) + (scene->player->pos[X] - sprite_y) * (scene->player->pos[X] - sprite_y));
-	sprite_x -= scene->player->pos[Y];
-	sprite_y -= scene->player->pos[X];
-	inverse_det = 1.0 / (scene->player->plane[Y] * scene->player->dir[X] - scene->player->dir[Y] * scene->player->plane[X]);
-	transform_x = inverse_det * (scene->player->dir[X] * sprite_x - scene->player->dir[Y] * sprite_y);
-	transform_y = inverse_det * (-scene->player->plane[X] * sprite_x + scene->player->plane[Y] * sprite_y);
-	int sprite_screen_x = (int)((WIN_WIDTH / 2) * (1 + transform_x / transform_y));
-	int sprite_height = abs((int)(death_img->height / (transform_y) * 7));
-	int start_y = - sprite_height / 2 + WIN_HEIGHT / 2;
-	if (start_y < - scene->player->central_angle + scene->player->is_crouching)
-		start_y = - scene->player->central_angle + scene->player->is_crouching;
-	int end_y =  sprite_height / 2 + WIN_HEIGHT / 2;
-	if (end_y >= WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching)
-		end_y = WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching - 1;
-	int sprite_width = abs((int)(death_img->width/ (transform_y) * 7));
-	int start_x = sprite_screen_x - sprite_width / 2;
-	if (start_x < 0)
-		start_x = 0;
-	int end_x = sprite_screen_x + sprite_width / 2;
-	if (end_x >= WIN_WIDTH)
-		end_x = WIN_WIDTH - 1;
-	for (int stripe = start_x; stripe < end_x; stripe++)
+	scene->sprites[count]->relative_pos[Y] = scene->sprites[count]->pos[Y] - scene->player->pos[Y];
+	scene->sprites[count]->relative_pos[X] = scene->sprites[count]->pos[X] - scene->player->pos[X];
+	scene->sprites[count]->inverse_det = 1.0 / (scene->player->plane[Y] * scene->player->dir[X] - scene->player->dir[Y] * scene->player->plane[X]);
+	scene->sprites[count]->transform[Y] = scene->sprites[count]->inverse_det * (-scene->player->plane[X] * scene->sprites[count]->relative_pos[Y] + scene->player->plane[Y] * scene->sprites[count]->relative_pos[X]);
+	scene->sprites[count]->transform[X] = scene->sprites[count]->inverse_det * (scene->player->dir[X] * scene->sprites[count]->relative_pos[Y] - scene->player->dir[Y] * scene->sprites[count]->relative_pos[X]);
+	scene->sprites[count]->v_move_screen = (int)(scene->sprites[count]->v_move / scene->sprites[count]->transform[Y]);
+	scene->sprites[count]->sprite_screen_x = (int)((WIN_WIDTH / 2) * (1 + scene->sprites[count]->transform[X] / scene->sprites[count]->transform[Y]));
+	scene->sprites[count]->sprite_height = abs((int)(scene->sprites[count]->sprite_img->height / (scene->sprites[count]->transform[Y]) * 7));
+	scene->sprites[count]->start[Y] = - scene->sprites[count]->sprite_height / 2 + WIN_HEIGHT / 2 + scene->sprites[count]->v_move_screen;
+	if (scene->sprites[count]->start[Y] < - scene->player->central_angle + scene->player->is_crouching)
+		scene->sprites[count]->start[Y] = - scene->player->central_angle + scene->player->is_crouching;
+	scene->sprites[count]->end[Y] =  scene->sprites[count]->sprite_height / 2 + WIN_HEIGHT / 2 + scene->sprites[count]->v_move_screen;
+	if (scene->sprites[count]->end[Y] >= WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching)
+		scene->sprites[count]->end[Y] = WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching - 1;
+	scene->sprites[count]->sprite_width = abs((int)(scene->sprites[count]->sprite_img->width / (scene->sprites[count]->transform[Y]) * 7));
+	scene->sprites[count]->start[X] = scene->sprites[count]->sprite_screen_x - scene->sprites[count]->sprite_width / 2;
+	if (scene->sprites[count]->start[X] < 0)
+		scene->sprites[count]->start[X] = 0;
+	scene->sprites[count]->end[X] = scene->sprites[count]->sprite_screen_x + scene->sprites[count]->sprite_width / 2;
+	if (scene->sprites[count]->end[X] >= WIN_WIDTH)
+		scene->sprites[count]->end[X] = WIN_WIDTH - 1;
+	for (int stripe = scene->sprites[count]->start[X]; stripe < scene->sprites[count]->end[X]; stripe++)
 	{
-		int tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * death_img->width / sprite_width) / 256;
-		if (stripe > 0 && stripe < WIN_WIDTH && transform_y > 0 && transform_y < scene->z_buffer[stripe])
-		for (int j = start_y; j < end_y; j++)
+		scene->sprites[count]->tex[X] = (int)(256 * (stripe - (-scene->sprites[count]->sprite_width / 2 + scene->sprites[count]->sprite_screen_x)) * scene->sprites[count]->sprite_img->width / scene->sprites[count]->sprite_width) / 256;
+		if (stripe > 0 && stripe < WIN_WIDTH && scene->sprites[count]->transform[Y] > 0 && scene->sprites[count]->transform[Y] < scene->z_buffer[stripe])
+		for (int j = scene->sprites[count]->start[Y]; j < scene->sprites[count]->end[Y]; j++)
 		{
-			int d = (j) * 256 - WIN_HEIGHT * 128 + sprite_height * 128;
-			int tex_y = ((d * death_img->height) / sprite_height) / 256;
-			u_int8_t r = death_img->pixels[tex_y * 4 * death_img->width + tex_x * 4];
-			u_int8_t g = death_img->pixels[tex_y * 4 * death_img->width + tex_x * 4 + 1];
-			u_int8_t b = death_img->pixels[tex_y * 4 * death_img->width + tex_x * 4 + 2];
-			u_int8_t a = death_img->pixels[tex_y * 4 * death_img->width + tex_x * 4 + 3];
+			scene->sprites[count]->d  = (j - scene->sprites[count]->v_move_screen) * 256 - WIN_HEIGHT * 128 + scene->sprites[count]->sprite_height * 128;
+			scene->sprites[count]->tex[Y] = ((scene->sprites[count]->d * scene->sprites[count]->sprite_img->height) / scene->sprites[count]->sprite_height) / 256;
+			u_int8_t r = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4];
+			u_int8_t g = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4 + 1];
+			u_int8_t b = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4 + 2];
+			u_int8_t a = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4 + 3];
 			if (a == 0)
 				continue;
 			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->is_crouching + j, ft_pixel(r, g, b, a));
 		}
 	}
-	mlx_delete_image(scene->mlx_ptr, death_img);
-	mlx_delete_texture(death_screen);
+}
+
+//sort sprites by distance
+
+void	sort_sprites(t_sprite **sprites, int count)
+{
+	int i = 0;
+	int j = 0;
+	t_sprite *tmp;
+	while (i < count)
+	{
+		j = 0;
+		while (j < count - 1)
+		{
+			if (sprites[j]->sprite_distance < sprites[j + 1]->sprite_distance)
+			{
+				tmp = sprites[j];
+				sprites[j] = sprites[j + 1];
+				sprites[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 void	renderitall(t_scene scene)
@@ -145,6 +154,20 @@ void	renderitall(t_scene scene)
 	}
 	ray_caster(&scene);
 	i = 0;
+	while (i < scene.sprite_count)
+	{
+		scene.sprites[i]->sprite_distance = sqrt(pow(scene.sprites[i]->pos[Y] - scene.player->pos[Y], 2) + pow(scene.sprites[i]->pos[X] - scene.player->pos[X], 2));
+		i++;
+	}
+	sort_sprites(scene.sprites, scene.sprite_count);
+	i = 0;
+	while (i < scene.sprite_count)
+	{
+		spawn_sprites(&scene, i);
+		i++;
+	}
+
+	i = 0;
 	while (i < scene.map->map_width)
 	{
 		j = 0;
@@ -163,10 +186,6 @@ void	renderitall(t_scene scene)
 					}
 					k++;
 				}
-			}
-			if (map[i][j] == 'B')
-			{
-				spawn_sprites(&scene, i, j, height * 5, width * 5);
 			}
 			j++;
 		}
