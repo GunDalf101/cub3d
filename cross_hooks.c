@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/25 21:26:55 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/26 04:02:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,15 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	else if (keycode.key == MLX_KEY_LEFT_SHIFT && keycode.action == MLX_RELEASE)
 		scene->player->is_running = 1.5;
 	if (keycode.key == MLX_KEY_LEFT_CONTROL && keycode.action == MLX_PRESS)
+	{
+		scene->player->is_crouching = 50;
 		scene->player->is_running = 0.75;
+	}
 	else if (keycode.key == MLX_KEY_LEFT_CONTROL && keycode.action == MLX_RELEASE)
+	{
+		scene->player->is_crouching = FALSE;
 		scene->player->is_running = 1.5;
+	}
 	if (keycode.key == MLX_KEY_SPACE && keycode.action == MLX_PRESS)
 		scene->player->is_jumping = TRUE;
 	else if (keycode.key == MLX_KEY_SPACE && keycode.action == MLX_RELEASE)
@@ -54,20 +60,20 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 		scene->player->p_angle -= 0.1;
 		if (scene->player->p_angle > 2 * M_PI)
 			scene->player->p_angle -= 2 * M_PI;
-		scene->player->dir[X] = (double)cosf(scene->player->p_angle) * 25;
-		scene->player->dir[Y] = (double)sinf(scene->player->p_angle) * 25;
-		scene->player->plane[X] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
-		scene->player->plane[Y] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
+		scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
+		scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
+		scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
+		scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
 	}
 	if (keycode.key == MLX_KEY_RIGHT)
 	{
 		scene->player->p_angle += 0.1;
 		if (scene->player->p_angle < 0)
 			scene->player->p_angle += 2 * M_PI;
-		scene->player->dir[X] = (double)cosf(scene->player->p_angle) * 25;
-		scene->player->dir[Y] = (double)sinf(scene->player->p_angle) * 25;
-		scene->player->plane[X] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
-		scene->player->plane[Y] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
+		scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
+		scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
+		scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
+		scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
 	}
 	if (keycode.key == MLX_KEY_E && scene->player->mana_points >= 20 && scene->player->health_points > 0 && scene->player->health_points < 100 && keycode.action == 1)
 	{
@@ -100,9 +106,9 @@ void	hookercur(double xpos, double ypos, void* scene2)
 		scene->player->central_angle = WIN_HEIGHT / 2;
 	if (scene->player->central_angle < -WIN_HEIGHT / 3)
 		scene->player->central_angle = -WIN_HEIGHT / 3;
-	scene->player->dir[X] = (double)cosf(scene->player->p_angle) * 25;
-	scene->player->dir[Y] = (double)sinf(scene->player->p_angle) * 25;
-	scene->player->plane[X] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
-	scene->player->plane[Y] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
+	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
+	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
+	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;
+	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2) * 16.5;
 	old_ypos = ypos;
 }

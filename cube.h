@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/25 21:26:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/26 04:02:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ enum			e_general
 
 enum			e_coord
 {
-	X,
-	Y
+	Y,
+	X
 };
 
 enum			e_bool
@@ -117,6 +117,7 @@ typedef struct s_player
 	double		is_running;
 	double		is_jumping;
 	double		is_trapped;
+	double		is_crouching;
 	t_ray		**vision_rays;
 	int			health_points;
 	int			mana_points;
