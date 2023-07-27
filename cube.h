@@ -6,7 +6,7 @@
 /*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/26 17:44:23 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/07/27 04:10:27 by GunDalf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_sprite
 	int					sprite_width;
 	int					tex[2];
 	int 				d;
+	int					collision_box;
 	int					v_move;
 	int					v_move_screen;
 	int					start[2];
@@ -136,6 +137,7 @@ typedef struct s_player
 	int			health_points;
 	int			mana_points;
 	int			is_ded;
+	int			will_collide[2];
 }				t_player;
 
 typedef struct s_map

@@ -6,7 +6,7 @@
 /*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/26 19:56:37 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/07/27 02:03:49 by GunDalf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 		scene->player->right = TRUE;
 	else if (keycode.key == MLX_KEY_D && keycode.action == MLX_RELEASE)
 		scene->player->right = FALSE;
-	if (keycode.key == MLX_KEY_LEFT_SHIFT && keycode.action == MLX_PRESS && scene->player->is_ded == FALSE)
+	if (keycode.key == MLX_KEY_LEFT_SHIFT && keycode.action == MLX_PRESS && scene->player->is_ded == FALSE && scene->player->is_crouching == FALSE)
 		scene->player->is_running = 3;
-	else if (keycode.key == MLX_KEY_LEFT_SHIFT && keycode.action == MLX_RELEASE && scene->player->is_ded == FALSE)
+	else if (keycode.key == MLX_KEY_LEFT_SHIFT && keycode.action == MLX_RELEASE)
 		scene->player->is_running = 1.5;
 	if (keycode.key == MLX_KEY_LEFT_CONTROL && keycode.action == MLX_PRESS && scene->player->is_ded == FALSE)
 	{
