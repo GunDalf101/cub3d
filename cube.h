@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/27 04:10:27 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/07/28 00:26:13 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 1100
 
-# include "/usr/local/opt/glfw/include/GLFW/glfw3.h"
-# include "/usr/local/opt/glfw/include/GLFW/glfw3native.h"
-# include "/Users/GunDalf/Documents/MLX42/include/MLX42/MLX42.h"
+# include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3.h"
+# include "/Users/mbennani/.brew/opt/glfw/include/GLFW/glfw3native.h"
+# include "/Users/mbennani/Documents/MLX42/include/MLX42/MLX42.h"
 # include "libft/libft.h"
 # include <math.h>
 #include <unistd.h>
@@ -172,6 +172,7 @@ typedef struct s_scene
 	double		move_speed;
 	double		rot_speed;
 	int			sprite_count;
+	int			indexer;
 	mlx_texture_t		*texture;
 	mlx_texture_t	*barrel_tex;
 	mlx_image_t		*barrel_img;

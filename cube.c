@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/27 05:27:07 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/07/28 00:38:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,39 @@ void	dynamic_logic(t_scene *scene)
 	
 }
 
+int collision_ray(int x1, int y1, int x2, int y2, t_scene scene) {
+	// int height = WIN_HEIGHT / scene.map->map_width;
+	// int width = WIN_WIDTH / scene.map->map_height;
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+    int sx = (x1 < x2) ? 1 : -1;
+    int sy = (y1 < y2) ? 1 : -1;
+    int err = dx - dy;
+
+	(void)scene;
+    while (1) {
+        if (sqrt(pow((x1 - scene.sprites[scene.indexer]->pos[X]), 2) + pow((y1 - scene.sprites[scene.indexer]->pos[Y]), 2)) < scene.sprites[scene.indexer]->collision_box)
+			return (TRUE);
+	
+        if (x1 == x2 && y1 == y2) {
+            break;
+        }
+
+        int err2 = 2 * err;
+
+        if (err2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+
+        if (err2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
+    }
+	return (FALSE);
+}
+
 int	does_it_collide(t_scene *scene, int cas)
 {
 	int i = 0;
@@ -85,21 +118,22 @@ int	does_it_collide(t_scene *scene, int cas)
 	while (i < scene->sprite_count)
 	{
 		printf("sprite distance: %f\n", scene->sprites[i]->sprite_distance);
-		if (cas == 1 && scene->sprites[i]->sprite_distance - scene->player->dir[Y] * 1.5 <= scene->sprites[i]->collision_box)
+		scene->indexer = i;
+		if (cas == 1 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X],  scene->player->pos[Y] + scene->player->dir[Y] * scene->move_speed, *scene))
 			return (TRUE);
-		if (cas == 2 && scene->sprites[i]->sprite_distance - scene->player->dir[X] * 1.5 <= scene->sprites[i]->collision_box)
+		if (cas == 2 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X] + scene->player->dir[X] * scene->move_speed, scene->player->pos[Y], *scene))
 			return (TRUE);
-		if (cas == 3 && scene->sprites[i]->sprite_distance + scene->player->dir[Y] * 1.5 <= scene->sprites[i]->collision_box)
+		if (cas == 3 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X], scene->player->pos[Y] - scene->player->dir[Y] * scene->move_speed, *scene))
 			return (TRUE);
-		if (cas == 4 && scene->sprites[i]->sprite_distance + scene->player->dir[X] * 1.5 <= scene->sprites[i]->collision_box)
+		if (cas == 4 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X] - scene->player->dir[X] * scene->move_speed, scene->player->pos[Y], *scene))
 			return (TRUE);
-		if (cas == 5 && scene->sprites[i]->sprite_distance - scene->player->plane[Y] * 1.5 <= scene->sprites[i]->collision_box)
+		if (cas == 5 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X], scene->player->pos[Y] - scene->player->plane[Y] * scene->move_speed, *scene))
 			return (TRUE);
-		if (cas == 6 && scene->sprites[i]->sprite_distance - scene->player->plane[X] * 1.5 <= scene->sprites[i]->collision_box)
+		if (cas == 6 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X] - scene->player->plane[X] * scene->move_speed, scene->player->pos[Y], *scene))
 			return (TRUE);
-		if (cas == 7 && scene->sprites[i]->sprite_distance + scene->player->plane[Y] * 1.5 <= scene->sprites[i]->collision_box)
+		if (cas == 7 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X], scene->player->pos[Y] + scene->player->plane[Y] * scene->move_speed, *scene))
 			return (TRUE);
-		if (cas == 8 && scene->sprites[i]->sprite_distance + scene->player->plane[X] * 1.5 <= scene->sprites[i]->collision_box)
+		if (cas == 8 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X] + scene->player->plane[X] * scene->move_speed, scene->player->pos[Y], *scene))
 			return (TRUE);
 		i++;
 	}
@@ -123,30 +157,30 @@ void	gameloop(void *scene2)
 	{
 		double delta_x = scene->player->dir[Y] * scene->move_speed;
 		double delta_y = scene->player->dir[X] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + delta_x) / (WIN_WIDTH / scene->map->map_height)] != '1' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + delta_x) / (WIN_WIDTH / scene->map->map_height)] != 'B' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + delta_x) / (WIN_WIDTH / scene->map->map_height)] != 'P')
+		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + delta_x) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 1))
 			scene->player->pos[Y] += delta_x;
-		if (map[(int)(scene->player->pos[X] + delta_y) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && map[(int)(scene->player->pos[X] + delta_y) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'B' && map[(int)(scene->player->pos[X] + delta_y) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'P')
+		if (map[(int)(scene->player->pos[X] + delta_y) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 2))
 			scene->player->pos[X] += delta_y;
 	}
 	if (scene->player->backwards)
 	{
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->dir[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->dir[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != 'B' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->dir[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != 'P')
+		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->dir[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 3))
 			scene->player->pos[Y] -= scene->player->dir[Y] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X] - scene->player->dir[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && map[(int)(scene->player->pos[X] - scene->player->dir[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'B' && map[(int)(scene->player->pos[X] - scene->player->dir[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'P')
+		if (map[(int)(scene->player->pos[X] - scene->player->dir[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 4))
 			scene->player->pos[X] -= scene->player->dir[X] * scene->move_speed;
 	}
 	if (scene->player->left)
 	{
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != 'B' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != 'P')
+		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 5))
 			scene->player->pos[Y] -= scene->player->plane[Y] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X] - scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && map[(int)(scene->player->pos[X] - scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'B' && map[(int)(scene->player->pos[X] - scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'P')
+		if (map[(int)(scene->player->pos[X] - scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 6))
 			scene->player->pos[X] -= scene->player->plane[X] * scene->move_speed;
 	}
 	if (scene->player->right)
 	{
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != 'B' && map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != 'P')
+		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 7))
 			scene->player->pos[Y] += scene->player->plane[Y] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X] + scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && map[(int)(scene->player->pos[X] + scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'B' && map[(int)(scene->player->pos[X] + scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != 'P')
+		if (map[(int)(scene->player->pos[X] + scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 8))
 			scene->player->pos[X] += scene->player->plane[X] * scene->move_speed;
 	}
 	if (scene->player->is_trapped)
@@ -225,7 +259,7 @@ void	initsprites(t_scene *scene)
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->barrel_img ;
 				scene->sprites[count]->v_move = 1100;
-				scene->sprites[count]->collision_box = 50;
+				scene->sprites[count]->collision_box = 40;
 				set_sprites_up(scene, i, j, count);
 				count++;
 			}
@@ -234,6 +268,7 @@ void	initsprites(t_scene *scene)
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->pillar_img;
 				scene->sprites[count]->v_move = 50;
+				scene->sprites[count]->collision_box = 40;
 				set_sprites_up(scene, i, j, count);
 				count++;
 			}
