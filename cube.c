@@ -6,15 +6,15 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/28 00:38:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/30 18:39:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
 int map[11][10] = {{'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'},
-					{'1', 'N', '0', '0', 'P', '1', '0', '0', '0', '1'},
-					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+					{'1', 'N', 'P', '0', 'P', '1', '0', '0', '0', '1'},
+					{'1', 'P', 'P', '0', '0', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '1', '1', '0', '1'},
 					{'1', '0', 'T', 'T', 'T', 'T', 'T', 'T', '0', '1'},
@@ -228,6 +228,10 @@ void	initsprites(t_scene *scene)
 	scene->barrel_img = mlx_texture_to_image(scene->mlx_ptr, scene->barrel_tex);
 	mlx_resize_image(scene->barrel_img, 415, 250);
 	mlx_delete_texture(scene->barrel_tex);
+	scene->fireball_tex = mlx_load_png("./FireBall.png");
+	scene->fireball_img = mlx_texture_to_image(scene->mlx_ptr, scene->fireball_tex);
+	mlx_resize_image(scene->fireball_img, 50, 50);
+	mlx_delete_texture(scene->fireball_tex);
 	scene->pillar_tex = mlx_load_png("./Pillar.png");
 	scene->pillar_img = mlx_texture_to_image(scene->mlx_ptr, scene->pillar_tex);
 	mlx_resize_image(scene->pillar_img, 500, 500);

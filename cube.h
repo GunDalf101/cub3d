@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/28 00:26:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/30 18:47:57 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ enum			e_door
 	OPEN
 };
 
+enum			e_projectile
+{
+	NONE,
+	FIREBALL
+};
+
 typedef struct s_door
 {
 	double		a[2];
@@ -96,6 +102,17 @@ typedef struct s_ray
 	double		ray_angle;
 }				t_ray;
 
+typedef struct s_projectile
+{
+	double				pos[2];
+	double				dir[2];
+	double				speed;
+	double				angle;
+	int					proj_type;
+	mlx_image_t			*proj_img;
+	struct s_projectile	*next;
+}				t_projectile;
+
 typedef struct s_sprite
 {
 	double				pos[2];
@@ -114,7 +131,6 @@ typedef struct s_sprite
 	int					v_move_screen;
 	int					start[2];
 	int					end[2];
-	mlx_texture_t		*sprite_texture;
 	mlx_image_t			*sprite_img;
 }				t_sprite;
 
@@ -149,36 +165,39 @@ typedef struct s_map
 
 typedef struct s_scene
 {
-	void		*mlx_ptr;
-	void		*mlx_win;
-	mlx_image_t	*mlx_img;
-	double		camera_x;
-	int			fd;
-	int			maplol[10][10];
-	t_map		*map;
-	t_sprite	**sprites;
-	t_player	*player;
-	t_wall		**walls;
-	int			win_width;
-	int			win_height;
-	double		frame_time;
-	double		time;
-	double		oldtime;
-	double		damaged_time;
-	double		old_damaged_time;
-	double		*dist2;
-	double		*z_buffer;
-	double		*dist_buffer;
-	double		move_speed;
-	double		rot_speed;
-	int			sprite_count;
-	int			indexer;
+	void				*mlx_ptr;
+	void				*mlx_win;
+	mlx_image_t			*mlx_img;
+	double				camera_x;
+	int					fd;
+	int					maplol[10][10];
+	t_map				*map;
+	t_sprite			**sprites;
+	t_player			*player;
+	t_wall				**walls;
+	int					win_width;
+	int					win_height;
+	double				frame_time;
+	double				time;
+	double				oldtime;
+	double				damaged_time;
+	double				old_damaged_time;
+	double				*dist2;
+	double				*z_buffer;
+	double				*dist_buffer;
+	double				move_speed;
+	double				rot_speed;
+	int					sprite_count;
+	int					indexer;
 	mlx_texture_t		*texture;
-	mlx_texture_t	*barrel_tex;
-	mlx_image_t		*barrel_img;
-	mlx_texture_t	*pillar_tex;
-	mlx_image_t		*pillar_img;
-	mlx_key_data_t			key_data;
+	mlx_texture_t		*barrel_tex;
+	mlx_image_t			*barrel_img;
+	mlx_texture_t		*pillar_tex;
+	mlx_image_t			*pillar_img;
+	mlx_texture_t		*fireball_tex;
+	mlx_image_t			*fireball_img;
+	mlx_key_data_t		key_data;
+	t_projectile		*projectiles;
 }				t_scene;
 
 void	ray_caster(t_scene *scene);

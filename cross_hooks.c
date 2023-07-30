@@ -3,16 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   cross_hooks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/27 02:03:49 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/07/30 21:21:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cube.h"
 
 extern int map[11][10];
+
+t_projectile *create_projectile(t_scene *scene, int projectile_type)
+{
+	t_projectile	*projectile;
+
+	projectile = malloc(sizeof(t_projectile));
+	projectile->pos[X] = scene->player->pos[X];
+	projectile->pos[Y] = scene->player->pos[Y];
+	projectile->dir[X] = scene->player->dir[X];
+	projectile->dir[Y] = scene->player->dir[Y];
+	projectile->speed = 0.5;
+	projectile->proj_type = projectile_type;
+	if (projectile->proj_type == FIREBALL)
+		projectile->proj_img = scene->fireball_img;
+	projectile->next = NULL;
+	return (projectile);
+}
+
+void add_projectile(t_scene *scene, int projectile_type)
+{
+	t_projectile	*last_projectile;
+
+	last_projectile = scene->projectiles;
+	printf("last proj: %p\n", last_projectile);
+	if (!last_projectile)
+		scene->projectiles = create_projectile(scene, projectile_type);
+	else
+	{
+		while (last_projectile->next)
+			last_projectile = last_projectile->next;
+		last_projectile->next = create_projectile(scene, projectile_type);
+	}
+}
 
 void	hooker(mlx_key_data_t keycode, void *scene2)
 {
@@ -82,6 +115,16 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 			scene->player->health_points = 100;
 		else
 			scene->player->health_points += 20;
+	}
+	if (keycode.key == MLX_KEY_Q)
+	{
+		add_projectile(scene, FIREBALL);
+		t_projectile *tmp = scene->projectiles;
+		while (tmp)
+		{
+			printf("proj type: %d\n", tmp->proj_type);
+			tmp = tmp->next;
+		}
 	}
 }
 
