@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/30 18:47:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/31 10:51:22 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,22 @@ typedef struct s_projectile
 	double				pos[2];
 	double				dir[2];
 	double				speed;
-	double				angle;
 	int					proj_type;
+	double				relative_pos[2];
+	double				transform[2];
+	double				inverse_det;
+	double				proj_distance;
+	double				perp_dist;
+	int					proj_screen_x;
+	int					proj_height;
+	int					proj_width;
+	int					tex[2];
+	int 				d;
+	int					v_move;
+	int					v_move_screen;
+	double				damage;
+	int					start[2];
+	int					end[2];
 	mlx_image_t			*proj_img;
 	struct s_projectile	*next;
 }				t_projectile;
@@ -196,6 +210,8 @@ typedef struct s_scene
 	mlx_image_t			*pillar_img;
 	mlx_texture_t		*fireball_tex;
 	mlx_image_t			*fireball_img;
+	mlx_texture_t		*manaorb_tex;
+	mlx_image_t			*manaorb_img;
 	mlx_key_data_t		key_data;
 	t_projectile		*projectiles;
 }				t_scene;

@@ -6,16 +6,16 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/30 18:39:03 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:15:18 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
 int map[11][10] = {{'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'},
-					{'1', 'N', 'P', '0', 'P', '1', '0', '0', '0', '1'},
-					{'1', 'P', 'P', '0', '0', '0', '0', '0', '0', '1'},
+					{'1', 'N', '0', '0', 'P', '1', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+					{'1', 'M', '0', 'M', '0', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '1', '1', '0', '1'},
 					{'1', '0', 'T', 'T', 'T', 'T', 'T', 'T', '0', '1'},
 					{'1', 'B', '0', '0', '1', '1', '1', '1', '0', '1'},
@@ -69,12 +69,32 @@ void	dynamic_logic(t_scene *scene)
 {
 	int height = WIN_HEIGHT / scene->map->map_width;
 	int width = WIN_WIDTH / scene->map->map_height;
+	int i = 0;
 	if (scene->player->health_points <= 0)
 		scene->player->is_ded = TRUE;
 	if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] == 'T' && scene->player->health_points > 0)
 		scene->player->is_trapped += TRUE;
 	else
 		scene->player->is_trapped = FALSE;
+	if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] == 'M')
+	{
+		system("afplay ./restoreMana.mp3 &");
+		if (scene->player->mana_points + 10 > 100)
+			scene->player->mana_points = 100;
+		else
+			scene->player->mana_points += 10;
+		while (scene->sprites[i]->sprite_img)
+		{
+			if ((int)(scene->player->pos[X]) / width == (int)(scene->sprites[i]->pos[X]) / width && (int)(scene->player->pos[Y]) / height == (int)(scene->sprites[i]->pos[Y]) / height)
+			{
+				scene->sprites[i]->pos[X] = -100;
+				scene->sprites[i]->pos[Y] = -100;
+				break ;
+			}
+			i++;
+		}
+		map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] = '0';
+	}
 	
 }
 
@@ -117,7 +137,6 @@ int	does_it_collide(t_scene *scene, int cas)
 
 	while (i < scene->sprite_count)
 	{
-		printf("sprite distance: %f\n", scene->sprites[i]->sprite_distance);
 		scene->indexer = i;
 		if (cas == 1 && collision_ray(scene->player->pos[X], scene->player->pos[Y], scene->player->pos[X],  scene->player->pos[Y] + scene->player->dir[Y] * scene->move_speed, *scene))
 			return (TRUE);
@@ -140,6 +159,64 @@ int	does_it_collide(t_scene *scene, int cas)
 	return (FALSE);
 }
 
+void	delete_projectile(t_scene *scene, t_projectile *projectile)
+{
+	t_projectile *tmp = scene->projectiles;
+	if (tmp == projectile)
+	{
+		scene->projectiles = tmp->next;
+		tmp = NULL;
+		free(tmp);
+		return ;
+	}
+	while (tmp->next != projectile)
+		tmp = tmp->next;
+	tmp->next = tmp->next->next;
+	free(projectile);
+}
+
+t_projectile* merge(t_projectile* left, t_projectile* right) {
+    t_projectile dummy;
+    t_projectile* tail = &dummy;
+
+    while (left && right) {
+        if (left->proj_distance > right->proj_distance) {
+            tail->next = left;
+            left = left->next;
+        } else {
+            tail->next = right;
+            right = right->next;
+        }
+        tail = tail->next;
+    }
+	
+    tail->next = left ? left : right;
+
+    return dummy.next;
+}
+
+// Function to perform Merge Sort on a linked list
+t_projectile* proj_sort(t_projectile* head) {
+    if (head == NULL || head->next == NULL)
+        return head;
+
+    // Split the list into two halves
+    t_projectile* slow = head;
+    t_projectile* fast = head->next;
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    t_projectile* right = slow->next;
+    slow->next = NULL;
+    // Recursively sort both halves
+    t_projectile* leftSorted = proj_sort(head);
+    t_projectile* rightSorted = proj_sort(right);
+	
+    // Merge the sorted halves
+    return merge(leftSorted, rightSorted);
+}
 
 void	gameloop(void *scene2)
 {
@@ -203,6 +280,17 @@ void	gameloop(void *scene2)
 			scene->old_damaged_time = scene->damaged_time;
 		}
 	}
+	t_projectile *tmp = scene->projectiles;
+	while (tmp)
+	{
+		if (tmp && (map[(int)(tmp->pos[X]) / width][(int)(tmp->pos[Y]) / height] == '1' || map[(int)(tmp->pos[X]) / width][(int)(tmp->pos[Y]) / height] == 'P'))
+			delete_projectile(scene, tmp);
+		tmp->pos[X] += tmp->dir[X] * tmp->speed;
+		tmp->pos[Y] += tmp->dir[Y] * tmp->speed;
+		tmp->proj_distance = sqrt(pow((tmp->pos[X] - scene->player->pos[X]), 2) + pow((tmp->pos[Y] - scene->player->pos[Y]), 2));
+		tmp = tmp->next;
+	}
+	scene->projectiles = proj_sort(scene->projectiles);
 	if (1 / scene->frame_time < 40)
 		scene->frame_time = 1 / 40.0;
 	dynamic_logic(scene);
@@ -230,12 +318,16 @@ void	initsprites(t_scene *scene)
 	mlx_delete_texture(scene->barrel_tex);
 	scene->fireball_tex = mlx_load_png("./FireBall.png");
 	scene->fireball_img = mlx_texture_to_image(scene->mlx_ptr, scene->fireball_tex);
-	mlx_resize_image(scene->fireball_img, 50, 50);
+	mlx_resize_image(scene->fireball_img, 200, 200);
 	mlx_delete_texture(scene->fireball_tex);
 	scene->pillar_tex = mlx_load_png("./Pillar.png");
 	scene->pillar_img = mlx_texture_to_image(scene->mlx_ptr, scene->pillar_tex);
 	mlx_resize_image(scene->pillar_img, 500, 500);
 	mlx_delete_texture(scene->pillar_tex);
+	scene->manaorb_tex = mlx_load_png("./ManaOrb.png");
+	scene->manaorb_img = mlx_texture_to_image(scene->mlx_ptr, scene->manaorb_tex);
+	mlx_resize_image(scene->manaorb_img, 251, 282);
+	mlx_delete_texture(scene->manaorb_tex);
 	while (i < scene->map->map_width)
 	{
 		j = 0;
@@ -244,6 +336,8 @@ void	initsprites(t_scene *scene)
 			if (map[i][j] == 'B')
 				count++;
 			if (map[i][j] == 'P')
+				count++;
+			if (map[i][j] == 'M')
 				count++;
 			j++;
 		}
@@ -276,6 +370,15 @@ void	initsprites(t_scene *scene)
 				set_sprites_up(scene, i, j, count);
 				count++;
 			}
+			if (map[i][j] == 'M')
+			{
+				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
+				scene->sprites[count]->sprite_img = scene->manaorb_img;
+				scene->sprites[count]->v_move = -500;
+				scene->sprites[count]->collision_box = 0;
+				set_sprites_up(scene, i, j, count);
+				count++;
+			}
 			j++;
 		}
 		i++;
@@ -288,6 +391,7 @@ int	main()
 	scene.map = malloc(sizeof(t_map));
 	scene.map->map_width = 11;
 	scene.map->map_height = 10;
+	scene.projectiles = NULL;
 	initplayer(&scene);
 	scene.mlx_ptr = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Escape From GunDalf", 1);
 	initsprites(&scene);

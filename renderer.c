@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/26 17:24:21 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/07/31 12:42:56 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,51 @@ int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
+void	spawn_proj(t_scene *scene, t_projectile	*projectile)
+{
+	projectile->relative_pos[Y] = projectile->pos[Y] - scene->player->pos[Y];
+	projectile->relative_pos[X] = projectile->pos[X] - scene->player->pos[X];
+	projectile->inverse_det = 1.0 / (scene->player->plane[Y] * scene->player->dir[X] - scene->player->dir[Y] * scene->player->plane[X]);
+	projectile->transform[Y] = projectile->inverse_det * (-scene->player->plane[X] * projectile->relative_pos[Y] + scene->player->plane[Y] * projectile->relative_pos[X]);
+	projectile->transform[X] = projectile->inverse_det * (scene->player->dir[X] * projectile->relative_pos[Y] - scene->player->dir[Y] * projectile->relative_pos[X]);
+	projectile->v_move_screen = (int)(projectile->v_move / projectile->transform[Y]);
+	projectile->proj_screen_x = (int)((WIN_WIDTH / 2) * (1 + projectile->transform[X] / projectile->transform[Y]));
+	projectile->proj_height = abs((int)(projectile->proj_img->height / (projectile->transform[Y]) * 7));
+	projectile->start[Y] = - projectile->proj_height / 2 + WIN_HEIGHT / 2 + projectile->v_move_screen;
+	if (projectile->start[Y] < - scene->player->central_angle + scene->player->is_crouching)
+		projectile->start[Y] = - scene->player->central_angle + scene->player->is_crouching;
+	projectile->end[Y] =  projectile->proj_height / 2 + WIN_HEIGHT / 2 + projectile->v_move_screen;
+	if (projectile->end[Y] >= WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching)
+		projectile->end[Y] = WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching - 1;
+	projectile->proj_width = abs((int)(projectile->proj_img->width / (projectile->transform[Y]) * 7));
+	projectile->start[X] = projectile->proj_screen_x - projectile->proj_width / 2;
+	if (projectile->start[X] < 0)
+		projectile->start[X] = 0;
+	projectile->end[X] = projectile->proj_screen_x + projectile->proj_width / 2;
+	if (projectile->end[X] >= WIN_WIDTH)
+		projectile->end[X] = WIN_WIDTH - 1;
+	for (int stripe = projectile->start[X]; stripe < projectile->end[X]; stripe++)
+	{
+		projectile->tex[X] = (int)(256 * (stripe - (-projectile->proj_width / 2 + projectile->proj_screen_x)) * projectile->proj_img->width / projectile->proj_width) / 256;
+		if (stripe > 0 && stripe < WIN_WIDTH && projectile->transform[Y] > 0 && projectile->transform[Y] < scene->z_buffer[stripe])
+		{
+		for (int j = projectile->start[Y]; j < projectile->end[Y]; j++)
+		{
+			projectile->d  = (j - projectile->v_move_screen) * 256 - WIN_HEIGHT * 128 + projectile->proj_height * 128;
+			projectile->tex[Y] = ((projectile->d * projectile->proj_img->height) / projectile->proj_height) / 256;
+			u_int8_t r = projectile->proj_img->pixels[projectile->tex[Y] * 4 * projectile->proj_img->width + projectile->tex[X] * 4];
+			u_int8_t g = projectile->proj_img->pixels[projectile->tex[Y] * 4 * projectile->proj_img->width + projectile->tex[X] * 4 + 1];
+			u_int8_t b = projectile->proj_img->pixels[projectile->tex[Y] * 4 * projectile->proj_img->width + projectile->tex[X] * 4 + 2];
+			u_int8_t a = projectile->proj_img->pixels[projectile->tex[Y] * 4 * projectile->proj_img->width + projectile->tex[X] * 4 + 3];
+			if (a < 255)
+				continue;
+			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->is_crouching + j, ft_pixel(r, g, b, a));
+		}
+			
+		}
+	}
+}
+
 void	spawn_sprites(t_scene *scene, int count)
 {
 	scene->sprites[count]->relative_pos[Y] = scene->sprites[count]->pos[Y] - scene->player->pos[Y];
@@ -101,7 +146,7 @@ void	spawn_sprites(t_scene *scene, int count)
 			u_int8_t g = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4 + 1];
 			u_int8_t b = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4 + 2];
 			u_int8_t a = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4 + 3];
-			if (a == 0)
+			if (a < 200)
 				continue;
 			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->is_crouching + j, ft_pixel(r, g, b, a));
 		}
@@ -166,7 +211,12 @@ void	renderitall(t_scene scene)
 		spawn_sprites(&scene, i);
 		i++;
 	}
-
+	t_projectile *tmp = scene.projectiles;
+	while (tmp)
+	{
+		spawn_proj(&scene, tmp);
+		tmp = tmp->next;
+	}
 	i = 0;
 	while (i < scene.map->map_width)
 	{
@@ -222,18 +272,18 @@ void	renderitall(t_scene scene)
 	drawbar(scene);
 	if (scene.player->is_ded == TRUE)
 	{
-		// i = 2 * WIN_HEIGHT / 5;
-		// while (i < WIN_HEIGHT - 2 * WIN_HEIGHT / 5)
-		// {
-		// 	j = 0;
-		// 	while (j < WIN_WIDTH)
-		// 	{
-		// 		if (i % 3 != 0 || j % 3 != 0)
-		// 			mlx_put_pixel(scene.mlx_img, j, i, 0x00000000);
-		// 		j++;
-		// 	}
-		// 	i++;
-		// }
+		i = 2 * WIN_HEIGHT / 5;
+		while (i < WIN_HEIGHT - 2 * WIN_HEIGHT / 5)
+		{
+			j = 0;
+			while (j < WIN_WIDTH)
+			{
+				if (i % 3 != 0 || j % 3 != 0)
+					mlx_put_pixel(scene.mlx_img, j, i, 0x00000000);
+				j++;
+			}
+			i++;
+		}
 		mlx_texture_t *death_screen;
 		mlx_image_t		*death_img;
 		death_screen = mlx_load_png("./DEAD.png");

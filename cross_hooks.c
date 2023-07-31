@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/30 21:21:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:29:57 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ t_projectile *create_projectile(t_scene *scene, int projectile_type)
 	projectile->pos[Y] = scene->player->pos[Y];
 	projectile->dir[X] = scene->player->dir[X];
 	projectile->dir[Y] = scene->player->dir[Y];
-	projectile->speed = 0.5;
+	projectile->speed = 0.6;
+	projectile->damage = 20;
+	projectile->v_move = 500;
 	projectile->proj_type = projectile_type;
 	if (projectile->proj_type == FIREBALL)
 		projectile->proj_img = scene->fireball_img;
@@ -36,7 +38,6 @@ void add_projectile(t_scene *scene, int projectile_type)
 	t_projectile	*last_projectile;
 
 	last_projectile = scene->projectiles;
-	printf("last proj: %p\n", last_projectile);
 	if (!last_projectile)
 		scene->projectiles = create_projectile(scene, projectile_type);
 	else
@@ -110,20 +111,20 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	}
 	if (keycode.key == MLX_KEY_E && scene->player->mana_points >= 20 && scene->player->health_points > 0 && scene->player->health_points < 100 && keycode.action == 1)
 	{
+		system("afplay ./Heal.mp3 &");
 		scene->player->mana_points -= 20;
 		if (scene->player->health_points + 20 > 100)
 			scene->player->health_points = 100;
 		else
 			scene->player->health_points += 20;
 	}
-	if (keycode.key == MLX_KEY_Q)
+	if (keycode.key == MLX_KEY_Q && keycode.action == MLX_RELEASE && scene->player->is_ded == FALSE)
 	{
-		add_projectile(scene, FIREBALL);
-		t_projectile *tmp = scene->projectiles;
-		while (tmp)
+		if (scene->player->mana_points >= 5)
 		{
-			printf("proj type: %d\n", tmp->proj_type);
-			tmp = tmp->next;
+			system("afplay ./FireBall.mp3 &");
+			scene->player->mana_points -= 5;
+			add_projectile(scene, FIREBALL);
 		}
 	}
 }
