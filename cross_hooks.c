@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cross_hooks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/31 15:29:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:22:09 by GunDalf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_projectile *create_projectile(t_scene *scene, int projectile_type)
 	projectile->proj_type = projectile_type;
 	if (projectile->proj_type == FIREBALL)
 		projectile->proj_img = scene->fireball_img;
+	else if (projectile->proj_type == ICEBALL)
+		projectile->proj_img = scene->iceball_img;
 	projectile->next = NULL;
 	return (projectile);
 }
@@ -118,13 +120,22 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 		else
 			scene->player->health_points += 20;
 	}
-	if (keycode.key == MLX_KEY_Q && keycode.action == MLX_RELEASE && scene->player->is_ded == FALSE)
+	if (keycode.key == MLX_KEY_1 && keycode.action == MLX_RELEASE && scene->player->is_ded == FALSE)
 	{
 		if (scene->player->mana_points >= 5)
 		{
 			system("afplay ./FireBall.mp3 &");
 			scene->player->mana_points -= 5;
 			add_projectile(scene, FIREBALL);
+		}
+	}
+	if (keycode.key == MLX_KEY_2 && keycode.action == MLX_RELEASE && scene->player->is_ded == FALSE)
+	{
+		if (scene->player->mana_points >= 5)
+		{
+			system("afplay ./IceOrb.mp3 &");
+			scene->player->mana_points -= 5;
+			add_projectile(scene, ICEBALL);
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/31 15:15:18 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:13:35 by GunDalf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,6 +320,10 @@ void	initsprites(t_scene *scene)
 	scene->fireball_img = mlx_texture_to_image(scene->mlx_ptr, scene->fireball_tex);
 	mlx_resize_image(scene->fireball_img, 200, 200);
 	mlx_delete_texture(scene->fireball_tex);
+	scene->iceball_tex = mlx_load_png("./IceBall.png");
+	scene->iceball_img = mlx_texture_to_image(scene->mlx_ptr, scene->iceball_tex);
+	mlx_resize_image(scene->iceball_img, 150, 150);
+	mlx_delete_texture(scene->iceball_tex);
 	scene->pillar_tex = mlx_load_png("./Pillar.png");
 	scene->pillar_img = mlx_texture_to_image(scene->mlx_ptr, scene->pillar_tex);
 	mlx_resize_image(scene->pillar_img, 500, 500);
