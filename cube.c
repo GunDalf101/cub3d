@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/31 19:13:35 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/10/25 16:29:57 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
 int map[11][10] = {{'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'},
-					{'1', 'N', '0', '0', 'P', '1', '0', '0', '0', '1'},
+					{'1', 'N', 'P', '0', 'P', '1', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
 					{'1', 'M', '0', 'M', '0', '0', '0', '0', '0', '1'},
 					{'1', '0', '0', '0', '0', '0', '1', '1', '0', '1'},
@@ -111,18 +111,14 @@ int collision_ray(int x1, int y1, int x2, int y2, t_scene scene) {
     while (1) {
         if (sqrt(pow((x1 - scene.sprites[scene.indexer]->pos[X]), 2) + pow((y1 - scene.sprites[scene.indexer]->pos[Y]), 2)) < scene.sprites[scene.indexer]->collision_box)
 			return (TRUE);
-	
         if (x1 == x2 && y1 == y2) {
             break;
         }
-
         int err2 = 2 * err;
-
         if (err2 > -dy) {
             err -= dy;
             x1 += sx;
         }
-
         if (err2 < dx) {
             err += dx;
             y1 += sy;
@@ -195,12 +191,11 @@ t_projectile* merge(t_projectile* left, t_projectile* right) {
     return dummy.next;
 }
 
-// Function to perform Merge Sort on a linked list
 t_projectile* proj_sort(t_projectile* head) {
     if (head == NULL || head->next == NULL)
         return head;
 
-    // Split the list into two halves
+
     t_projectile* slow = head;
     t_projectile* fast = head->next;
 
@@ -210,11 +205,10 @@ t_projectile* proj_sort(t_projectile* head) {
     }
     t_projectile* right = slow->next;
     slow->next = NULL;
-    // Recursively sort both halves
+
     t_projectile* leftSorted = proj_sort(head);
     t_projectile* rightSorted = proj_sort(right);
 	
-    // Merge the sorted halves
     return merge(leftSorted, rightSorted);
 }
 
@@ -393,6 +387,7 @@ int	main()
 {
 	t_scene		scene;
 	scene.map = malloc(sizeof(t_map));
+	scene.map->known_chars = ft_strdup("0*1*N+S+W+E+P*M*T*B*");
 	scene.map->map_width = 11;
 	scene.map->map_height = 10;
 	scene.projectiles = NULL;
