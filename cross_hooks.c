@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cross_hooks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/31 19:22:09 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/10/25 16:48:06 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	}
 	if (keycode.key == MLX_KEY_E && scene->player->mana_points >= 20 && scene->player->health_points > 0 && scene->player->health_points < 100 && keycode.action == 1)
 	{
-		system("afplay ./Heal.mp3 &");
+		system("afplay assets/Heal.mp3 &");
 		scene->player->mana_points -= 20;
 		if (scene->player->health_points + 20 > 100)
 			scene->player->health_points = 100;
@@ -124,7 +124,7 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	{
 		if (scene->player->mana_points >= 5)
 		{
-			system("afplay ./FireBall.mp3 &");
+			system("afplay assets/FireBall.mp3 &");
 			scene->player->mana_points -= 5;
 			add_projectile(scene, FIREBALL);
 		}
@@ -133,7 +133,7 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	{
 		if (scene->player->mana_points >= 5)
 		{
-			system("afplay ./IceOrb.mp3 &");
+			system("afplay assets/IceOrb.mp3 &");
 			scene->player->mana_points -= 5;
 			add_projectile(scene, ICEBALL);
 		}

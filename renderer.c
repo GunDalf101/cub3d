@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/31 12:42:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:48:27 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	spawn_proj(t_scene *scene, t_projectile	*projectile)
 				continue;
 			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->is_crouching + j, ft_pixel(r, g, b, a));
 		}
-			
+
 		}
 	}
 }
@@ -286,7 +286,7 @@ void	renderitall(t_scene scene)
 		}
 		mlx_texture_t *death_screen;
 		mlx_image_t		*death_img;
-		death_screen = mlx_load_png("./DEAD.png");
+		death_screen = mlx_load_png("assets/DEAD.png");
 		death_img = mlx_texture_to_image(scene.mlx_ptr, death_screen);
 		for (u_int32_t i = 0; i < death_img->height; i++)
 			for (uint32_t j = 0; j < death_img->width; j++)

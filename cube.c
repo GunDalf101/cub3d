@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/25 16:29:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:47:49 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	dynamic_logic(t_scene *scene)
 		scene->player->is_trapped = FALSE;
 	if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] == 'M')
 	{
-		system("afplay ./restoreMana.mp3 &");
+		system("afplay assets/restoreMana.mp3 &");
 		if (scene->player->mana_points + 10 > 100)
 			scene->player->mana_points = 100;
 		else
@@ -95,7 +95,7 @@ void	dynamic_logic(t_scene *scene)
 		}
 		map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] = '0';
 	}
-	
+
 }
 
 int collision_ray(int x1, int y1, int x2, int y2, t_scene scene) {
@@ -185,7 +185,7 @@ t_projectile* merge(t_projectile* left, t_projectile* right) {
         }
         tail = tail->next;
     }
-	
+
     tail->next = left ? left : right;
 
     return dummy.next;
@@ -208,7 +208,7 @@ t_projectile* proj_sort(t_projectile* head) {
 
     t_projectile* leftSorted = proj_sort(head);
     t_projectile* rightSorted = proj_sort(right);
-	
+
     return merge(leftSorted, rightSorted);
 }
 
@@ -306,23 +306,23 @@ void	initsprites(t_scene *scene)
 
 	i = 0;
 	count = 0;
-	scene->barrel_tex = mlx_load_png("./barrel_01.png");
+	scene->barrel_tex = mlx_load_png("assets/barrel_01.png");
 	scene->barrel_img = mlx_texture_to_image(scene->mlx_ptr, scene->barrel_tex);
 	mlx_resize_image(scene->barrel_img, 415, 250);
 	mlx_delete_texture(scene->barrel_tex);
-	scene->fireball_tex = mlx_load_png("./FireBall.png");
+	scene->fireball_tex = mlx_load_png("assets/FireBall.png");
 	scene->fireball_img = mlx_texture_to_image(scene->mlx_ptr, scene->fireball_tex);
 	mlx_resize_image(scene->fireball_img, 200, 200);
 	mlx_delete_texture(scene->fireball_tex);
-	scene->iceball_tex = mlx_load_png("./IceBall.png");
+	scene->iceball_tex = mlx_load_png("assets/IceBall.png");
 	scene->iceball_img = mlx_texture_to_image(scene->mlx_ptr, scene->iceball_tex);
 	mlx_resize_image(scene->iceball_img, 150, 150);
 	mlx_delete_texture(scene->iceball_tex);
-	scene->pillar_tex = mlx_load_png("./Pillar.png");
+	scene->pillar_tex = mlx_load_png("assets/Pillar.png");
 	scene->pillar_img = mlx_texture_to_image(scene->mlx_ptr, scene->pillar_tex);
 	mlx_resize_image(scene->pillar_img, 500, 500);
 	mlx_delete_texture(scene->pillar_tex);
-	scene->manaorb_tex = mlx_load_png("./ManaOrb.png");
+	scene->manaorb_tex = mlx_load_png("assets/ManaOrb.png");
 	scene->manaorb_img = mlx_texture_to_image(scene->mlx_ptr, scene->manaorb_tex);
 	mlx_resize_image(scene->manaorb_img, 251, 282);
 	mlx_delete_texture(scene->manaorb_tex);
