@@ -4,6 +4,9 @@
 		"__locale": "c",
 		"math.h": "c",
 		"libft.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"mlx42.h": "c",
+		"cube.h": "c",
+		"stddef.h": "c"
 	}
 }

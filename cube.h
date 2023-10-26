@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/25 16:32:38 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/10/26 18:01:48 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 1100
 
+# define MAP_KNOWN_CHARS "0*1*N+S+W+E+P*M*T*B*"
+
 
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "libft/libft.h"
+# include "gnl/get_next_line.h"
 # include <math.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+# include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
 
 enum			e_direction
 {
@@ -172,10 +176,11 @@ typedef struct s_player
 
 typedef struct s_map
 {
-	char		**map;
-	int			map_height;
-	int			map_width;
-	char		*known_chars;
+	unsigned char	floor_rgb[3];
+	char			**map;
+	int				map_height;
+	int				map_width;
+	unsigned char	ceiling_rgb[3];
 }				t_map;
 
 typedef struct s_scene

@@ -6,7 +6,7 @@
 /*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/25 16:47:49 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:08:54 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int map[11][10] = {{'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'},
 					{'1', 'P', '0', '0', '0', '0', '0', 'P', 'P', '1'},
 					{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}};
 
-void	initplayer(t_scene *scene)
+void	 initplayer(t_scene *scene)
 {
 	int i = 0;
 	int j = 0;
@@ -386,8 +386,7 @@ void	initsprites(t_scene *scene)
 int	main()
 {
 	t_scene		scene;
-	scene.map = malloc(sizeof(t_map));
-	scene.map->known_chars = ft_strdup("0*1*N+S+W+E+P*M*T*B*");
+	scene.map = ft_calloc(sizeof(t_map), 1);
 	scene.map->map_width = 11;
 	scene.map->map_height = 10;
 	scene.projectiles = NULL;
