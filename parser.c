@@ -163,6 +163,137 @@ static int read_rgbs(t_map *map, int fd)
     return (1);
 }
 
+static void strip_line(char *l)
+{
+    int len;
+
+    len = ft_strlen(l);
+    if (len)
+    {
+        if (l[len - 1] == '\n')
+            l[len - 1] = '\0';
+    }
+}
+
+static int arr_push(char ***lv, char *nl)
+{
+    int lv_size;
+    int i;
+    char    **new_lv;
+
+    lv_size = arr_size(*lv);
+    new_lv = malloc(sizeof(char *) * (lv_size + 2));
+    if (!new_lv)
+        return (1);
+    i = 0;
+    while (i < lv_size)
+    {
+        new_lv[i] = lv[i];
+        i++;
+    }
+    new_lv[lv_size] = nl;
+    new_lv[lv_size + 1] = NULL;
+    free(*lv);
+    *lv = new_lv;
+    return (0);
+}
+
+static int read_map(t_map *map, int fd)
+{
+    char    *l;
+    char    *lv;
+
+    lv = ft_calloc(sizeof(char *), 2);
+    if (!lv)
+        return (1);
+    l = non_empty_gnl(fd);
+    if (!l)
+        return (1);
+    lv[0] = l;
+    while (1)
+    {
+        l = get_next_line(fd);
+        if (!l)
+            break;
+        strip_line(l);
+        arr_push(&lv, l);
+    }
+    map->map = lv;
+    return (0);
+}
+
+static int check_token_counts(char **map_lines)
+{
+    int     seen[10] = {0};
+    int     i;
+    int     j;
+    char    *ret;
+    int     x;
+
+    i = 0;
+    while (map_lines[i])
+    {
+        j = 0;
+        while (map_lines[i][j])
+        {
+            if (map_lines[i][j] != ' ')
+            {
+                ret = ft_strchr(MAP_KNOWN_CHARS, map_lines[i][j]);
+                x = ret - MAP_KNOWN_CHARS;
+                if (EX_MAP_KNOWN_CHARS[(x * 2) + 1] == '+')
+                {
+                    if (seen[x])
+                        return (1);
+                    seen[x] = 1;
+                }
+            }
+            j++;
+        }
+        i++;
+    }
+    return (0);
+}
+
+static int check_map(char **map_lines)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (map_lines[i])
+    {
+        j = 0;
+        while (map_lines[i][j])
+        {
+            if (map_lines[i][j] != ' ' || !ft_strchr(MAP_KNOWN_CHARS, map_lines[i][j]))
+                return (1);
+            j++;
+        }
+        i++;
+    }
+    return (check_token_counts(map_lines));
+}
+
+static void set_map_props(t_map *map)
+{
+    char    **lv;
+    int     i;
+    int     wmax;
+    int     llen;
+
+    lv = map->map;
+    map->map_height = arr_size(lv);
+    wmax = 0;
+    i = 0;
+    while (i < map->map_height)
+    {
+        llen = ft_strlen(map->map[i]);
+        if (llen > wmax)
+            wmax = llen;
+        i++;
+    }
+}
+
 int parser(const char *filename, t_map *map)
 {
     int fd;
@@ -176,4 +307,10 @@ int parser(const char *filename, t_map *map)
         return (1);
     if (read_rgbs(map, fd))
         return (1);
+    if (read_map(map, fd))
+        return (1);
+    if (check_map(map->map))
+        return (1);
+    set_map_props(map);
+    return (0);
 }

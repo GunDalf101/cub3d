@@ -6,7 +6,7 @@
 /*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/26 18:01:48 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:47:57 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 1100
 
-# define MAP_KNOWN_CHARS "0*1*N+S+W+E+P*M*T*B*"
+# define EX_MAP_KNOWN_CHARS "0*1*N+S+W+E+P*M*T*B*"
+# define MAP_KNOWN_CHARS "01NSWEPMTB"
 
 
 # include "./MLX42/include/MLX42/MLX42.h"
