@@ -87,32 +87,19 @@ static int verify_sprite(char **splited, char *dirs[4], int seen[4], int *tfds)
     return (0);
 }
 
-static int read_textures(int fd, int *tfds)
+static int read_texture(char *l, int *tfds)
 {
-    char    *line[4];
+    static char    *dirs[4] = {"NO", "SO", "WE", "EA"};
+    static int     seen[4] = {0, 0, 0, 0};
     char    **splited;
-    int     i;
-    char    *dirs[4] = {"NO", "SO", "WE", "EA"};
-    int     seen[4] = {0, 0, 0, 0};
 
-    i = 0;
-    while (i < 4)
-    {
-        line[i] = non_empty_gnl(fd);
-        i++;
-    }
-    i = 0;
-    while (i < 4)
-    {
-        if (!line[i])
-            return (1);
-        splited = ft_split(line[i], ' ');
-        if (!splited)
-            return (1);
-        if (verify_sprite(splited, dirs, seen, tfds))
-            return (1);
-        i++;
-    }
+    if (!l)
+        return (1);
+    splited = ft_split(l, ' ');
+    if (!splited)
+        return (1);
+    if (verify_sprite(splited, dirs, seen, tfds))
+        return (1);
     return (0);
 }
 
@@ -136,49 +123,29 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
     return (0);
 }
 
-static int read_rgbs(t_map *map, int fd)
+static int read_rgbs(t_map *map, char *l, int fd)
 {
-    char    *l;
     char    **splited;
-    char    known_arr[3] = {'F', 'C', '\0'};
-    int     i;
-    char    *ret;
-    char    *known = known_arr;
+    static int seen[2];
 
-    i = 0;
-    while (i < 2)
+    if (seen[0] && seen[1])
+        return (1);
+    splited = ft_split(l, ' ');
+    if (arr_size(splited) != 2)
+        return (1);
+    if (splited[0][0] == 'F')
     {
-        l = non_empty_gnl(fd);
-        if (!l)
+        if (fill_rgb(map->floor_rgb, splited[1]))
             return (1);
-        splited = ft_split(l, ' ');
-        if (arr_size(splited) != 2)
-            return (1);
-        if (!splited[0][1])
-        {
-            ret = ft_strchr(known, splited[0][0]);
-            if (!ret)
-                return (1);
-            else if (*ret == 'F')
-            {
-                if (fill_rgb(map->floor_rgb, splited[1]))
-                    return (1);
-                known++;
-            }
-            else
-            {
-                if (fill_rgb(map->ceiling_rgb, splited[1]))
-                    return (1);
-                *ret = '\0';
-            }
-        }
-        else
-            return (1);
-        i++;
+        seen[0] = 1;
     }
-    if (!*known)
-        return (0);
-    return (1);
+    else
+    {
+        if (fill_rgb(map->ceiling_rgb, splited[1]))
+            return (1);
+        seen[1] = 1;
+    }
+    return (0);
 }
 
 static int arr_push(char ***lv, char *nl)
@@ -420,6 +387,54 @@ static void set_map_props(t_map *map)
     map->map_width = wmax;
 }
 
+static int str_starts_with(char *str, char *s)
+{
+    int i;
+
+    i = 0;
+    while (s[i])
+    {
+        if (s[i] != str[i])
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+static int read_map_info(t_map *map, int fd, int *tfds)
+{
+    char    *l;
+    int     inquired;
+
+    inquired = 0;
+    while (1)
+    {
+        l = non_empty_gnl(fd);
+        if (!l)
+            return (1);
+        else if (str_starts_with(l, "NO ") || str_starts_with(l, "SO ") \
+            || str_starts_with(l, "WE ") || str_starts_with(l, "EA "))
+        {
+            if (read_texture(l, tfds))
+                return (1);
+            else
+                inquired++;
+        }
+        else if (str_starts_with(l, "F ") || str_starts_with(l, "C "))
+        {
+            if (read_rgbs(map, l))
+                return (1);
+            else
+                inquired++;
+        }
+        else
+            return (1);
+        if (inquired == 6)
+            break;
+    }
+    return (0);
+}
+
 int parser(char *filename, t_map *map)
 {
     int fd;
@@ -431,12 +446,12 @@ int parser(char *filename, t_map *map)
     if (open_file(filename, &fd) < 0)
         return (1);
     printf("open_file check.\n");
-    if (read_textures(fd, tfds))
-        return (1);
-    printf("read_textures check.\n");
-    if (read_rgbs(map, fd))
-        return (1);
-    printf("read_rgbs check.\n");
+    // if (read_textures(fd, tfds))
+    //     return (1);
+    // printf("read_textures check.\n");
+    // if (read_rgbs(map, fd))
+    //     return (1);
+    // printf("read_rgbs check.\n");
     if (read_map(map, fd))
         return (1);
     printf("read_map check.\n");
