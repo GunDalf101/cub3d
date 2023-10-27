@@ -4,6 +4,7 @@ SOURCES = cube.c \
 		ray_wizard.c \
 		renderer.c \
 		cross_hooks.c \
+		parser.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c
 

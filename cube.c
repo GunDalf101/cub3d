@@ -6,7 +6,7 @@
 /*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/26 17:08:54 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:28:07 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,10 +383,30 @@ void	initsprites(t_scene *scene)
 	}
 }
 
-int	main()
+int	main(int argc, char *argv[])
 {
 	t_scene		scene;
 	scene.map = ft_calloc(sizeof(t_map), 1);
+	if (argc != 2)
+		return (1);
+	if (parser(argv[1], scene.map))
+	{
+		printf("ERROR\n");
+		return (1);
+	}
+
+	printf("ceiling: %d,%d,%d\n", scene.map->ceiling_rgb[0], scene.map->ceiling_rgb[1], scene.map->ceiling_rgb[2]);
+	printf("floor: %d,%d,%d\n", scene.map->floor_rgb[0], scene.map->floor_rgb[1], scene.map->floor_rgb[2]);
+
+	for (int i = 0; scene.map->map[i]; i++)
+	{
+		printf(">> [%s] <<\n", scene.map->map[i]);
+	}
+
+	printf("map props: %d,%d\n", scene.map->map_height, scene.map->map_width);
+
+	exit(0);
+
 	scene.map->map_width = 11;
 	scene.map->map_height = 10;
 	scene.projectiles = NULL;
