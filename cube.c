@@ -6,23 +6,11 @@
 /*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/27 17:28:07 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:12:40 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
-
-int map[11][10] = {{'0', '1', '1', '1', '1', '1', '1', '1', '1', '0'},
-					{'1', 'N', 'P', '0', 'P', '1', '0', '0', '0', '1'},
-					{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-					{'1', 'M', '0', 'M', '0', '0', '0', '0', '0', '1'},
-					{'1', '0', '0', '0', '0', '0', '1', '1', '0', '1'},
-					{'1', '0', 'T', 'T', 'T', 'T', 'T', 'T', '0', '1'},
-					{'1', 'B', '0', '0', '1', '1', '1', '1', '0', '1'},
-					{'1', '0', '0', '0', '1', '0', '0', '0', '0', '1'},
-					{'1', 'B', '1', '0', '0', '0', '0', '0', '0', '1'},
-					{'1', 'P', '0', '0', '0', '0', '0', 'P', 'P', '1'},
-					{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}};
 
 void	 initplayer(t_scene *scene)
 {
@@ -35,7 +23,7 @@ void	 initplayer(t_scene *scene)
 		j = 0;
 		while (j < scene->map->map_height)
 		{
-			if (map[i][j] == 'N')
+			if (scene->map->map[i][j] == 'N')
 			{
 				scene->player->pos[Y] = j * WIN_WIDTH / scene->map->map_height + WIN_WIDTH / scene->map->map_height / 2;
 				scene->player->pos[X] = i * WIN_HEIGHT / scene->map->map_width + WIN_HEIGHT / scene->map->map_width / 2;
@@ -72,11 +60,11 @@ void	dynamic_logic(t_scene *scene)
 	int i = 0;
 	if (scene->player->health_points <= 0)
 		scene->player->is_ded = TRUE;
-	if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] == 'T' && scene->player->health_points > 0)
+	if (scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] == 'T' && scene->player->health_points > 0)
 		scene->player->is_trapped += TRUE;
 	else
 		scene->player->is_trapped = FALSE;
-	if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] == 'M')
+	if (scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] == 'M')
 	{
 		system("afplay assets/restoreMana.mp3 &");
 		if (scene->player->mana_points + 10 > 100)
@@ -93,7 +81,7 @@ void	dynamic_logic(t_scene *scene)
 			}
 			i++;
 		}
-		map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] = '0';
+		scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] = '0';
 	}
 
 }
@@ -228,30 +216,30 @@ void	gameloop(void *scene2)
 	{
 		double delta_x = scene->player->dir[Y] * scene->move_speed;
 		double delta_y = scene->player->dir[X] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + delta_x) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 1))
+		if (scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + delta_x) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 1))
 			scene->player->pos[Y] += delta_x;
-		if (map[(int)(scene->player->pos[X] + delta_y) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 2))
+		if (scene->map->map[(int)(scene->player->pos[X] + delta_y) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 2))
 			scene->player->pos[X] += delta_y;
 	}
 	if (scene->player->backwards)
 	{
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->dir[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 3))
+		if (scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->dir[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 3))
 			scene->player->pos[Y] -= scene->player->dir[Y] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X] - scene->player->dir[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 4))
+		if (scene->map->map[(int)(scene->player->pos[X] - scene->player->dir[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 4))
 			scene->player->pos[X] -= scene->player->dir[X] * scene->move_speed;
 	}
 	if (scene->player->left)
 	{
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 5))
+		if (scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] - scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 5))
 			scene->player->pos[Y] -= scene->player->plane[Y] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X] - scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 6))
+		if (scene->map->map[(int)(scene->player->pos[X] - scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 6))
 			scene->player->pos[X] -= scene->player->plane[X] * scene->move_speed;
 	}
 	if (scene->player->right)
 	{
-		if (map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 7))
+		if (scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y] + scene->player->plane[Y] * scene->move_speed) / (WIN_WIDTH / scene->map->map_height)] != '1' && !does_it_collide(scene, 7))
 			scene->player->pos[Y] += scene->player->plane[Y] * scene->move_speed;
-		if (map[(int)(scene->player->pos[X] + scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 8))
+		if (scene->map->map[(int)(scene->player->pos[X] + scene->player->plane[X] * scene->move_speed) / (WIN_HEIGHT / scene->map->map_width)][(int)(scene->player->pos[Y]) / height] != '1' && !does_it_collide(scene, 8))
 			scene->player->pos[X] += scene->player->plane[X] * scene->move_speed;
 	}
 	if (scene->player->is_trapped)
@@ -277,7 +265,7 @@ void	gameloop(void *scene2)
 	t_projectile *tmp = scene->projectiles;
 	while (tmp)
 	{
-		if (tmp && (map[(int)(tmp->pos[X]) / width][(int)(tmp->pos[Y]) / height] == '1' || map[(int)(tmp->pos[X]) / width][(int)(tmp->pos[Y]) / height] == 'P'))
+		if (tmp && (scene->map->map[(int)(tmp->pos[X]) / width][(int)(tmp->pos[Y]) / height] == '1' || scene->map->map[(int)(tmp->pos[X]) / width][(int)(tmp->pos[Y]) / height] == 'P'))
 			delete_projectile(scene, tmp);
 		tmp->pos[X] += tmp->dir[X] * tmp->speed;
 		tmp->pos[Y] += tmp->dir[Y] * tmp->speed;
@@ -331,11 +319,11 @@ void	initsprites(t_scene *scene)
 		j = 0;
 		while (j < scene->map->map_height)
 		{
-			if (map[i][j] == 'B')
+			if (scene->map->map[i][j] == 'B')
 				count++;
-			if (map[i][j] == 'P')
+			if (scene->map->map[i][j] == 'P')
 				count++;
-			if (map[i][j] == 'M')
+			if (scene->map->map[i][j] == 'M')
 				count++;
 			j++;
 		}
@@ -350,7 +338,7 @@ void	initsprites(t_scene *scene)
 		j = 0;
 		while (j < scene->map->map_height)
 		{
-			if (map[i][j] == 'B')
+			if (scene->map->map[i][j] == 'B')
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->barrel_img ;
@@ -359,7 +347,7 @@ void	initsprites(t_scene *scene)
 				set_sprites_up(scene, i, j, count);
 				count++;
 			}
-			if (map[i][j] == 'P')
+			if (scene->map->map[i][j] == 'P')
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->pillar_img;
@@ -368,7 +356,7 @@ void	initsprites(t_scene *scene)
 				set_sprites_up(scene, i, j, count);
 				count++;
 			}
-			if (map[i][j] == 'M')
+			if (scene->map->map[i][j] == 'M')
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->manaorb_img;
@@ -405,7 +393,7 @@ int	main(int argc, char *argv[])
 
 	printf("map props: %d,%d\n", scene.map->map_height, scene.map->map_width);
 
-	exit(0);
+	// exit(0);
 
 	scene.map->map_width = 11;
 	scene.map->map_height = 10;

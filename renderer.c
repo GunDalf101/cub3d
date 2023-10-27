@@ -6,13 +6,11 @@
 /*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/25 16:48:27 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:11:42 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cube.h"
-
-extern int map[11][10];
 
 void drawline(int x1, int y1, int x2, int y2, t_scene scene, int color) {
     int dx = abs(x2 - x1);
@@ -223,7 +221,7 @@ void	renderitall(t_scene scene)
 		j = 0;
 		while (j < scene.map->map_height)
 		{
-			if (map[i][j] == '1')
+			if (scene.map->map[i][j] == '1')
 			{
 				int k = 0;
 				while (k < height)
