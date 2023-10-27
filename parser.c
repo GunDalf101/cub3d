@@ -368,7 +368,38 @@ static int check_map(char **map_lines)
     return (check_token_counts(map_lines) || can_you_escape(map_lines));
 }
 
-static void set_map_props(t_map *map)
+static int pad_map(t_map *map)
+{
+    int len;
+    int i;
+    int j;
+    char    *l;
+
+    i = 0;
+    while (map->map[i])
+    {
+        l = malloc(map->map_width + 1);
+        if (!l)
+            return (1);
+        len = ft_strlen(map->map[i]);
+        j = 0;
+        while (j < map->map_width)
+        {
+            if (j < len)
+                l[j] = map->map[i][j];
+            else
+                l[j] = ' ';
+            j++;
+        }
+        l[map->map_width] = '\0';
+        free(map->map[i]);
+        map->map[i] = l;
+        i++;
+    }
+    return (0);
+}
+
+static int set_map_props(t_map *map)
 {
     char    **lv;
     int     i;
@@ -387,6 +418,7 @@ static void set_map_props(t_map *map)
         i++;
     }
     map->map_width = wmax;
+    return (pad_map(map));
 }
 
 static int str_starts_with(char *str, char *s)
@@ -457,7 +489,8 @@ int parser(char *filename, t_map *map)
     if (check_map(map->map))
         return (1);
     printf("check_map check.\n");
-    set_map_props(map);
+    if (set_map_props(map))
+        return (1);
     printf("set_map_props check.\n");
     return (0);
 }
