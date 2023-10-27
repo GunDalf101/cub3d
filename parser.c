@@ -1,5 +1,7 @@
 #include "cube.h"
 
+// todo: trailing comma in RGB passes split.
+
 static int check_filename_sanity(const char *filename)
 {
     int flen = ft_strlen(filename);
