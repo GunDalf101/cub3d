@@ -1,7 +1,8 @@
 #include "cube.h"
 
-// todo: trailing comma in RGB passes split.
-// todo: diff lines lens.
+// todo: trailing comma in RGB passes split. - really needed?
+// todo: diff lines lens. - done
+// todo: player pos at wall pos?
 
 static int check_filename_sanity(const char *filename)
 {
@@ -211,6 +212,20 @@ static int arr_has_any(int *arr, int len, int v)
     return (0);
 }
 
+// static int str_index_of(char *str, char c)
+// {
+//     int i;
+
+//     i = 0;
+//     while (str[i])
+//     {
+//         if (str[i] == c)
+//             return (i);
+//         i++;
+//     }
+//     return (-1);
+// }
+
 static int check_token_counts(char **map_lines)
 {
     int     seen[10] = {0};
@@ -240,7 +255,7 @@ static int check_token_counts(char **map_lines)
         }
         i++;
     }
-    return (0);
+    return (!arr_has_any(seen, 10, 1));
 }
 
 static char **clone_arr(char **arr)
@@ -267,7 +282,7 @@ static char **clone_arr(char **arr)
 
 static int run(char **maze, int *maze_info, int i, int j)
 {
-    if (!maze[i][j + 1] || !maze[i + 1] || i == 0 || j == 0)
+    if (!maze[i][j + 1] || !maze[i + 1] || i == 0 || j == 0 || j > maze_info[i - 1] || j > maze_info[i + 1])
         return (1);
     if (maze[i][j + 1] == ' ') // check right
         return (1);
