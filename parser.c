@@ -123,7 +123,7 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
     return (0);
 }
 
-static int read_rgbs(t_map *map, char *l, int fd)
+static int read_rgbs(t_map *map, char *l)
 {
     char    **splited;
     static int seen[2];
@@ -446,12 +446,9 @@ int parser(char *filename, t_map *map)
     if (open_file(filename, &fd) < 0)
         return (1);
     printf("open_file check.\n");
-    // if (read_textures(fd, tfds))
-    //     return (1);
-    // printf("read_textures check.\n");
-    // if (read_rgbs(map, fd))
-    //     return (1);
-    // printf("read_rgbs check.\n");
+    if (read_map_info(map, fd, tfds))
+        return (1);
+    printf("read_map_info check.\n");
     if (read_map(map, fd))
         return (1);
     printf("read_map check.\n");
