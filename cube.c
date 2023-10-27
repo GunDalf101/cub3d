@@ -6,7 +6,7 @@
 /*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/27 22:12:40 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/10/27 23:05:06 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,7 +393,7 @@ int	main(int argc, char *argv[])
 
 	printf("map props: %d,%d\n", scene.map->map_height, scene.map->map_width);
 
-	// exit(0);
+	exit(0);
 
 	scene.map->map_width = 11;
 	scene.map->map_height = 10;
