@@ -50,7 +50,7 @@ elderscroll:
 	@echo '   |     In the Land of Mordor where the Shadows lie.                |'
 	@echo '  |                                                                  |'
 	@echo '  |                                    -----------------------       |'
-	@echo '  |                                  ))Two Heavens && GunDalf ((     |'
+	@echo '  |                                  )) two heavens && GunDalf ((     |'
 	@echo '  |                                    -----------------------       |'
 	@echo '  |                                              ____________________|_'
 	@echo '  |  ___________________-------------------------                       \'
