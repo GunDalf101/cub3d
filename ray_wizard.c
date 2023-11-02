@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_wizard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: GunDalf <GunDalf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/26 18:01:05 by GunDalf          ###   ########.fr       */
+/*   Updated: 2023/11/02 19:28:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ extern int map[11][10];
 void	ray_caster(t_scene *scene)
 {
 	int		x;
-	int height = WIN_HEIGHT / scene->map->map_width;
-	int width = WIN_WIDTH / scene->map->map_height;
+	int height = 100;
+	int width = 100;
 	x = 0;
 	scene->player->vision_rays = malloc(sizeof(t_ray) * WIN_WIDTH);
 	scene->z_buffer = malloc(sizeof(double) * WIN_WIDTH);

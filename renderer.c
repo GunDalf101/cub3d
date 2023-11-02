@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/25 16:48:27 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:56:04 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,60 @@ void	spawn_proj(t_scene *scene, t_projectile	*projectile)
 	}
 }
 
+void draw_minimap_circle(t_scene *scene)
+{
+	float player_pos_x = (float)((scene->player->pos[Y]) * 0.01);
+	float player_pos_y = (float)((scene->player->pos[X]) * 0.01);
+	// if (player_pos_x <= 3)
+	// {
+	// 	player_pos_x = 3;
+	// }
+	// else if (player_pos_x >= scene->map->map_heightt - 3)
+	// {
+	// 	player_pos_x = scene->map->map_heightt - 3;
+	// }
+	// if (player_pos_y <= 3)
+	// {
+	// 	player_pos_y = 3;
+	// }
+	// else if (player_pos_y >= scene->map->map_width - 3)
+	// {
+	// 	player_pos_y = scene->map->map_width - 3;
+	// }
+	float i = player_pos_x - 2.5;
+	float j = player_pos_y - 2.5;
+	float pos_x = 0;
+	float pos_y = 0;
+	float k = -0.5;
+	float l = -0.5;
+	float o_x = 0;
+	float o_y = 0;
+	while (i < player_pos_x + 2.5)
+	{
+		j = player_pos_y - 2.5;
+		k = -0.5;
+		while (j < player_pos_y + 2.5)
+		{
+			pos_x = (l * 60 + 60 / 2);
+			pos_y = (k * 60 + 60 / 2);
+			o_x = 1.499999 * 100 / 3 + 100 / 2;
+			o_y = 1.499999 * 100 / 3 + 100 / 2;
+			if ((i < 0 || j < 0 || i >= scene->map->map_width - 1 || j >= scene->map->map_height - 1) && (pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000)
+				mlx_put_pixel(scene->mlx_img, pos_x , pos_y, 0x00000000);
+			else if (map[(int)(j)][(int)(i)] == '1' && (pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000)
+				mlx_put_pixel(scene->mlx_img, pos_x , pos_y, 0x000000FF);
+			else if (map[(int)(j)][(int)(i)] != '1' && (pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000)
+				mlx_put_pixel(scene->mlx_img, pos_x , pos_y, 0x9b7653FF);
+			j +=  MINIMAP_SCALE_FACTOR;
+			k += 0.01;
+		}
+		i += MINIMAP_SCALE_FACTOR;
+		l += 0.01;
+	}
+	drawline(o_x, o_y, (o_x + scene->player->dir[Y] / 2), (o_y + scene->player->dir[X] / 2), *scene, 0x00FF00FF);
+	// exit(0);
+}
+
 void	spawn_sprites(t_scene *scene, int count)
 {
 	scene->sprites[count]->relative_pos[Y] = scene->sprites[count]->pos[Y] - scene->player->pos[Y];
@@ -179,8 +233,8 @@ void	sort_sprites(t_sprite **sprites, int count)
 
 void	renderitall(t_scene scene)
 {
-	int height = WIN_HEIGHT / scene.map->map_width / 5;
-	int width = WIN_WIDTH / scene.map->map_height / 5;
+	// int height = WIN_HEIGHT / scene.map->map_width / 5;
+	// int width = WIN_WIDTH / scene.map->map_height / 5;
 	int j = 0;
 	// drawing map grid
 
@@ -217,58 +271,7 @@ void	renderitall(t_scene scene)
 		spawn_proj(&scene, tmp);
 		tmp = tmp->next;
 	}
-	i = 0;
-	while (i < scene.map->map_width)
-	{
-		j = 0;
-		while (j < scene.map->map_height)
-		{
-			if (map[i][j] == '1')
-			{
-				int k = 0;
-				while (k < height)
-				{
-					int l = 0;
-					while (l < width)
-					{
-						mlx_put_pixel(scene.mlx_img, j * width + l, i * height + k, 0xFFFFFFFF);
-						l++;
-					}
-					k++;
-				}
-			}
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < scene.map->map_width + 1)
-	{
-		j = 1;
-		while (j < WIN_WIDTH / 5)
-		{
-			mlx_put_pixel(scene.mlx_img, j, i * height , 0x808080FF);
-			j++;
-		}
-		i++;
-	}
-
-	i = 0;
-	while (i < scene.map->map_height + 1)
-	{
-		j = 1;
-		while (j < WIN_HEIGHT / 5)
-		{
-			mlx_put_pixel(scene.mlx_img, i * width, j, 0x808080FF);
-			j++;
-		}
-		i++;
-	}
-	mlx_put_pixel(scene.mlx_img, scene.player->pos[Y] / 5, scene.player->pos[X] / 5, 0xFF0000FF);
-	mlx_put_pixel(scene.mlx_img, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X]) / 5, 0xFF0000FF);
-	drawline(scene.player->pos[Y] / 5, scene.player->pos[X] / 5, (scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X]) / 5, scene, 0x00FF00FF);
-	drawline((scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] + scene.player->plane[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] + scene.player->plane[X]) / 5, scene, 0x0000FFFF);
-	drawline((scene.player->pos[Y] + scene.player->dir[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X]) / 5, (scene.player->pos[Y] + scene.player->dir[Y] - scene.player->plane[Y]) / 5, (scene.player->pos[X] + scene.player->dir[X] - scene.player->plane[X]) / 5, scene, 0x0000FFFF);
+	draw_minimap_circle(&scene);
 	drawbar(scene);
 	if (scene.player->is_ded == TRUE)
 	{

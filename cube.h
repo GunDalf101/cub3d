@@ -6,16 +6,16 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/25 16:32:38 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:56:30 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 1000
-# define WIN_HEIGHT 1100
-
+# define WIN_WIDTH 1200
+# define WIN_HEIGHT 1200
+#define MINIMAP_SCALE_FACTOR 0.015
 
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "libft/libft.h"
