@@ -6,13 +6,11 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 19:28:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/02 21:14:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
-
-extern int map[11][10];
 
 void	ray_caster(t_scene *scene)
 {
@@ -44,7 +42,7 @@ void	ray_caster(t_scene *scene)
 		if (scene->player->vision_rays[x]->dir[Y] < 0)
 		{
 			scene->player->vision_rays[x]->step[Y] = -1;
-			scene->player->vision_rays[x]->side_cell[Y] = (scene->player->vision_rays[x]->pos[Y] - scene->player->vision_rays[x]->current_cell[Y]) * scene->player->vision_rays[x]->delta_ray[Y];	
+			scene->player->vision_rays[x]->side_cell[Y] = (scene->player->vision_rays[x]->pos[Y] - scene->player->vision_rays[x]->current_cell[Y]) * scene->player->vision_rays[x]->delta_ray[Y];
 		}
 		else
 		{
@@ -75,7 +73,7 @@ void	ray_caster(t_scene *scene)
 				scene->player->vision_rays[x]->current_cell[X] += scene->player->vision_rays[x]->step[X];
 				scene->player->vision_rays[x]->side = NS;
 			}
-			if (map[scene->player->vision_rays[x]->current_cell[X] / width][scene->player->vision_rays[x]->current_cell[Y] / height] == '1')
+			if (scene->map->map[scene->player->vision_rays[x]->current_cell[X] / width][scene->player->vision_rays[x]->current_cell[Y] / height] == '1')
 				scene->player->vision_rays[x]->will_hit = TRUE;
 		}
 		if (scene->player->vision_rays[x]->side == EW)
@@ -96,5 +94,5 @@ void	ray_caster(t_scene *scene)
 		scene->z_buffer[x] = scene->player->vision_rays[x]->wall_dist;
 		x++;
 	}
-	
+
 }

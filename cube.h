@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 19:56:30 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/02 21:14:22 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,19 @@
 # define WIN_HEIGHT 1200
 #define MINIMAP_SCALE_FACTOR 0.015
 
+# define EX_MAP_KNOWN_CHARS "0*1*N!S!W!E!P*M*T*B*"
+# define MAP_KNOWN_CHARS "01NSWEPMTB"
+
+
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "libft/libft.h"
+# include "gnl/get_next_line.h"
 # include <math.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+# include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
 
 enum			e_direction
 {
@@ -172,10 +178,11 @@ typedef struct s_player
 
 typedef struct s_map
 {
-	char		**map;
-	int			map_height;
-	int			map_width;
-	char		*known_chars;
+	unsigned char	floor_rgb[3];
+	char			**map;
+	int				map_height;
+	int				map_width;
+	unsigned char	ceiling_rgb[3];
 }				t_map;
 
 typedef struct s_scene
@@ -225,5 +232,7 @@ void	drawbar(t_scene scene);
 void	drawline(int x1, int y1, int x2, int y2, t_scene scene, int color);
 void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
+
+int parser(char *filename, t_map *map);
 
 #endif

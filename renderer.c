@@ -6,13 +6,11 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 19:56:04 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/02 21:14:59 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cube.h"
-
-extern int map[11][10];
 
 void drawline(int x1, int y1, int x2, int y2, t_scene scene, int color) {
     int dx = abs(x2 - x1);
