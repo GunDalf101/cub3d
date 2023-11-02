@@ -6,13 +6,11 @@
 /*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/25 16:48:06 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:11:53 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cube.h"
-
-extern int map[11][10];
 
 t_projectile *create_projectile(t_scene *scene, int projectile_type)
 {

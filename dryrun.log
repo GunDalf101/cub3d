@@ -1,0 +1,47 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/goinfre/hbouhach/cub3d'
+echo '                                             _______________________'
+echo '   _______________________-------------------                        \'
+echo ' /:--__                                                              |'
+echo '||< > |                                   ___________________________/'
+echo '| \__/_________________-------------------                         |'
+echo '|                                                                  |'
+echo ' |                  THE SCROLL OF INFINITE WISDOM                   |'
+echo ' |                                                                  |'
+echo ' |       Three Rings for the Elven-kings under the sky,             |'
+echo '  |        Seven for the Dwarf-lords in their halls of stone,        |'
+echo '  |      Nine for Mortal Men doomed to die,                          |'
+echo '  |        One for the Dark Lord on his dark throne                  |'
+echo '  |      In the Land of Mordor where the Shadows lie.                 |'
+echo '   |       One Ring to rule them all, One Ring to find them,          |'
+echo '   |       One Ring to bring them all and in the darkness bind them   |'
+echo '   |     In the Land of Mordor where the Shadows lie.                |'
+echo '  |                                                                  |'
+echo '  |                                    -----------------------       |'
+echo '  |                                  ))Two Heavens && GunDalf ((     |'
+echo '  |                                    -----------------------       |'
+echo '  |                                              ____________________|_'
+echo '  |  ___________________-------------------------                       \'
+echo '  |/ --_                                                                 |'
+echo '  ||[ ]||                                            ___________________/'
+echo '   \===/___________________--------------------------'
+echo ''
+make -s -C libft bonus
+echo "\033[35mlibft have been made \033[0m"
+make -s -C linear_alg
+echo "\033[35mlinear have been made \033[0m"
+ 
+cc -Wall -Wextra -Werror   -c -o cube.o cube.c
+cc -Wall -Wextra -Werror   -c -o ray_wizard.o ray_wizard.c
+cc -Wall -Wextra -Werror   -c -o renderer.o renderer.c
+cc -Wall -Wextra -Werror   -c -o cross_hooks.o cross_hooks.c
+cc -Wall -Wextra -Werror   -c -o gnl/get_next_line.o gnl/get_next_line.c
+cc -Wall -Wextra -Werror   -c -o gnl/get_next_line_utils.o gnl/get_next_line_utils.c
+ 
+cc cube.o ray_wizard.o renderer.o cross_hooks.o gnl/get_next_line.o gnl/get_next_line_utils.o libft/libft.a linear_alg/linear_alg.a libmlx42.a -L/Users/hbouhach/.brew/opt/glfw/lib -lglfw  -o cub3d
+echo "\033[47m\033[30m\033[1m           \`cub3d linked\`           \033[0m"
+if [ $? -eq 0 ]; then \
+		echo "\033[3m\033[1m\033[42m\033[31m~~Nothing to be done for 'all' anymore~~\033[0m"; \
+	fi
+make: Leaving directory `/goinfre/hbouhach/cub3d'
+ 

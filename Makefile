@@ -4,21 +4,25 @@ SOURCES = cube.c \
 		ray_wizard.c \
 		renderer.c \
 		cross_hooks.c \
+		parser.c \
+		gnl/get_next_line.c \
+		gnl/get_next_line_utils.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
 INCLUDES = cube.h \
+			gnl/get_next_line.h
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
 LINEAR = linear_alg/linear_alg.a
-all: elderscroll libft linear $(NAME) 
+all: elderscroll libft gnl linear $(NAME)
 	@if [ $$? -eq 0 ]; then \
 		echo "\033[3m\033[1m\033[42m\033[31m~~Nothing to be done for 'all' anymore~~\033[0m"; \
-	fi 
+	fi
 
-$(NAME):$(OBJECTS) $(GNLOBJ) 
+$(NAME):$(OBJECTS) $(GNLOBJ)
 	@cc $(OBJECTS) $(LIBFT) $(LINEAR) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
@@ -67,7 +71,7 @@ clean:
 	@rm -f $(OBJECTS)
 	@make -s -C libft clean
 	@echo "\033[3m\033[1m\033[42m\033[31m~~   The objects have been cleaned   ~~\033[0m"; \
-	
+
 fclean: clean
 	@make -s -C libft fclean
 	@rm -f $(NAME)
