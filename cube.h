@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 21:14:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/02 21:29:13 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,8 @@ typedef struct s_map
 {
 	unsigned char	floor_rgb[3];
 	char			**map;
-	int				map_height;
 	int				map_width;
+	int				map_height;
 	unsigned char	ceiling_rgb[3];
 }				t_map;
 

@@ -6,11 +6,12 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 21:14:01 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/02 21:29:25 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
+#include <stdio.h>
 
 void	 initplayer(t_scene *scene)
 {
@@ -18,10 +19,11 @@ void	 initplayer(t_scene *scene)
 	int j = 0;
 
 	scene->player = malloc(sizeof(t_player));
-	while (i < scene->map->map_width)
+	// printf("gdb wla zbbi\n");
+	while (i < scene->map->map_height)
 	{
 		j = 0;
-		while (j < scene->map->map_height)
+		while (j < scene->map->map_width)
 		{
 			if (scene->map->map[i][j] == 'N')
 			{
@@ -81,7 +83,7 @@ void	dynamic_logic(t_scene *scene)
 			}
 			i++;
 		}
-		scene->map->scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] = '0';
+		scene->map->map[(int)(scene->player->pos[X]) / width][(int)(scene->player->pos[Y]) / height] = '0';
 	}
 
 }
@@ -314,10 +316,10 @@ void	initsprites(t_scene *scene)
 	scene->manaorb_img = mlx_texture_to_image(scene->mlx_ptr, scene->manaorb_tex);
 	mlx_resize_image(scene->manaorb_img, 251, 282);
 	mlx_delete_texture(scene->manaorb_tex);
-	while (i < scene->map->map_width)
+	while (i < scene->map->map_height)
 	{
 		j = 0;
-		while (j < scene->map->map_height)
+		while (j < scene->map->map_width)
 		{
 			if (scene->map->map[i][j] == 'B')
 				count++;
@@ -333,12 +335,12 @@ void	initsprites(t_scene *scene)
 	scene->sprites = ft_calloc(count, sizeof(t_sprite *));
 	i = 0;
 	count = 0;
-	while (i < scene->map->map_width)
+	while (i < scene->map->map_height)
 	{
 		j = 0;
-		while (j < scene->map->map_height)
+		while (j < scene->map->map_width)
 		{
-			if (scene->map->scene->map->map[i][j] == 'B')
+			if (scene->map->map[i][j] == 'B')
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->barrel_img ;
@@ -347,7 +349,7 @@ void	initsprites(t_scene *scene)
 				set_sprites_up(scene, i, j, count);
 				count++;
 			}
-			if (scene->map->scene->map->map[i][j] == 'P')
+			if (scene->map->map[i][j] == 'P')
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->pillar_img;
@@ -356,7 +358,7 @@ void	initsprites(t_scene *scene)
 				set_sprites_up(scene, i, j, count);
 				count++;
 			}
-			if (scene->map->scene->map->map[i][j] == 'M')
+			if (scene->map->map[i][j] == 'M')
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->manaorb_img;
@@ -391,12 +393,10 @@ int	main(int argc, char *argv[])
 		printf(">> [%s] <<\n", scene.map->map[i]);
 	}
 
-	printf("map props: %d,%d\n", scene.map->map_height, scene.map->map_width);
+	printf("map props: %d,%d\n", scene.map->map_width, scene.map->map_height);
 
 	// exit(0);
 
-	scene.map->map_width = 11;
-	scene.map->map_height = 10;
 	scene.projectiles = NULL;
 	initplayer(&scene);
 	scene.mlx_ptr = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Escape From GunDalf", 1);
