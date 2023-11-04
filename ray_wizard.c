@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 21:36:46 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:27:31 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void	ray_caster(t_scene *scene)
 {
 	int		x;
-	int height = 100;
-	int width = 100;
 	x = 0;
 	scene->player->vision_rays = malloc(sizeof(t_ray) * WIN_WIDTH);
 	scene->z_buffer = malloc(sizeof(double) * WIN_WIDTH);
@@ -73,7 +71,7 @@ void	ray_caster(t_scene *scene)
 				scene->player->vision_rays[x]->current_cell[X] += scene->player->vision_rays[x]->step[X];
 				scene->player->vision_rays[x]->side = NS;
 			}
-			if (scene->map->map[scene->player->vision_rays[x]->current_cell[X] / width][scene->player->vision_rays[x]->current_cell[Y] / height] == '1')
+			if (scene->map->map[scene->player->vision_rays[x]->current_cell[X] / UNIT][scene->player->vision_rays[x]->current_cell[Y] / UNIT] == '1')
 				scene->player->vision_rays[x]->will_hit = TRUE;
 		}
 		if (scene->player->vision_rays[x]->side == EW)

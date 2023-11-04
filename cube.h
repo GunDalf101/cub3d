@@ -6,16 +6,17 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 21:29:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/03 19:07:46 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 1200
-# define WIN_HEIGHT 1200
+# define WIN_WIDTH 1000
+# define WIN_HEIGHT 800
 #define MINIMAP_SCALE_FACTOR 0.015
+#define UNIT 100
 
 # define EX_MAP_KNOWN_CHARS "0*1*N!S!W!E!P*M*T*B*"
 # define MAP_KNOWN_CHARS "01NSWEPMTB"

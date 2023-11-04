@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/02 21:45:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/04 10:06:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,37 +112,37 @@ void	spawn_proj(t_scene *scene, t_projectile	*projectile)
 
 void draw_minimap_circle(t_scene *scene)
 {
-	float player_pos_x = (float)((scene->player->pos[Y]) * 0.01);
-	float player_pos_y = (float)((scene->player->pos[X]) * 0.01);
-	float i = player_pos_x - 1.5;
-	float j = player_pos_y - 1.5;
+	float player_pos_x = (float)((scene->player->pos[Y]) / UNIT);
+	float player_pos_y = (float)((scene->player->pos[X]) / UNIT);
+	float i = player_pos_x - 2.5;
+	float j = player_pos_y - 2.5;
 	float pos_x = 0;
 	float pos_y = 0;
 	float k = -0.5;
 	float l = -0.5;
 	float o_x = 0;
 	float o_y = 0;
-	while (i < player_pos_x + 1.5)
+	while (i < player_pos_x + 2.5)
 	{
-		j = player_pos_y - 1.5;
+		j = player_pos_y - 2.5;
 		k = -0.5;
-		while (j < player_pos_y + 1.5)
+		while (j < player_pos_y + 2.5)
 		{
-			pos_x = (l * 100 + 100 / 2);
-			pos_y = (k * 100 + 100 / 2);
-			o_x = 1.499999 * 100 / 3 + 100 / 2;
-			o_y = 1.499999 * 100 / 3 + 100 / 2;
-			if ((i < 0 || j < 0 || i >= scene->map->map_height || j >= scene->map->map_width) && (pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000)
+			pos_x = (l * 60 + 60 / 2);
+			pos_y = (k * 60 + 60 / 2);
+			o_x = 1.499999 * UNIT / 3 + UNIT / 2;
+			o_y = 1.499999 * UNIT / 3 + UNIT / 2;
+			if ((i < 0 || j < 0 || i >= scene->map->map_width || j >= scene->map->map_height) && (pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000)
 				mlx_put_pixel(scene->mlx_img, pos_x , pos_y, 0x00000000);
-			else if (scene->map->map[(int)(j)][(int)(i)] == '1' && (pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000)
+			else if ((pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000 && scene->map->map[(int)(j)][(int)(i)] == '1')
 				mlx_put_pixel(scene->mlx_img, pos_x , pos_y, 0x000000FF);
-			else if (scene->map->map[(int)(j)][(int)(i)] != '1' && (pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000)
+			else if ((pow(pos_x - o_x, 2) + pow(pos_y - o_y, 2)) <= 10000 && scene->map->map[(int)(j)][(int)(i)] != '1')
 				mlx_put_pixel(scene->mlx_img, pos_x , pos_y, 0x9b7653FF);
 			j +=  MINIMAP_SCALE_FACTOR;
-			k += 0.01;
+			k += 1.0 / UNIT;
 		}
 		i += MINIMAP_SCALE_FACTOR;
-		l += 0.01;
+		l += 1.0 / UNIT;
 	}
 	drawline(o_x, o_y, (o_x + scene->player->dir[Y] / 2), (o_y + scene->player->dir[X] / 2), *scene, 0x00FF00FF);
 }
@@ -224,13 +224,13 @@ void	renderitall(t_scene scene)
 	int i = 0;
 	while (i < scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->is_crouching)
 	{
-		drawline(0 , i, WIN_HEIGHT, i, scene, 0x87CEEBFF);
+		drawline(0 , i, WIN_WIDTH, i, scene, 0x87CEEBFF);
 		i++;
 	}
 	i = scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->is_crouching;
-	while (i < WIN_HEIGHT)
+	while (i < WIN_WIDTH)
 	{
-		drawline(0 , i, WIN_HEIGHT, i, scene, 0x9b7653FF);
+		drawline(0 , i, WIN_WIDTH, i, scene, 0x9b7653FF);
 		i++;
 	}
 	ray_caster(&scene);
@@ -253,7 +253,7 @@ void	renderitall(t_scene scene)
 		spawn_proj(&scene, tmp);
 		tmp = tmp->next;
 	}
-	// draw_minimap_circle(&scene);
+	draw_minimap_circle(&scene);
 	drawbar(scene);
 	if (scene.player->is_ded == TRUE)
 	{

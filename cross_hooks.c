@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cross_hooks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:24:50 by mbennani          #+#    #+#             */
-/*   Updated: 2023/10/27 22:11:53 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/11/04 10:17:40 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	if (keycode.key == MLX_KEY_SPACE && keycode.action == MLX_PRESS)
 		scene->player->is_jumping = TRUE;
 	else if (keycode.key == MLX_KEY_SPACE && keycode.action == MLX_RELEASE)
-		scene->player->is_running = FALSE;
+		scene->player->is_jumping = FALSE;
 	if (keycode.key == MLX_KEY_LEFT)
 	{
 		scene->player->p_angle -= 0.1;
