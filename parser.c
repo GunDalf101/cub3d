@@ -125,6 +125,20 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
     return (0);
 }
 
+static int token_count_in_str(char *str, char c)
+{
+    int i;
+
+    i = 0;
+    while (*str)
+    {
+        if (*str == c)
+            i++;
+        str++;
+    }
+    return (i);
+}
+
 static int read_rgbs(t_map *map, char *l)
 {
     char    **splited;
@@ -134,6 +148,8 @@ static int read_rgbs(t_map *map, char *l)
         return (1);
     splited = ft_split(l, ' ');
     if (arr_size(splited) != 2)
+        return (1);
+    else if (token_count_in_str(splited[1], ',') != 2)
         return (1);
     if (splited[0][0] == 'F')
     {
