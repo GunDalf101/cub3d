@@ -3,7 +3,7 @@ SO ./path_to_the_south_texture
 WE ./path_to_the_west_texture
 EA ./path_to_the_east_texture
 C 225,30,122
-F 220,100,0
+F 2aa20,100,0
 
 1111111111
 1NP0P10001

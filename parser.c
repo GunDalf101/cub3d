@@ -105,6 +105,20 @@ static int read_texture(char *l, int *tfds)
     return (0);
 }
 
+static int is_all_digit(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (!ft_isdigit(str[i]))
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
 static int fill_rgb(unsigned char rgb[3], char *rgbl)
 {
     char    **splited;
@@ -117,6 +131,9 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
     i = 0;
     while (i < 3)
     {
+        printf(">> [%s]\n", splited[i]);
+        if (!is_all_digit(splited[i]))
+            return (1);
         ret = ft_atoi(splited[i]);
         if (ret < 0 || ret > 255)
             return (1);
