@@ -132,7 +132,7 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
     while (i < 3)
     {
         printf(">> [%s]\n", splited[i]);
-        if (!is_all_digit(splited[i]))
+        if (is_all_digit(splited[i]))
             return (1);
         ret = ft_atoi(splited[i]);
         if (ret < 0 || ret > 255)
