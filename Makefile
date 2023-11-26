@@ -5,13 +5,13 @@ SOURCES = cube.c \
 		renderer.c \
 		cross_hooks.c \
 		parser.c \
+		textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
-INCLUDES = cube.h \
-			gnl/get_next_line.h
+INCLUDES = cube.h gnl/get_next_line.h
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Ofast
@@ -23,10 +23,10 @@ all: elderscroll libft gnl linear $(NAME)
 	fi
 
 $(NAME):$(OBJECTS) $(GNLOBJ)
-	@cc $(OBJECTS) $(LIBFT) $(LINEAR) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
+	@cc $(CFLAGS) $(OBJECTS) $(LIBFT) $(LINEAR) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
-%.o: %.c minishell.h
+%.o: %.c cub3d.h gnl/get_next_line.h
 	@$(CC) $(CFLAGS) libmlx42.a -Iinclude -I$(shell brew --prefix glfw)/include -c $< -o $@
 	@echo "\033[33m$< compiled \033[0m"
 
@@ -50,7 +50,7 @@ elderscroll:
 	@echo '   |     In the Land of Mordor where the Shadows lie.                |'
 	@echo '  |                                                                  |'
 	@echo '  |                                    -----------------------       |'
-	@echo '  |                                  ))Two Heavens && GunDalf ((     |'
+	@echo '  |                                  )) twoheavens && GunDalf ((     |'
 	@echo '  |                                    -----------------------       |'
 	@echo '  |                                              ____________________|_'
 	@echo '  |  ___________________-------------------------                       \'
