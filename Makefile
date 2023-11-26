@@ -14,7 +14,7 @@ INCLUDES = cube.h \
 			gnl/get_next_line.h
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Ofast
 LIBFT = libft/libft.a
 LINEAR = linear_alg/linear_alg.a
 all: elderscroll libft gnl linear $(NAME)

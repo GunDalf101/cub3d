@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/04 10:06:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/26 23:20:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,35 @@
 #include <stdio.h>
 
 void drawline(int x1, int y1, int x2, int y2, t_scene scene, int color) {
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+    int sx = (x1 < x2) ? 1 : -1;
+    int sy = (y1 < y2) ? 1 : -1;
+    int err = dx - dy;
+
+    while (1) {
+
+        mlx_put_pixel(scene.mlx_img, x1, y1, color);
+
+        if (x1 == x2 && y1 == y2) {
+            break;
+        }
+
+        int err2 = 2 * err;
+
+        if (err2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+
+        if (err2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
+    }
+}
+
+void drawline_hakim(int x1, int y1, int x2, int y2, t_scene scene, int color) {
     int dx = abs(x2 - x1);
     int dy = abs(y2 - y1);
     int sx = (x1 < x2) ? 1 : -1;
@@ -228,7 +257,7 @@ void	renderitall(t_scene scene)
 		i++;
 	}
 	i = scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->is_crouching;
-	while (i < WIN_WIDTH)
+	while (i < WIN_HEIGHT)
 	{
 		drawline(0 , i, WIN_WIDTH, i, scene, 0x9b7653FF);
 		i++;

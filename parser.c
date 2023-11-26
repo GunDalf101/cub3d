@@ -123,6 +123,7 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
 {
     char    **splited;
     int     i;
+    (void)rgb;
     int     ret;
 
     splited = ft_split(rgbl, ',');
@@ -133,10 +134,10 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
     {
         printf(">> [%s]\n", splited[i]);
         if (!is_all_digit(splited[i]))
-            return (1);
+            return (0);
         ret = ft_atoi(splited[i]);
         if (ret < 0 || ret > 255)
-            return (1);
+            return (0);
         rgb[i++] = ret;
     }
     return (0);

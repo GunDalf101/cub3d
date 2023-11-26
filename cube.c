@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/03 16:26:29 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:09:18 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,23 +297,23 @@ void	initsprites(t_scene *scene)
 	count = 0;
 	scene->barrel_tex = mlx_load_png("assets/barrel_01.png");
 	scene->barrel_img = mlx_texture_to_image(scene->mlx_ptr, scene->barrel_tex);
-	mlx_resize_image(scene->barrel_img, 415, 250);
+	mlx_resize_image(scene->barrel_img, 415 * WIN_HEIGHT / 1200, 250 * WIN_HEIGHT / 1200);
 	mlx_delete_texture(scene->barrel_tex);
 	scene->fireball_tex = mlx_load_png("assets/FireBall.png");
 	scene->fireball_img = mlx_texture_to_image(scene->mlx_ptr, scene->fireball_tex);
-	mlx_resize_image(scene->fireball_img, 200, 200);
+	mlx_resize_image(scene->fireball_img, 200 * WIN_HEIGHT / 1200, 200 * WIN_HEIGHT / 1200);
 	mlx_delete_texture(scene->fireball_tex);
 	scene->iceball_tex = mlx_load_png("assets/IceBall.png");
 	scene->iceball_img = mlx_texture_to_image(scene->mlx_ptr, scene->iceball_tex);
-	mlx_resize_image(scene->iceball_img, 150, 150);
+	mlx_resize_image(scene->iceball_img, 150 * WIN_HEIGHT / 1200, 150 * WIN_HEIGHT / 1200);
 	mlx_delete_texture(scene->iceball_tex);
 	scene->pillar_tex = mlx_load_png("assets/Pillar.png");
 	scene->pillar_img = mlx_texture_to_image(scene->mlx_ptr, scene->pillar_tex);
-	mlx_resize_image(scene->pillar_img, 500, 500);
+	mlx_resize_image(scene->pillar_img, 500 * WIN_HEIGHT / 1200, 500 * WIN_HEIGHT / 1200);
 	mlx_delete_texture(scene->pillar_tex);
 	scene->manaorb_tex = mlx_load_png("assets/ManaOrb.png");
 	scene->manaorb_img = mlx_texture_to_image(scene->mlx_ptr, scene->manaorb_tex);
-	mlx_resize_image(scene->manaorb_img, 251, 282);
+	mlx_resize_image(scene->manaorb_img, 251 * WIN_HEIGHT / 1200, 282 * WIN_HEIGHT / 1200);
 	mlx_delete_texture(scene->manaorb_tex);
 	while (i < scene->map->map_height)
 	{
@@ -343,7 +343,7 @@ void	initsprites(t_scene *scene)
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->barrel_img ;
-				scene->sprites[count]->v_move = 1100;
+				scene->sprites[count]->v_move = 1100 * WIN_HEIGHT / 1200;
 				scene->sprites[count]->collision_box = 40;
 				set_sprites_up(scene, i, j, count);
 				count++;
@@ -352,7 +352,7 @@ void	initsprites(t_scene *scene)
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->pillar_img;
-				scene->sprites[count]->v_move = 50;
+				scene->sprites[count]->v_move = 50 * WIN_HEIGHT / 1200;
 				scene->sprites[count]->collision_box = 40;
 				set_sprites_up(scene, i, j, count);
 				count++;
@@ -361,7 +361,7 @@ void	initsprites(t_scene *scene)
 			{
 				scene->sprites[count] = ft_calloc(1, sizeof(t_sprite));
 				scene->sprites[count]->sprite_img = scene->manaorb_img;
-				scene->sprites[count]->v_move = -500;
+				scene->sprites[count]->v_move = -500 * WIN_HEIGHT / 1200;
 				scene->sprites[count]->collision_box = 0;
 				set_sprites_up(scene, i, j, count);
 				count++;

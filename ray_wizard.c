@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/03 16:27:31 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/24 18:40:49 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	ray_caster(t_scene *scene)
 			scene->player->vision_rays[x]->wall_dist = (scene->player->vision_rays[x]->current_cell[Y] - scene->player->vision_rays[x]->pos[Y] + (1 - scene->player->vision_rays[x]->step[Y]) / 2) / scene->player->vision_rays[x]->dir[Y];
 		else
 			scene->player->vision_rays[x]->wall_dist = (scene->player->vision_rays[x]->current_cell[X] - scene->player->vision_rays[x]->pos[X] + (1 - scene->player->vision_rays[x]->step[X]) / 2) / scene->player->vision_rays[x]->dir[X];
-		// drawline(scene->player->pos[Y] / 5, scene->player->pos[X] / 5, scene->player->vision_rays[x]->current_cell[Y] / 5, scene->player->vision_rays[x]->current_cell[X] / 5, *scene, 0x00FF00FF);
 		scene->player->vision_rays[x]->wall_height = (int)(WIN_HEIGHT / scene->player->vision_rays[x]->wall_dist * 3);
 		if (scene->player->vision_rays[x]->wall_height < 0)
 			scene->player->vision_rays[x]->wall_height = WIN_HEIGHT;
@@ -89,6 +88,7 @@ void	ray_caster(t_scene *scene)
 		if (lineend >= WIN_HEIGHT)
 			lineend = WIN_HEIGHT - 1;
 		drawline(x, linestart, x, lineend, *scene, 0x998970FF);
+		// drawline_hakim(x, linestart, x, lineend, *scene, 0x998970FF);
 		scene->z_buffer[x] = scene->player->vision_rays[x]->wall_dist;
 		x++;
 	}
