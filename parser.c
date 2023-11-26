@@ -63,7 +63,7 @@ static char *non_empty_gnl(int fd)
     return (NULL);
 }
 
-static int verify_sprite(char **splited, char *dirs[4], int seen[4], int *tfds)
+static int verify_sprite(t_map *map, char **splited, int seen[4], int *tfds)
 {
     int i;
 
@@ -74,7 +74,7 @@ static int verify_sprite(char **splited, char *dirs[4], int seen[4], int *tfds)
     i = 0;
     while (i < 4)
     {
-        if (!ft_strncmp(dirs[i], splited[0], 2) && !seen[i])
+        if (!ft_strncmp(&("NOSOEAWE"[i * 2]), splited[0], 2) && !seen[i])
         {
             seen[i] = 1;
             break;
@@ -85,21 +85,23 @@ static int verify_sprite(char **splited, char *dirs[4], int seen[4], int *tfds)
         return (1);
     if (open_file(splited[1], tfds + i) < 0)
         return (1);
+	else
+		map->textures_paths[i] = ft_strdup(splited[1]);
     return (0);
 }
 
-static int read_texture(char *l, int *tfds)
+static int read_texture(t_map *map, char *l, int *tfds)
 {
-    static char    *dirs[4] = {"NO", "SO", "WE", "EA"};
-    static int     seen[4] = {0, 0, 0, 0};
-    char    **splited;
+    // static char	*dirs[4] = {"NO", "SO", "EA", "WE"};
+    static int	seen[4];
+    char		**splited;
 
     if (!l)
         return (1);
     splited = ft_split(l, ' ');
     if (!splited)
         return (1);
-    if (verify_sprite(splited, dirs, seen, tfds))
+    if (verify_sprite(map, splited, seen, tfds))
         return (1);
     return (0);
 }
@@ -467,7 +469,17 @@ static int str_starts_with(char *str, char *s)
     return (1);
 }
 
-static int read_map_info(t_map *map, int fd, int *tfds)
+static int  close_temp_fds(int tfds[4])
+{
+    int i;
+
+    i = 0;
+    while (i < 4)
+        close(tfds[i++]);
+    return (0);
+}
+
+static int  read_map_info(t_map *map, int fd, int *tfds)
 {
     char    *l;
     int     inquired;
@@ -481,7 +493,7 @@ static int read_map_info(t_map *map, int fd, int *tfds)
         else if (str_starts_with(l, "NO ") || str_starts_with(l, "SO ") \
             || str_starts_with(l, "WE ") || str_starts_with(l, "EA "))
         {
-            if (read_texture(l, tfds))
+            if (read_texture(map, l, tfds))
                 return (1);
             else
                 inquired++;
@@ -498,14 +510,17 @@ static int read_map_info(t_map *map, int fd, int *tfds)
         if (inquired == 6)
             break;
     }
-    return (0);
+    return (close_temp_fds(tfds));
 }
 
 int parser(char *filename, t_map *map)
 {
     int fd;
-    int tfds[4];
+	int	tfds[4];
 
+    map->textures_paths = malloc(sizeof(char *) * 4);
+    if (!map->textures_paths)
+        return (1);
     if (check_filename_sanity(filename))
         return (1);
     printf("check_filename_sanity check.\n");

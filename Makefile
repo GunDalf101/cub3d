@@ -5,6 +5,7 @@ SOURCES = cube.c \
 		renderer.c \
 		cross_hooks.c \
 		parser.c \
+		textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c
 

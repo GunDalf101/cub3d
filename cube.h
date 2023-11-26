@@ -183,6 +183,8 @@ typedef struct s_map
 	char			**map;
 	int				map_width;
 	int				map_height;
+	char			**textures_paths;
+	mlx_image_t		**textures_mlx_imgs;
 	unsigned char	ceiling_rgb[3];
 }				t_map;
 
@@ -235,5 +237,6 @@ void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
 
 int parser(char *filename, t_map *map);
+int load_textures(void *mlxptr, t_map *map);
 
 #endif

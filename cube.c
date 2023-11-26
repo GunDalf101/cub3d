@@ -393,10 +393,15 @@ int	main(int argc, char *argv[])
 	}
 
 	printf("map props: %d,%d\n", scene.map->map_width, scene.map->map_height);
-
 	scene.projectiles = NULL;
 	initplayer(&scene);
 	scene.mlx_ptr = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Escape From GunDalf", 1);
+	
+	
+	if (load_textures(scene.mlx_ptr, scene.map))
+		return (1);
+
+	exit(0);
 	initsprites(&scene);
 	scene.time = 0;
 	scene.mlx_img = mlx_new_image(scene.mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
