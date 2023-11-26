@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/21 19:09:18 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/26 23:24:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,8 +400,6 @@ int	main(int argc, char *argv[])
 	
 	if (load_textures(scene.mlx_ptr, scene.map))
 		return (1);
-
-	exit(0);
 	initsprites(&scene);
 	scene.time = 0;
 	scene.mlx_img = mlx_new_image(scene.mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
