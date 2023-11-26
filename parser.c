@@ -1,7 +1,6 @@
 #include "cube.h"
 
 // todo: trailing comma in RGB passes split.
-
 static int check_filename_sanity(const char *filename)
 {
     int flen = ft_strlen(filename);
@@ -13,6 +12,19 @@ static int check_filename_sanity(const char *filename)
         && filename[flen - 1] == 'b')
         return (0);
     return (1);
+}
+
+static void free_array(char **arr)
+{
+    int i;
+
+    i = 0;
+    while (arr[i])
+    {
+        free(arr[i]);
+        i++;
+    }
+    free(arr);
 }
 
 static int open_file(char *filename, int *fd)
@@ -103,6 +115,7 @@ static int read_texture(t_map *map, char *l, int *tfds)
         return (1);
     if (verify_sprite(map, splited, seen, tfds))
         return (1);
+    free_array(splited);
     return (0);
 }
 
@@ -132,14 +145,14 @@ static int fill_rgb(unsigned char rgb[3], char *rgbl)
     i = 0;
     while (i < 3)
     {
-        printf(">> [%s]\n", splited[i]);
         if (is_all_digit(splited[i]))
-            return (1);
+            return (free_array(splited), 1);
         ret = ft_atoi(splited[i]);
         if (ret < 0 || ret > 255)
-            return (1);
+            return (free_array(splited), 1);
         rgb[i++] = ret;
     }
+    free_array(splited);
     return (0);
 }
 
@@ -166,21 +179,22 @@ static int read_rgbs(t_map *map, char *l)
         return (1);
     splited = ft_split(l, ' ');
     if (arr_size(splited) != 2)
-        return (1);
+        return (free_array(splited), 1);
     else if (token_count_in_str(splited[1], ',') != 2)
-        return (1);
+        return (free_array(splited), 1);
     if (splited[0][0] == 'F')
     {
         if (fill_rgb(map->floor_rgb, splited[1]))
-            return (1);
+            return (free_array(splited), 1);
         seen[0] = 1;
     }
     else
     {
         if (fill_rgb(map->ceiling_rgb, splited[1]))
-            return (1);
+            return (free_array(splited), 1);
         seen[1] = 1;
     }
+    free_array(splited);
     return (0);
 }
 
@@ -494,19 +508,20 @@ static int  read_map_info(t_map *map, int fd, int *tfds)
             || str_starts_with(l, "WE ") || str_starts_with(l, "EA "))
         {
             if (read_texture(map, l, tfds))
-                return (1);
+                return (free(l), 1);
             else
                 inquired++;
         }
         else if (str_starts_with(l, "F ") || str_starts_with(l, "C "))
         {
             if (read_rgbs(map, l))
-                return (1);
+                return (free(l), 1);
             else
                 inquired++;
         }
         else
-            return (1);
+            return (free(l), 1);
+        free(l);
         if (inquired == 6)
             break;
     }
