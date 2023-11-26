@@ -83,9 +83,8 @@ static int verify_sprite(char **splited, char *dirs[4], int seen[4], int *tfds)
     }
     if (i == 4)
         return (1);
-    (void)tfds;
-    // if (open_file(splited[1], tfds + i) < 0)
-    //     return (1);
+    if (open_file(splited[1], tfds + i) < 0)
+        return (1);
     return (0);
 }
 
