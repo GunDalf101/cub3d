@@ -33,5 +33,5 @@ int load_textures(void *mlxptr, t_map *map)
 void    drawline_from_textures(t_scene *scene, int x, int start_y, int end_y)
 {
     (void)scene;
-    printf("draw a line from: [%d,%d] to [%d,%d]\n", x, start_y, x, end_y);
+    printf("draw a line from: (%d,%d) to (%d,%d)\n", x, start_y, x, end_y);
 }
