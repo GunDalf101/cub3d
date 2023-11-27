@@ -87,7 +87,7 @@ void	ray_caster(t_scene *scene)
 		int lineend = scene->player->central_angle - scene->player->is_crouching + scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
 		if (lineend >= WIN_HEIGHT)
 			lineend = WIN_HEIGHT - 1;
-		drawline(x, linestart, x, lineend, *scene, 0x998970FF);
+		// drawline(x, linestart, x, lineend, *scene, 0x998970FF);
 		drawline_from_textures(scene, x, linestart, lineend);
 		scene->z_buffer[x] = scene->player->vision_rays[x]->wall_dist;
 		x++;

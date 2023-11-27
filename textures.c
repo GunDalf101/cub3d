@@ -34,4 +34,9 @@ void    drawline_from_textures(t_scene *scene, int x, int start_y, int end_y)
 {
     (void)scene;
     printf("draw a line from: (%d,%d) to (%d,%d)\n", x, start_y, x, end_y);
+    while (start_y <= end_y)
+    {
+        mlx_put_pixel(scene->mlx_img, x, start_y, 0x30101000);
+        start_y++;
+    }
 }
