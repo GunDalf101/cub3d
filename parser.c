@@ -288,7 +288,7 @@ static int check_token_counts(char **map_lines)
         }
         i++;
     }
-    return (0);
+    return (!arr_has_any(seen, 10, 1));
 }
 
 static char **clone_arr(char **arr)
@@ -401,9 +401,9 @@ static int check_map(char **map_lines)
     i = 0;
     while (map_lines[i])
     {
-        j = 0;
         if (!ft_strlen(map_lines[i]))
             return (1);
+        j = 0;
         while (map_lines[i][j])
         {
             if ((i == 0 || !map_lines[i + 1]) && !ft_strchr(" 1", map_lines[i][j]))
@@ -457,6 +457,8 @@ static int set_map_props(t_map *map)
 
     lv = map->map;
     map->map_height = arr_size(lv);
+    if (map->map_height < 3)
+        return (1);
     wmax = 0;
     i = 0;
     while (i < map->map_height)
