@@ -237,7 +237,8 @@ void	drawline_hakim(int x1, int y1, int x2, int y2, t_scene scene, int color);
 void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
 
-int parser(char *filename, t_map *map);
-int load_textures(void *mlxptr, t_map *map);
+int		parser(char *filename, t_map *map);
+int		load_textures(void *mlxptr, t_map *map);
+void	drawline_from_textures(t_scene *scene, int x, int start_y, int end_y);
 
 #endif

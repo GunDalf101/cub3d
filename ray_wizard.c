@@ -88,7 +88,7 @@ void	ray_caster(t_scene *scene)
 		if (lineend >= WIN_HEIGHT)
 			lineend = WIN_HEIGHT - 1;
 		drawline(x, linestart, x, lineend, *scene, 0x998970FF);
-		// drawline_hakim(x, linestart, x, lineend, *scene, 0x998970FF);
+		drawline_from_textures(scene, x, linestart, lineend);
 		scene->z_buffer[x] = scene->player->vision_rays[x]->wall_dist;
 		x++;
 	}
