@@ -28,12 +28,12 @@ void	 initplayer(t_scene *scene)
 			{
 				scene->player->pos[Y] = j * UNIT + UNIT / 2;
 				scene->player->pos[X] = i * UNIT + UNIT / 2;
+				scene->player->p_angle = -M_PI_2;
 			}
 			j++;
 		}
 		i++;
 	}
-	scene->player->p_angle = 0;
 	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
 	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
 	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2) * 16.5;

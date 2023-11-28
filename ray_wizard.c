@@ -59,7 +59,7 @@ void	ray_caster(t_scene *scene)
 		}
 		while (scene->player->vision_rays[x]->will_hit == FALSE)
 		{
-			if (scene->player->vision_rays[x]->side_cell[Y] < scene->player->vision_rays[x]->side_cell[X])
+			if (scene->player->vision_rays[x]->side_cell[Y] <= scene->player->vision_rays[x]->side_cell[X])
 			{
 				scene->player->vision_rays[x]->side_cell[Y] += scene->player->vision_rays[x]->delta_ray[Y];
 				scene->player->vision_rays[x]->current_cell[Y] += scene->player->vision_rays[x]->step[Y];
@@ -82,13 +82,15 @@ void	ray_caster(t_scene *scene)
 		if (scene->player->vision_rays[x]->wall_height < 0)
 			scene->player->vision_rays[x]->wall_height = WIN_HEIGHT;
 		int	linestart = scene->player->central_angle - scene->player->is_crouching - scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
+		int truestart = linestart;
 		if (linestart < 0)
 			linestart = 0;
 		int lineend = scene->player->central_angle - scene->player->is_crouching + scene->player->vision_rays[x]->wall_height / 2 + WIN_HEIGHT / 2;
-		if (lineend >= WIN_HEIGHT)
+		int trueend = lineend;
+		if (lineend > WIN_HEIGHT)
 			lineend = WIN_HEIGHT - 1;
 		// drawline(x, linestart, x, lineend, *scene, 0x998970FF);
-		drawline_from_textures(scene, x, linestart, lineend);
+		drawline_from_textures(scene, x, linestart, lineend, truestart, trueend);
 		scene->z_buffer[x] = scene->player->vision_rays[x]->wall_dist;
 		x++;
 	}

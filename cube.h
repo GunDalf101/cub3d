@@ -32,13 +32,13 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-enum			e_direction
+typedef enum			e_direction
 {
 	NORTH,
 	SOUTH,
 	EAST,
 	WEST
-};
+} t_direction;
 
 enum			e_move
 {
@@ -236,9 +236,10 @@ void	drawline(int x1, int y1, int x2, int y2, t_scene scene, int color);
 void	drawline_hakim(int x1, int y1, int x2, int y2, t_scene scene, int color);
 void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
+int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a);
 
 int		parser(char *filename, t_map *map);
 int		load_textures(void *mlxptr, t_map *map);
-void	drawline_from_textures(t_scene *scene, int x, int start_y, int end_y);
+void	drawline_from_textures(t_scene *scene, int x, int start_y, int end_y, int truestart, int trueend);
 
 #endif
