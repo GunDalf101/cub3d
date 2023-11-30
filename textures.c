@@ -23,7 +23,7 @@ int load_textures(void *mlxptr, t_map *map)
         map->textures_mlx_imgs[i] = mlx_texture_to_image(mlxptr, texture);
         if (!map->textures_mlx_imgs[i])
             perror_faulty_texuture(map->textures_paths[i]);
-        mlx_resize_image(map->textures_mlx_imgs[i], WIN_WIDTH, WIN_HEIGHT);
+        mlx_resize_image(map->textures_mlx_imgs[i], WIN_WIDTH, WIN_WIDTH);
         mlx_delete_texture(texture);
         i++;
     }

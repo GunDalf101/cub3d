@@ -7,7 +7,8 @@ SOURCES = cube.c \
 		parser.c \
 		textures.c \
 		gnl/get_next_line.c \
-		gnl/get_next_line_utils.c
+		gnl/get_next_line_utils.c \
+		floor_cast.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

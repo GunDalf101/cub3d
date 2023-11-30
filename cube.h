@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/26 23:27:31 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/11/30 00:44:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUBE_H
 
 # define WIN_WIDTH 1000
-# define WIN_HEIGHT 800
+# define WIN_HEIGHT 1000
 #define MINIMAP_SCALE_FACTOR 0.015
 #define UNIT 100
 
@@ -237,6 +237,7 @@ void	drawline_hakim(int x1, int y1, int x2, int y2, t_scene scene, int color);
 void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
 int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a);
+void    floor_casting(t_scene *scene);
 
 int		parser(char *filename, t_map *map);
 int		load_textures(void *mlxptr, t_map *map);

@@ -1,12 +1,14 @@
-NO ./textures/4.png         
-SO ./textures/3.png   
+NO ./textures/1.png         
+SO ./textures/1.png   
 WE ./textures/2.png       
-EA ./textures/1.png
+EA ./textures/2.png
 C 225,30,122    
 F 220,100,3
 
 1111111111
 100000M0P1
-10N00M0BP1
+10000M0BP1
+1TTT00M0P1
 100000M0P1
+1000N0M0P1
 1111111111

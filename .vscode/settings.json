@@ -7,6 +7,11 @@
 		"unistd.h": "c",
 		"mlx42.h": "c",
 		"cube.h": "c",
-		"stddef.h": "c"
+		"stddef.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c",
+		"ios": "c"
 	}
 }
