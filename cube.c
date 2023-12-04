@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/30 01:17:26 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/04 22:04:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	dynamic_logic(t_scene *scene)
 }
 
 int collision_ray(int x1, int y1, int x2, int y2, t_scene scene) {
-	// int height = WIN_HEIGHT / scene.map->map_width;
-	// int width = WIN_WIDTH / scene.map->map_height;
     int dx = abs(x2 - x1);
     int dy = abs(y2 - y1);
     int sx = (x1 < x2) ? 1 : -1;
