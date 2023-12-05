@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/04 19:17:01 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:57:26 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,19 @@ typedef struct s_ray
 	double		ray_angle;
 }				t_ray;
 
+typedef struct s_dda
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	err2;
+	int x1;
+	int y1;
+
+}				t_dda;
+
 typedef struct s_projectile
 {
 	double				pos[2];
@@ -166,10 +179,10 @@ typedef struct s_player
 	int			backwards;
 	int			left;
 	int			right;
-	double		is_running;
+	double		velocity;
 	double		is_jumping;
 	double		is_trapped;
-	double		is_crouching;
+	double		crouch;
 	t_ray		**vision_rays;
 	int			health_points;
 	int			mana_points;
@@ -230,6 +243,7 @@ typedef struct s_scene
 }				t_scene;
 
 void	ray_caster(t_scene *scene);
+void	initsprites(t_scene *scene);
 void	renderitall(t_scene scene);
 void	drawbar(t_scene scene);
 void	drawline(int x1, int y1, int x2, int y2, t_scene scene, int color);
@@ -238,9 +252,15 @@ void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
 int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a);
 void    floor_casting(t_scene *scene);
+void    allocat_player(t_scene *scene);
+void	projectile_logic(t_scene *scene);
+void	dynamic_logic(t_scene *scene);
 
 int		parser(char *filename, t_map *map);
 int		load_textures(void *mlxptr, t_map *map);
 void	drawline_from_textures(t_scene *scene, int x, int start_y, int end_y, int truestart, int trueend);
+int		does_it_collide(t_scene *scene, int cas);
+void	delete_projectile(t_scene *scene, t_projectile *projectile);
+void	add_projectile(t_scene *scene, int projectile_type);
 
 #endif

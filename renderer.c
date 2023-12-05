@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/29 01:49:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:57:26 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,11 @@ void	spawn_proj(t_scene *scene, t_projectile	*projectile)
 	projectile->proj_screen_x = (int)((WIN_WIDTH / 2) * (1 + projectile->transform[X] / projectile->transform[Y]));
 	projectile->proj_height = abs((int)(projectile->proj_img->height / (projectile->transform[Y]) * 7));
 	projectile->start[Y] = - projectile->proj_height / 2 + WIN_HEIGHT / 2 + projectile->v_move_screen;
-	if (projectile->start[Y] < - scene->player->central_angle + scene->player->is_crouching)
-		projectile->start[Y] = - scene->player->central_angle + scene->player->is_crouching;
+	if (projectile->start[Y] < - scene->player->central_angle + scene->player->crouch)
+		projectile->start[Y] = - scene->player->central_angle + scene->player->crouch;
 	projectile->end[Y] =  projectile->proj_height / 2 + WIN_HEIGHT / 2 + projectile->v_move_screen;
-	if (projectile->end[Y] >= WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching)
-		projectile->end[Y] = WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching - 1;
+	if (projectile->end[Y] >= WIN_HEIGHT - scene->player->central_angle + scene->player->crouch)
+		projectile->end[Y] = WIN_HEIGHT - scene->player->central_angle + scene->player->crouch - 1;
 	projectile->proj_width = abs((int)(projectile->proj_img->width / (projectile->transform[Y]) * 7));
 	projectile->start[X] = projectile->proj_screen_x - projectile->proj_width / 2;
 	if (projectile->start[X] < 0)
@@ -132,7 +132,7 @@ void	spawn_proj(t_scene *scene, t_projectile	*projectile)
 			u_int8_t a = projectile->proj_img->pixels[projectile->tex[Y] * 4 * projectile->proj_img->width + projectile->tex[X] * 4 + 3];
 			if (a < 255)
 				continue;
-			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->is_crouching + j, ft_pixel(r, g, b, a));
+			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->crouch + j, ft_pixel(r, g, b, a));
 		}
 
 		}
@@ -187,11 +187,11 @@ void	spawn_sprites(t_scene *scene, int count)
 	scene->sprites[count]->sprite_screen_x = (int)((WIN_WIDTH / 2) * (1 + scene->sprites[count]->transform[X] / scene->sprites[count]->transform[Y]));
 	scene->sprites[count]->sprite_height = abs((int)(scene->sprites[count]->sprite_img->height / (scene->sprites[count]->transform[Y]) * 7));
 	scene->sprites[count]->start[Y] = - scene->sprites[count]->sprite_height / 2 + WIN_HEIGHT / 2 + scene->sprites[count]->v_move_screen;
-	if (scene->sprites[count]->start[Y] < - scene->player->central_angle + scene->player->is_crouching)
-		scene->sprites[count]->start[Y] = - scene->player->central_angle + scene->player->is_crouching;
+	if (scene->sprites[count]->start[Y] < - scene->player->central_angle + scene->player->crouch)
+		scene->sprites[count]->start[Y] = - scene->player->central_angle + scene->player->crouch;
 	scene->sprites[count]->end[Y] =  scene->sprites[count]->sprite_height / 2 + WIN_HEIGHT / 2 + scene->sprites[count]->v_move_screen;
-	if (scene->sprites[count]->end[Y] >= WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching)
-		scene->sprites[count]->end[Y] = WIN_HEIGHT - scene->player->central_angle + scene->player->is_crouching - 1;
+	if (scene->sprites[count]->end[Y] >= WIN_HEIGHT - scene->player->central_angle + scene->player->crouch)
+		scene->sprites[count]->end[Y] = WIN_HEIGHT - scene->player->central_angle + scene->player->crouch - 1;
 	scene->sprites[count]->sprite_width = abs((int)(scene->sprites[count]->sprite_img->width / (scene->sprites[count]->transform[Y]) * 7));
 	scene->sprites[count]->start[X] = scene->sprites[count]->sprite_screen_x - scene->sprites[count]->sprite_width / 2;
 	if (scene->sprites[count]->start[X] < 0)
@@ -213,7 +213,7 @@ void	spawn_sprites(t_scene *scene, int count)
 			u_int8_t a = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y] * 4 * scene->sprites[count]->sprite_img->width + scene->sprites[count]->tex[X] * 4 + 3];
 			if (a < 200)
 				continue;
-			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->is_crouching + j, ft_pixel(r, g, b, a));
+			mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle - scene->player->crouch + j, ft_pixel(r, g, b, a));
 		}
 	}
 }
@@ -251,12 +251,12 @@ void	renderitall(t_scene scene)
 
 
 	int i = 0;
-	while (i < scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->is_crouching)
+	while (i < scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->crouch)
 	{
 		drawline(0 , i, WIN_WIDTH, i, scene, 0x87CEEBFF);
 		i++;
 	}
-	i = scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->is_crouching;
+	i = scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->crouch;
 	while (i < WIN_HEIGHT)
 	{
 		drawline(0 , i, WIN_WIDTH, i, scene, 0x9b7653FF);

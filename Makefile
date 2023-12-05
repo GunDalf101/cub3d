@@ -3,12 +3,18 @@ NAME = cub3d
 SOURCES = cube.c \
 		ray_wizard.c \
 		renderer.c \
-		cross_hooks.c \
 		parser.c \
 		textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 		floor_cast.c \
+		initialize_game/sprite_alloc.c \
+		initialize_game/player_alloc.c \
+		game_logic/collisions.c \
+		game_logic/projectile_logic.c \
+		game_logic/raw_logic.c \
+		keybinds/keybinds.c \
+		keybinds/mousebinds.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -17,14 +23,13 @@ INCLUDES = cube.h gnl/get_next_line.h
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror -Ofast -flto
 LIBFT = libft/libft.a
-LINEAR = linear_alg/linear_alg.a
-all: elderscroll libft gnl linear $(NAME)
+all: elderscroll libft gnl $(NAME)
 	@if [ $$? -eq 0 ]; then \
 		echo "\033[3m\033[1m\033[42m\033[31m~~Nothing to be done for 'all' anymore~~\033[0m"; \
 	fi
 
 $(NAME):$(OBJECTS) $(GNLOBJ)
-	@cc $(CFLAGS) $(OBJECTS) $(LIBFT) $(LINEAR) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
+	@cc $(CFLAGS) $(OBJECTS) $(LIBFT) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c cub3d.h gnl/get_next_line.h
@@ -59,10 +64,6 @@ elderscroll:
 	@echo '  ||[ ]||                                            ___________________/'
 	@echo '   \===/___________________--------------------------'
 	@echo ''
-
-linear:
-	@make -s -C linear_alg
-	@echo "\033[35m$@ have been made \033[0m"
 
 libft:
 	@make -s -C libft bonus

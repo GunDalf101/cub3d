@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/11/30 19:58:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:57:26 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void    floor_casting(t_scene *scene){
 	int		x;
-	x = WIN_HEIGHT / 2 - scene->player->is_crouching + scene->player->central_angle;
+	x = WIN_HEIGHT / 2 - scene->player->crouch + scene->player->central_angle;
 	while (x < WIN_HEIGHT)
 	{
 		double ray_dir_x0 = scene->player->dir[X] - scene->player->plane[X];
@@ -35,7 +35,7 @@ void    floor_casting(t_scene *scene){
         int y = 0;
         while (y < WIN_WIDTH)
         {
-            double current_dist = WIN_WIDTH / (2.0 * (x + scene->player->is_crouching - scene->player->central_angle) - WIN_WIDTH);
+            double current_dist = WIN_WIDTH / (2.0 * (x + scene->player->crouch - scene->player->central_angle) - WIN_WIDTH);
             double weight = current_dist / row_distance;
             double current_floor_x = weight * floor_x + (1.0 - weight) * scene->player->pos[X] / 3;
             double current_floor_y = weight * floor_y + (1.0 - weight) * scene->player->pos[Y] / 3;
@@ -49,6 +49,7 @@ void    floor_casting(t_scene *scene){
                 color = ft_pixel(scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4], scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4 + 1], scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4 + 2], scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4 + 3]);
             }
             mlx_put_pixel(scene->mlx_img, y ,x, color);
+            // current_dist = WIN_WIDTH / (2.0 * (x + scene->player->crouch - scene->player->central_angle) + WIN_WIDTH);
             // color = ft_pixel(scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4], scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4 + 1], scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4 + 2], scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width * ty * 4 + tx * 4 + 3]);
             // mlx_put_pixel(scene->mlx_img, y, WIN_HEIGHT - x - 1, color);
             y++;
