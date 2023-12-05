@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 14:57:26 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/05 20:15:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,20 @@ typedef struct s_player
 	int			will_collide[2];
 }				t_player;
 
+typedef struct s_minimap
+{
+	double player_pos_x;
+	double player_pos_y;
+	double i;
+	double j;
+	double pos_x;
+	double pos_y;
+	double k;
+	double l;
+	double o_x;
+	double o_y;
+}				t_minimap;
+
 typedef struct s_map
 {
 	unsigned char	floor_rgb[3];
@@ -247,7 +261,6 @@ void	initsprites(t_scene *scene);
 void	renderitall(t_scene scene);
 void	drawbar(t_scene scene);
 void	drawline(int x1, int y1, int x2, int y2, t_scene scene, int color);
-void	drawline_hakim(int x1, int y1, int x2, int y2, t_scene scene, int color);
 void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
 int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a);
@@ -262,5 +275,9 @@ void	drawline_from_textures(t_scene *scene, int x, int start_y, int end_y, int t
 int		does_it_collide(t_scene *scene, int cas);
 void	delete_projectile(t_scene *scene, t_projectile *projectile);
 void	add_projectile(t_scene *scene, int projectile_type);
+void	spawn_sprites(t_scene *scene, int count);
+void	spawn_proj(t_scene *scene, t_projectile	*projectile);
+void	sort_sprites(t_sprite **sprites, int count);
+void    draw_minimap_circle(t_scene *scene);
 
 #endif

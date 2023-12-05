@@ -2,7 +2,10 @@ NAME = cub3d
 
 SOURCES = cube.c \
 		ray_wizard.c \
-		renderer.c \
+		rendering/renderer.c \
+		rendering/render_sprite.c \
+		rendering/render_projectile.c \
+		rendering/render_minimap.c \
 		parser.c \
 		textures.c \
 		gnl/get_next_line.c \
