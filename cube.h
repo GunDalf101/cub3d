@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 19:44:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 23:08:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ typedef struct s_wall
 	double		a[2];
 	double		b[2];
 }				t_wall;
+
+typedef struct s_ray_caster
+{
+	int	x;
+	int	linestart;
+	int	truestart;
+	int	lineend;
+	int	trueend;
+}				t_ray_caster;
 
 typedef struct s_floor_cast
 {
@@ -304,10 +313,18 @@ void    floor_casting(t_scene *scene);
 void    allocat_player(t_scene *scene);
 void	projectile_logic(t_scene *scene);
 void	dynamic_logic(t_scene *scene);
+void	load_sprites(t_scene *scene);
+void	load_projectiles(t_scene *scene);
+void	sprite_count(t_scene *scene);
+int		collision_ray(t_dda dda, int x2, int y2, t_scene scene);
+t_projectile	*proj_sort(t_projectile *head);
+void	initial_calculation(t_scene *scene, int count);
+void	line_coordinates(t_scene *scene, int count);
+void	setup_rays(t_scene *scene, t_ray_caster *wizard);
 
 int		parser(char *filename, t_map *map);
 int		load_textures(void *mlxptr, t_map *map);
-void	drawline_from_textures(t_scene *scene, int x, int start_y, int end_y, int truestart, int trueend);
+void    drawline_from_textures(t_scene *scene, t_ray_caster *wizard);
 int		does_it_collide(t_scene *scene, int cas);
 void	delete_projectile(t_scene *scene, t_projectile *projectile);
 void	add_projectile(t_scene *scene, int projectile_type);

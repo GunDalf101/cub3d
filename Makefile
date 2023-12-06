@@ -7,17 +7,22 @@ SOURCES = cube.c \
 		rendering/render_minimap.c \
 		rendering/rendering_utils.c \
 		rendering/general_object_rendering.c \
+		rendering/sprite_calcul.c \
 		parser.c \
 		textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 		raycasting/ray_wizard.c \
 		raycasting/floor_cast.c \
+		raycasting/raycast_setup.c \
 		initialize_game/sprite_alloc.c \
 		initialize_game/player_alloc.c \
+		initialize_game/sprite_loader.c \
 		game_logic/collisions.c \
 		game_logic/projectile_logic.c \
 		game_logic/raw_logic.c \
+		game_logic/projectile_sort.c \
+		game_logic/collision_raycast.c \
 		keybinds/keybinds.c \
 		keybinds/mousebinds.c \
 
