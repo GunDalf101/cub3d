@@ -6,11 +6,11 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 14:57:26 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:18:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 #include <float.h>
 #include <iso646.h>
 

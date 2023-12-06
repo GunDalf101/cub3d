@@ -1,16 +1,18 @@
 NAME = cub3d
 
 SOURCES = cube.c \
-		ray_wizard.c \
 		rendering/renderer.c \
 		rendering/render_sprite.c \
 		rendering/render_projectile.c \
 		rendering/render_minimap.c \
+		rendering/rendering_utils.c \
+		rendering/general_object_rendering.c \
 		parser.c \
 		textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
-		floor_cast.c \
+		raycasting/ray_wizard.c \
+		raycasting/floor_cast.c \
 		initialize_game/sprite_alloc.c \
 		initialize_game/player_alloc.c \
 		game_logic/collisions.c \

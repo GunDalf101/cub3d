@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:37:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 15:05:27 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:42:31 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 		scene->player->is_jumping = TRUE;
 	else if (keycode.key == MLX_KEY_SPACE && keycode.action == MLX_RELEASE)
 		scene->player->is_jumping = FALSE;
+	spells_keys(keycode, scene);
+}
 	// if (keycode.key == MLX_KEY_LEFT)
 	// {
 	// 	scene->player->p_angle -= 0.1;
@@ -125,5 +127,3 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	// 	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI
 	// 			/ 2) * 16.5;
 	// }
-	spells_keys(keycode, scene);
-}

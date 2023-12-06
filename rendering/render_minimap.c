@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 20:07:21 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 20:23:33 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:41:29 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void	draw_minimap_circle(t_scene *scene)
 		minimap.i += MINIMAP_SCALE_FACTOR;
 		minimap.l += 1.0 / UNIT;
 	}
-	drawline(minimap.o_x, minimap.o_y, (minimap.o_x + scene->player->dir[Y]
-			/ 2), (minimap.o_y + scene->player->dir[X] / 2), *scene,
-		0x00FF00FF);
+	minimap.dda.x1 = minimap.o_x;
+	minimap.dda.y1 = minimap.o_y;
+	minimap.dda.color = 0x00FF00FF;
+	drawline(&minimap.dda, (minimap.o_x + scene->player->dir[Y]
+			/ 2), (minimap.o_y + scene->player->dir[X] / 2), *scene);
 }

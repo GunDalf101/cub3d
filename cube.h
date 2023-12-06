@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 20:15:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:41:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_dda
 	int	err2;
 	int x1;
 	int y1;
+	unsigned int color;
 
 }				t_dda;
 
@@ -192,6 +193,7 @@ typedef struct s_player
 
 typedef struct s_minimap
 {
+	t_dda	dda;
 	double player_pos_x;
 	double player_pos_y;
 	double i;
@@ -203,6 +205,16 @@ typedef struct s_minimap
 	double o_x;
 	double o_y;
 }				t_minimap;
+
+typedef struct s_death
+{
+	u_int32_t		i;
+	u_int32_t		j;
+	u_int8_t		r;
+	u_int8_t		g;
+	u_int8_t		b;
+	u_int8_t		a;
+}				t_death;
 
 typedef struct s_map
 {
@@ -260,7 +272,7 @@ void	ray_caster(t_scene *scene);
 void	initsprites(t_scene *scene);
 void	renderitall(t_scene scene);
 void	drawbar(t_scene scene);
-void	drawline(int x1, int y1, int x2, int y2, t_scene scene, int color);
+void	drawline(t_dda *dda, int x2, int y2, t_scene scene);
 void	hookercur(double xpos, double ypos, void* scene2);
 void	hooker(mlx_key_data_t keycode, void *scene2);
 int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a);
@@ -279,5 +291,8 @@ void	spawn_sprites(t_scene *scene, int count);
 void	spawn_proj(t_scene *scene, t_projectile	*projectile);
 void	sort_sprites(t_sprite **sprites, int count);
 void    draw_minimap_circle(t_scene *scene);
+void	drawbar(t_scene scene);
+void	sky_floor_render(t_scene scene);
+void	death_screen(t_scene scene);
 
 #endif

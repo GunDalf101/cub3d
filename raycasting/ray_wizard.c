@@ -6,11 +6,11 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 15:05:48 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:18:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 
 void	ray_caster(t_scene *scene)
 {
