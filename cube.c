@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 14:56:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 20:08:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int	main(int argc, char *argv[])
 	scene.projectiles = NULL;
 	allocat_player(&scene);
 	scene.mlx_ptr = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Escape From GunDalf", 1);
-	
-	
 	if (load_textures(scene.mlx_ptr, scene.map))
 		return (1);
 	initsprites(&scene);

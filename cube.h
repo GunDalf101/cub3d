@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 17:41:12 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:44:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,30 @@ typedef struct s_wall
 	double		a[2];
 	double		b[2];
 }				t_wall;
+
+typedef struct s_floor_cast
+{
+	int		y;
+	double	ray_dir_x0;
+	double	ray_dir_y0;
+	double	ray_dir_x1;
+	double	ray_dir_y1;
+	int		p;
+	double	ray_pos_z;
+	double	row_distance;
+	double	floor_step_x;
+	double	floor_step_y;
+	double	floor_x;
+	double	floor_y;
+	int		x;
+	double	current_dist;
+	double	weight;
+	double	current_floor_x;
+	double	current_floor_y;
+	int		tx;
+	int		ty;
+	int		color;
+}				t_floor_cast;
 
 typedef struct s_ray
 {
