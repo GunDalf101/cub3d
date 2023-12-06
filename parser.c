@@ -1,6 +1,5 @@
 #include "cube.h"
 
-// todo: trailing comma in RGB passes split.
 static int check_filename_sanity(const char *filename)
 {
     int flen = ft_strlen(filename);
@@ -104,7 +103,6 @@ static int verify_sprite(t_map *map, char **splited, int seen[4], int *tfds)
 
 static int read_texture(t_map *map, char *l, int *tfds)
 {
-    // static char	*dirs[4] = {"NO", "SO", "EA", "WE"};
     static int	seen[4];
     char		**splited;
 
@@ -265,23 +263,20 @@ static int check_token_counts(char **map_lines)
     int     i;
     int     j;
     char    *ret;
-    int     x;
 
     i = 0;
-    while (map_lines[i])
+    while (j = 0, map_lines[i])
     {
-        j = 0;
         while (map_lines[i][j])
         {
             if (map_lines[i][j] != ' ')
             {
                 ret = ft_strchr(MAP_KNOWN_CHARS, map_lines[i][j]);
-                x = ret - MAP_KNOWN_CHARS;
-                if (EX_MAP_KNOWN_CHARS[(x * 2) + 1] == '!')
+                if (EX_MAP_KNOWN_CHARS[((ret - MAP_KNOWN_CHARS) * 2) + 1] == '!')
                 {
                     if (arr_has_any(seen, 10, 1))
                         return (1);
-                    seen[x] = 1;
+                    seen[ret - MAP_KNOWN_CHARS] = 1;
                 }
             }
             j++;
@@ -356,23 +351,26 @@ static int *gen_arr_info(char **arr)
     return (arr_info);
 }
 
-static int can_you_escape(char *ml[])
+static int	*init_stuff(char **ll, int *i)
 {
-    char    **ll;
+	int *arr_info;
+
+	arr_info = gen_arr_info(ll);
+    if (!arr_info)
+        exit(1);
+    *i = 0;
+	return (arr_info);
+}
+
+static int can_you_escape(char **ll)
+{
     int     *arr_info;
     int     i;
     int     j;
 
-    ll = clone_arr(ml);
-    if (!ll)
-        return (1);
-    arr_info = gen_arr_info(ll);
-    if (!arr_info)
-        return (1);
-    i = 0;
-    while (ll[i])
+    arr_info = init_stuff(ll, &i);
+    while (j = 0, ll[i])
     {
-        j = 0;
         while (ll[i][j])
         {
             if (ll[i][j] == '0')
@@ -390,13 +388,14 @@ static int can_you_escape(char *ml[])
         }
         i++;
     }
-    return (0);
+    return (free(arr_info), free_array(ll), 0);
 }
 
 static int check_map(char **map_lines)
 {
-    int i;
-    int j;
+    int		i;
+    int		j;
+	char	**ll;
 
     i = 0;
     while (map_lines[i])
@@ -414,7 +413,10 @@ static int check_map(char **map_lines)
         }
         i++;
     }
-    return (check_token_counts(map_lines) || can_you_escape(map_lines));
+	ll = clone_arr(map_lines);
+	if (!ll)
+		exit(1);
+    return (check_token_counts(map_lines) || can_you_escape(ll));
 }
 
 static int pad_map(t_map *map)
@@ -440,10 +442,8 @@ static int pad_map(t_map *map)
                 l[j] = ' ';
             j++;
         }
-        l[map->map_width] = '\0';
-        free(map->map[i]);
-        map->map[i] = l;
-        i++;
+		l[map->map_width] = '\0';
+		map->map[(free(map->map[i]), i++)] = l;
     }
     return (0);
 }
@@ -505,32 +505,24 @@ static int  read_map_info(t_map *map, int fd, int *tfds)
     while (1)
     {
         l = non_empty_gnl(fd);
-        if (!l)
-            return (1);
-        else if (ft_strlen(l) > 4 && l[3] == ' ')
+        if (!l || (ft_strlen(l) > 4 && l[3] == ' '))
             return (1);
         else if (str_starts_with(l, "NO ") || str_starts_with(l, "SO ") \
             || str_starts_with(l, "WE ") || str_starts_with(l, "EA "))
         {
-            if (read_texture(map, l, tfds))
+            if (inquired++, read_texture(map, l, tfds))
                 return (free(l), 1);
-            else
-                inquired++;
         }
         else if (str_starts_with(l, "F ") || str_starts_with(l, "C "))
-        {
-            if (read_rgbs(map, l))
+		{
+            if (inquired++, read_rgbs(map, l))
                 return (free(l), 1);
-            else
-                inquired++;
-        }
+		}
         else
             return (free(l), 1);
-        free(l);
         if (inquired == 6)
-            break;
+            return (free(l), close_temp_fds(tfds));
     }
-    return (close_temp_fds(tfds));
 }
 
 int parser(char *filename, t_map *map)
