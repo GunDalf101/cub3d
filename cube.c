@@ -38,7 +38,6 @@ int	main(int argc, char *argv[])
 	{
 		printf(">> [%s] <<\n", scene.map->map[i]);
 	}
-
 	printf("map props: %d,%d\n", scene.map->map_width, scene.map->map_height);
 	scene.projectiles = NULL;
 	allocat_player(&scene);

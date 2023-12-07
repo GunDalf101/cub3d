@@ -34,8 +34,8 @@ OBJECTS = $(SOURCES:.c=.o)
 
 INCLUDES = cube.h gnl/get_next_line.h
 
-CC = cc 
-CFLAGS = -Wall -Wextra -Werror -Ofast
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -Ofast -g
 LIBFT = libft/libft.a
 all: elderscroll libft gnl $(NAME)
 	@if [ $$? -eq 0 ]; then \

@@ -50,6 +50,7 @@ void	free_parsin_elements(t_scene *scene)
 		i++;
 	}
 	free(scene->map->textures_paths);
+	free(scene->map->textures_mlx_imgs);
 }
 
 int	final_free(t_scene *scene)

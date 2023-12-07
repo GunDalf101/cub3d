@@ -78,19 +78,6 @@ enum					e_projectile
 	ICEBALL
 };
 
-typedef struct s_door
-{
-	double				a[2];
-	double				b[2];
-	int					state;
-}						t_door;
-
-typedef struct s_wall
-{
-	double				a[2];
-	double				b[2];
-}						t_wall;
-
 typedef struct s_ray_caster
 {
 	int					x;
@@ -270,7 +257,6 @@ typedef struct s_scene
 	t_map				*map;
 	t_sprite			**sprites;
 	t_player			*player;
-	t_wall				**walls;
 	int					win_width;
 	int					win_height;
 	double				frame_time;

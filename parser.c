@@ -521,7 +521,7 @@ static int	read_map_info(t_map *map, int fd, int *tfds)
 	{
 		l = non_empty_gnl(fd);
 		if (!l || (ft_strlen(l) > 4 && l[3] == ' '))
-			return (1);
+			return (free(l), 1);
 		else if (str_starts_with(l, "NO ") || str_starts_with(l, "SO ")
 			|| str_starts_with(l, "WE ") || str_starts_with(l, "EA "))
 		{
@@ -535,8 +535,8 @@ static int	read_map_info(t_map *map, int fd, int *tfds)
 		}
 		else
 			return (free(l), 1);
-		if (inquired == 6)
-			return (free(l), close_temp_fds(tfds));
+		if (free(l), inquired == 6)
+			return (close_temp_fds(tfds));
 	}
 }
 
