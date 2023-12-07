@@ -1,6 +1,7 @@
 NAME = cub3d
 
 SOURCES = cube.c \
+		free_funcs.c \
 		rendering/renderer.c \
 		rendering/render_sprite.c \
 		rendering/render_projectile.c \
@@ -15,6 +16,7 @@ SOURCES = cube.c \
 		raycasting/ray_wizard.c \
 		raycasting/floor_cast.c \
 		raycasting/raycast_setup.c \
+		raycasting/ceil_cast.c \
 		initialize_game/sprite_alloc.c \
 		initialize_game/player_alloc.c \
 		initialize_game/sprite_loader.c \
@@ -23,6 +25,8 @@ SOURCES = cube.c \
 		game_logic/raw_logic.c \
 		game_logic/projectile_sort.c \
 		game_logic/collision_raycast.c \
+		game_logic/movements.c \
+		game_logic/main_loop.c \
 		keybinds/keybinds.c \
 		keybinds/mousebinds.c \
 

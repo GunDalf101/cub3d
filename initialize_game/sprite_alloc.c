@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:04:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 10:41:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 12:26:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	initsprites(t_scene *scene)
 {
 	load_sprites(scene);
 	load_projectiles(scene);
+	load_floor_textures(scene);
 	sprite_count(scene);
 	allocat_sprites(scene);
 }

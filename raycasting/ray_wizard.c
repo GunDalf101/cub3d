@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 10:58:54 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 12:51:49 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,12 @@ void	ray_caster(t_scene *scene)
 
 	wizard.x = 0;
 	floor_casting(scene);
+	ceiling_casting(scene);
 	scene->player->vision_rays = malloc(sizeof(t_ray) * WIN_WIDTH);
-	if (!scene->player->vision_rays && last_free(scene))
+	if (!scene->player->vision_rays && final_free(scene))
 		exit (1);
 	scene->z_buffer = malloc(sizeof(double) * WIN_WIDTH);
-	if (!scene->z_buffer && occasional_free(scene) && last_free(scene))
+	if (!scene->z_buffer && occasional_free(scene) && final_free(scene))
 		exit (1);
 	while (wizard.x < WIN_WIDTH)
 	{

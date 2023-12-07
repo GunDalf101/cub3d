@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:03:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 22:07:04 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 13:59:07 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,30 @@ void	load_sprites(t_scene *scene)
 	mlx_resize_image(scene->manaorb_img, 251 * WIN_HEIGHT / 1200, 282
 		* WIN_HEIGHT / 1200);
 	mlx_delete_texture(scene->manaorb_tex);
+}
+
+void	load_floor_textures(t_scene *scene)
+{
+	scene->floor_tex = mlx_load_png("textures/floor.png");
+	if (!scene->floor_tex)
+		exit(0);
+	scene->floor_img = mlx_texture_to_image(scene->mlx_ptr, scene->floor_tex);
+	mlx_resize_image(scene->floor_img, WIN_WIDTH, WIN_HEIGHT);
+	mlx_delete_texture(scene->floor_tex);
+	scene->ceil_tex = mlx_load_png("textures/ceil.png");
+	if (!scene->ceil_tex)
+		exit(0);
+	scene->ceil_img = mlx_texture_to_image(scene->mlx_ptr, scene->ceil_tex);
+	mlx_resize_image(scene->ceil_img, WIN_WIDTH, WIN_HEIGHT);
+	mlx_delete_texture(scene->ceil_tex);
+	scene->trap_tex = mlx_load_png("textures/lava.png");
+	if (!scene->trap_tex)
+		exit(0);
+	scene->trap_img = mlx_texture_to_image(scene->mlx_ptr,
+			scene->trap_tex);
+	mlx_resize_image(scene->trap_img, WIN_WIDTH, WIN_WIDTH);
+	mlx_delete_texture(scene->trap_tex);
+	printf("trap loaded\n");
 }
 
 void	load_projectiles(t_scene *scene)

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:21:51 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 10:34:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 11:44:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_projectile	*create_projectile(t_scene *scene, int projectile_type)
 
 	projectile = malloc(sizeof(t_projectile));
 	if (!projectile)
-		return (last_free(scene), exit(1), NULL);
+		return (final_free(scene), exit(1), NULL);
 	projectile->pos[X] = scene->player->pos[X];
 	projectile->pos[Y] = scene->player->pos[Y];
 	projectile->dir[X] = scene->player->dir[X];

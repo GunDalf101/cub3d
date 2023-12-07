@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 14:57:26 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 12:17:38 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	player_dir(t_scene *scene, int i, int j)
 	{
 		scene->player->pos[Y] = j * UNIT + UNIT / 2;
 		scene->player->pos[X] = i * UNIT + UNIT / 2;
-		scene->player->p_angle = -M_PI;
+		scene->player->p_angle = M_PI;
 	}
 }
 
@@ -53,6 +53,8 @@ void	initialize_player(t_scene *scene)
 	scene->player->central_angle = 0;
 	scene->player->is_ded = FALSE;
 	scene->player->forward = FALSE;
+	scene->player->rot_left = FALSE;
+	scene->player->rot_right = FALSE;
 	scene->player->backwards = FALSE;
 	scene->player->left = FALSE;
 	scene->player->right = FALSE;

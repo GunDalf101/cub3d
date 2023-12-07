@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 20:02:06 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 13:01:49 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,23 @@ int	is_trap(t_scene *scene, t_floor_cast *floor)
 
 void	get_floor_texture_color(t_scene *scene, t_floor_cast *floor)
 {
-	floor->color = ft_pixel(scene->map->textures_mlx_imgs[0]->pixels[scene->\
-			map->textures_mlx_imgs[0]->width * floor->ty * 4 + floor->tx * 4],
-			scene->map->textures_mlx_imgs[0]->pixels[scene->map->\
-			textures_mlx_imgs[0]->width * floor->ty * 4 + floor->tx * 4 + 1],
-			scene->map->textures_mlx_imgs[0]->pixels[scene->map->\
-			textures_mlx_imgs[0]->width * floor->ty * 4 + floor->tx * 4 + 2],
-			scene->map->textures_mlx_imgs[0]->pixels[scene->map->\
-			textures_mlx_imgs[0]->width * floor->ty * 4 + floor->tx * 4 + 3]);
+	floor->color = ft_pixel(scene->floor_img->pixels[scene->\
+			floor_img->width * floor->ty * 4 + floor->tx * 4],
+			scene->floor_img->pixels[scene->floor_img->width \
+			* floor->ty * 4 + floor->tx * 4 + 1],
+			scene->floor_img->pixels[scene->floor_img->width \
+			* floor->ty * 4 + floor->tx * 4 + 2],
+			scene->floor_img->pixels[scene->floor_img->width \
+			* floor->ty * 4 + floor->tx * 4 + 3]);
 	if (is_trap(scene, floor))
-		floor->color = ft_pixel(scene->map->textures_mlx_imgs[2]->pixels[scene->\
-				map->textures_mlx_imgs[2]->\
+		floor->color = ft_pixel(scene->trap_img->pixels[scene->\
+				trap_img->\
 				width * floor->ty * 4 + floor->tx * 4],
-				scene->map->textures_mlx_imgs[2]->pixels[scene->map->\
-				textures_mlx_imgs[2]->width \
+				scene->trap_img->pixels[scene->trap_img->width \
 				* floor->ty * 4 + floor->tx * 4 + 1],
-				scene->map->textures_mlx_imgs[2]->pixels[scene->map->\
-				textures_mlx_imgs[2]->width \
+				scene->trap_img->pixels[scene->trap_img->width \
 				* floor->ty * 4 + floor->tx * 4 + 2],
-				scene->map->textures_mlx_imgs[2]->pixels[scene->map->\
-				textures_mlx_imgs[2]->width \
+				scene->trap_img->pixels[scene->trap_img->width \
 				* floor->ty * 4 + floor->tx * 4 + 3]);
 }
 
@@ -111,23 +108,3 @@ void	floor_casting(t_scene *scene)
 		floor.y++;
 	}
 }
-
-// current_dist = WIN_WIDTH / (2.0 * (x - scene->player->crouch) - WIN_WIDTH);
-// weight = current_dist / row_distance;
-// current_floor_x = weight * floor_x + (1.0 - weight) * scene->player->pos[X]
-// / 3;
-// current_floor_y = weight * floor_y + (1.0 - weight) * scene->player->pos[Y]
-// / 3;
-// tx = (int)(scene->map->textures_mlx_imgs[2]->width * (current_floor_x)
-// / 33.5) % scene->map->textures_mlx_imgs[2]->width;
-// ty = (int)(scene->map->textures_mlx_imgs[2]->height * (current_floor_y)
-// / 33.5) % scene->map->textures_mlx_imgs[2]->height;
-// color = ft_pixel(scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width
-// * ty * 4 + tx * 4],
-// scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width
-// * ty * 4 + tx * 4 + 1],
-// scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width
-// * ty * 4 + tx * 4 + 2],
-// scene->map->textures_mlx_imgs[2]->pixels[scene->map->textures_mlx_imgs[2]->width
-// * ty * 4 + tx * 4 + 3]);
-// mlx_put_pixel(scene->mlx_img, y, WIN_HEIGHT - x - 1, color);
