@@ -6,12 +6,72 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 20:08:51 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 11:05:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 #include <stdio.h>
+
+
+int	occasional_free (t_scene *scene)
+{
+	int	i;
+
+	i = 0;
+	if (scene->z_buffer)
+		free(scene->z_buffer);
+	scene->z_buffer = NULL;
+	while (i < WIN_WIDTH)
+	{
+		free(scene->player->vision_rays[i]);
+		scene->player->vision_rays[i] = NULL;
+		i++;
+	}
+	if (scene->player->vision_rays)
+		free(scene->player->vision_rays);
+	scene->player->vision_rays = NULL;
+	return (1);
+}
+int	last_free(t_scene *scene)
+{
+	t_projectile	*tmp;
+	int	i;
+
+	i = 0;
+	while (i < scene->map->map_height)
+	{
+		free(scene->map->map[i]);
+		i++;
+	}
+	free(scene->map->map);
+	i = 0;
+	while (i < scene->sprite_count)
+	{
+		free(scene->sprites[i]);
+		i++;
+	}
+	i = 0;
+	while (i < 4)
+	{
+		free(scene->map->textures_paths[i]);
+		i++;
+	}
+	free(scene->map->textures_paths);
+	tmp = scene->projectiles;
+	while (tmp)
+	{
+		scene->projectiles = scene->projectiles->next;
+		mlx_delete_image(scene->mlx_ptr, tmp->proj_img);
+		free(tmp);
+		tmp = scene->projectiles;
+	}
+	free(scene->sprites);
+	free(scene->map);
+	free(scene->player);
+	mlx_delete_image(scene->mlx_ptr, scene->mlx_img);
+	return (1);
+}
 
 void	gameloop(void *scene2)
 {
@@ -81,8 +141,14 @@ void	gameloop(void *scene2)
 	scene->move_speed = scene->frame_time * 5 * scene->player->velocity;
 }
 
+void	mlx_exit()
+{
+	system("leaks cub3d");
+}
+
 int	main(int argc, char *argv[])
 {
+	atexit(mlx_exit);
 	t_scene		scene;
 	scene.map = ft_calloc(sizeof(t_map), 1);
 	if (argc != 2)

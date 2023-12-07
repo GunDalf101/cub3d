@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 17:40:23 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 10:19:33 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ void	renderitall(t_scene scene)
 	if (scene.player->is_ded == TRUE)
 		death_screen(scene);
 	mlx_image_to_window(scene.mlx_ptr, scene.mlx_img, 0, 0);
+	occasional_free(&scene);
 }

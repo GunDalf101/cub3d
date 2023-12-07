@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:37:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 17:42:31 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 00:39:20 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	scene = (t_scene *)scene2;
 	scene->key_data = keycode;
 	if (keycode.key == MLX_KEY_ESCAPE)
+	{
+		last_free(scene);
 		exit(0);
+	}
 	player_movement(keycode, scene);
 	velocity_keys(keycode, scene);
 	if (keycode.key == MLX_KEY_SPACE && keycode.action == MLX_PRESS)

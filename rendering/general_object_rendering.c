@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:11:32 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 17:34:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 11:20:33 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,22 @@ void	sky_floor_render(t_scene scene)
 
 	i = 0;
 	j = 0;
-	while (i < scene.player->central_angle + WIN_HEIGHT / 2
+	while (i++ < scene.player->central_angle + WIN_HEIGHT / 2
 		- scene.player->crouch)
 	{
 		dda.x1 = 0;
 		dda.y1 = i;
-		dda.color = 0x87CEEBFF;
+		dda.color = scene.map->ceiling_rgb[0] << 24 | scene.map->\
+		ceiling_rgb[1] << 16 | scene.map->ceiling_rgb[2] << 8 | 255;
 		drawline(&dda, WIN_WIDTH, i, scene);
-		i++;
 	}
 	i = scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->crouch;
-	while (i < WIN_HEIGHT)
+	while (i++ < WIN_HEIGHT)
 	{
 		dda.x1 = 0;
 		dda.y1 = i;
-		dda.color = 0x9b7653FF;
+		dda.color = scene.map->floor_rgb[0] << 24 | scene.map->\
+		floor_rgb[1] << 16 | scene.map->floor_rgb[2] << 8 | 255;
 		drawline(&dda, WIN_WIDTH, i, scene);
 		i++;
 	}
@@ -94,6 +95,7 @@ void	death_screen(t_scene scene)
 
 	death_screen = mlx_load_png("assets/DEAD.png");
 	death_img = mlx_texture_to_image(scene.mlx_ptr, death_screen);
+	mlx_delete_texture(death_screen);
 	death.i = 0;
 	while (death.i++ < death_img->height)
 	{
@@ -104,5 +106,4 @@ void	death_screen(t_scene scene)
 		}
 	}
 	mlx_delete_image(scene.mlx_ptr, death_img);
-	mlx_delete_texture(death_screen);
 }

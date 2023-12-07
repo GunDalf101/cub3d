@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 23:03:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 23:03:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 10:49:28 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ void	setup_rays(t_scene *scene, t_ray_caster *wizard)
 {
 	scene->camera_x = 2 * wizard->x / (double)WIN_WIDTH - 1;
 	scene->player->vision_rays[wizard->x] = malloc(sizeof(t_ray));
+	if (!scene->player->vision_rays[wizard->x])
+	{
+		occasional_free(scene);
+		last_free(scene);
+		exit(1);
+	}
 	scene->player->vision_rays[wizard->x]->will_hit = FALSE;
 	scene->player->vision_rays[wizard->x]->pos[Y] = scene->player->pos[Y];
 	scene->player->vision_rays[wizard->x]->pos[X] = scene->player->pos[X];

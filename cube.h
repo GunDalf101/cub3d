@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 23:08:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 10:58:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,8 @@ t_projectile	*proj_sort(t_projectile *head);
 void	initial_calculation(t_scene *scene, int count);
 void	line_coordinates(t_scene *scene, int count);
 void	setup_rays(t_scene *scene, t_ray_caster *wizard);
+int		last_free(t_scene *scene);
+int		occasional_free(t_scene *scene);
 
 int		parser(char *filename, t_map *map);
 int		load_textures(void *mlxptr, t_map *map);
