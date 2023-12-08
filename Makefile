@@ -9,6 +9,8 @@ SOURCES = cube.c \
 		rendering/rendering_utils.c \
 		rendering/general_object_rendering.c \
 		rendering/sprite_calcul.c \
+		rendering/render_animation.c \
+		rendering/animation_calcul.c \
 		parser.c \
 		textures.c \
 		gnl/get_next_line.c \

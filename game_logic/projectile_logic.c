@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:21:51 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 11:44:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:47:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ void	projectile_logic(t_scene *scene)
 		if (tmp && (scene->map->map[(int)(tmp->pos[X])
 				/ UNIT][(int)(tmp->pos[Y]) / UNIT] == '1'
 				|| scene->map->map[(int)(tmp->pos[X]) / UNIT][(int)(tmp->pos[Y])
-				/ UNIT] == 'P'))
+				/ UNIT] == 'P' || scene->map->map[(int)(tmp->\
+				pos[X]) / UNIT][(int)(tmp->pos[Y])
+				/ UNIT] == 'V' || scene->map->map[(int)(tmp->\
+				pos[X]) / UNIT][(int)(tmp->pos[Y])
+				/ UNIT] == 'B'))
 			delete_projectile(scene, tmp);
 		tmp->pos[X] += tmp->dir[X] * tmp->speed;
 		tmp->pos[Y] += tmp->dir[Y] * tmp->speed;

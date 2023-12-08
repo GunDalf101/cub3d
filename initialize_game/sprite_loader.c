@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:03:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 13:59:07 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/08 01:13:49 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void	load_floor_textures(t_scene *scene)
 	scene->trap_tex = mlx_load_png("textures/lava.png");
 	if (!scene->trap_tex)
 		exit(0);
-	scene->trap_img = mlx_texture_to_image(scene->mlx_ptr,
-			scene->trap_tex);
+	scene->trap_img = mlx_texture_to_image(scene->mlx_ptr, scene->trap_tex);
 	mlx_resize_image(scene->trap_img, WIN_WIDTH, WIN_WIDTH);
 	mlx_delete_texture(scene->trap_tex);
 	printf("trap loaded\n");
@@ -82,6 +81,33 @@ void	load_projectiles(t_scene *scene)
 	mlx_delete_texture(scene->iceball_tex);
 }
 
+void	load_warlock(void *mlxptr, t_scene *scene)
+{
+	int				i;
+	mlx_texture_t	*texture;
+	char			warlock_path[29];
+
+	ft_strlcpy(warlock_path, "assets/evil_wiz/evilwiz0.png", 29);
+	scene->evil_warlock = malloc(sizeof(mlx_image_t *) * 10);
+	if (!scene->evil_warlock)
+		exit(1);
+	i = 0;
+	while (i < 10)
+	{
+		texture = mlx_load_png(warlock_path);
+		if (!texture)
+			exit(1);
+		scene->evil_warlock[i] = mlx_texture_to_image(mlxptr, texture);
+		if (!scene->evil_warlock[i])
+			exit(1);
+		mlx_resize_image(scene->evil_warlock[i], 500 * WIN_HEIGHT / 1200, 500
+			* WIN_HEIGHT / 1200);
+		mlx_delete_texture(texture);
+		warlock_path[23] += 1;
+		i++;
+	}
+}
+
 void	sprite_count(t_scene *scene)
 {
 	int	i;
@@ -90,6 +116,7 @@ void	sprite_count(t_scene *scene)
 
 	i = 0;
 	count = 0;
+	scene->anim_count = 0;
 	while (i < scene->map->map_height)
 	{
 		j = 0;
@@ -100,6 +127,8 @@ void	sprite_count(t_scene *scene)
 			if (scene->map->map[i][j] == 'P')
 				count++;
 			if (scene->map->map[i][j] == 'M')
+				count++;
+			if (scene->map->map[i][j] == 'V')
 				count++;
 			j++;
 		}

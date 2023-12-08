@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_sprite.c                                    :+:      :+:    :+:   */
+/*   render_animation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 18:17:02 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 00:03:22 by mbennani         ###   ########.fr       */
+/*   Created: 2023/12/07 19:16:09 by mbennani          #+#    #+#             */
+/*   Updated: 2023/12/08 01:37:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-void	sprite_coloring(t_scene *scene, int count, int stripe, int j)
+void	animation_coloring(t_scene *scene, int count, int stripe, int j)
 {
 	u_int8_t	r;
 	u_int8_t	g;
 	u_int8_t	b;
 	u_int8_t	a;
 
-	r = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
-		* 4 * scene->sprites[count]->sprite_img->width
+	r = scene->sprites[count]->animation_img->pixels[scene->sprites[count]->\
+	tex[Y] * 4 * scene->sprites[count]->animation_img->width
 		+ scene->sprites[count]->tex[X] * 4];
-	g = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
-		* 4 * scene->sprites[count]->sprite_img->width
+	g = scene->sprites[count]->animation_img->pixels[scene->sprites[count]->\
+	tex[Y] * 4 * scene->sprites[count]->animation_img->width
 		+ scene->sprites[count]->tex[X] * 4 + 1];
-	b = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
-		* 4 * scene->sprites[count]->sprite_img->width
+	b = scene->sprites[count]->animation_img->pixels[scene->sprites[count]->\
+	tex[Y] * 4 * scene->sprites[count]->animation_img->width
 		+ scene->sprites[count]->tex[X] * 4 + 2];
-	a = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
-		* 4 * scene->sprites[count]->sprite_img->width
+	a = scene->sprites[count]->animation_img->pixels[scene->sprites[count]->\
+	tex[Y] * 4 * scene->sprites[count]->animation_img->width
 		+ scene->sprites[count]->tex[X] * 4 + 3];
 	if (a < 200)
 		return ;
@@ -37,16 +37,16 @@ void	sprite_coloring(t_scene *scene, int count, int stripe, int j)
 		- scene->player->crouch + j, ft_pixel(r, g, b, a));
 }
 
-void	calculate_texture_coordinates(t_scene *scene, int count, int stripe)
+void	calculate_animation_coordinates(t_scene *scene, int count, int stripe)
 {
 	scene->sprites[count]->tex[X] = (int)(256 * (stripe
 				- (-scene->sprites[count]->sprite_width / 2
 					+ scene->sprites[count]->sprite_screen_x))
-			* scene->sprites[count]->sprite_img->width
+			* scene->sprites[count]->animation_img->width
 			/ scene->sprites[count]->sprite_width) / 256;
 }
 
-void	render_vertical_lines(t_scene *scene, int count, int stripe, int j)
+void	animate_vertical_lines(t_scene *scene, int count, int stripe, int j)
 {
 	while (j < scene->sprites[count]->end[Y])
 	{
@@ -54,56 +54,42 @@ void	render_vertical_lines(t_scene *scene, int count, int stripe, int j)
 			* 256 - WIN_HEIGHT * 128 + scene->sprites[count]->sprite_height
 			* 128;
 		scene->sprites[count]->tex[Y] = ((scene->sprites[count]->d
-					* scene->sprites[count]->sprite_img->height)
+					* scene->sprites[count]->animation_img->height)
 				/ scene->sprites[count]->sprite_height) / 256;
-		sprite_coloring(scene, count, stripe, j);
+		animation_coloring(scene, count, stripe, j);
 		j++;
 	}
 }
 
-void	spawn_sprites(t_scene *scene, int count)
+void	spawn_animations(t_scene *scene, int count)
 {
 	int	stripe;
 	int	j;
 
-	initial_calculation(scene, count);
-	line_coordinates(scene, count);
+	initial_anime_calculation(scene, count);
+	animated_line_coord(scene, count);
 	stripe = scene->sprites[count]->start[X];
 	while (stripe < scene->sprites[count]->end[X])
 	{
 		j = scene->sprites[count]->start[Y];
-		calculate_texture_coordinates(scene, count, stripe);
+		calculate_animation_coordinates(scene, count, stripe);
 		if (stripe > 0 && stripe < WIN_WIDTH
 			&& scene->sprites[count]->transform[Y] > 0
 			&& scene->sprites[count]->transform[Y] < scene->z_buffer[stripe])
 		{
-			render_vertical_lines(scene, count, stripe, j);
+			animate_vertical_lines(scene, count, stripe, j);
 		}
 		stripe++;
 	}
 }
 
-void	sort_sprites(t_sprite **sprites, int count)
+void	animated_sprite(t_scene scene, int i)
 {
-	int			i;
-	int			j;
-	t_sprite	*tmp;
+	static int	frame;
 
-	j = 0;
-	i = 0;
-	while (i < count)
-	{
-		j = 0;
-		while (j < count - 1)
-		{
-			if (sprites[j]->sprite_distance < sprites[j + 1]->sprite_distance)
-			{
-				tmp = sprites[j];
-				sprites[j] = sprites[j + 1];
-				sprites[j + 1] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
+	if (frame >= 60)
+		frame = 0;
+	scene.sprites[i]->animation_img = scene.evil_warlock[frame / 6];
+	spawn_animations(&scene, i);
+	frame++;
 }

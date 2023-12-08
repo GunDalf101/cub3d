@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 12:54:20 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 13:02:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/08 00:42:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	update_sprite_positions(t_scene *scene)
 	int	i;
 
 	i = 0;
-	while (scene->sprites[i]->sprite_img)
+	while (scene->sprites[i])
 	{
 		if ((int)(scene->player->pos[X])
 			/ UNIT == (int)(scene->sprites[i]->pos[X]) / UNIT

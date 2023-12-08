@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 23:12:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 10:27:12 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/07 23:15:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ static int	arr_has_any(int *arr, int len, int v)
 
 static int	check_token_counts(char **map_lines)
 {
-	int		seen[10] = {0};
+	int		seen[11] = {0};
 	int		i;
 	int		j;
 	char	*ret;
