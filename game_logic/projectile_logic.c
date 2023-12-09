@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:21:51 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 00:47:03 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 10:48:43 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,7 @@ void	projectile_logic(t_scene *scene)
 	tmp = scene->projectiles;
 	while (tmp)
 	{
-		if (tmp && (scene->map->map[(int)(tmp->pos[X])
-				/ UNIT][(int)(tmp->pos[Y]) / UNIT] == '1'
-				|| scene->map->map[(int)(tmp->pos[X]) / UNIT][(int)(tmp->pos[Y])
-				/ UNIT] == 'P' || scene->map->map[(int)(tmp->\
-				pos[X]) / UNIT][(int)(tmp->pos[Y])
-				/ UNIT] == 'V' || scene->map->map[(int)(tmp->\
-				pos[X]) / UNIT][(int)(tmp->pos[Y])
-				/ UNIT] == 'B'))
+		if (tmp && projectile_collide(scene, tmp))
 			delete_projectile(scene, tmp);
 		tmp->pos[X] += tmp->dir[X] * tmp->speed;
 		tmp->pos[Y] += tmp->dir[Y] * tmp->speed;
@@ -66,7 +59,7 @@ t_projectile	*create_projectile(t_scene *scene, int projectile_type)
 	projectile->pos[Y] = scene->player->pos[Y];
 	projectile->dir[X] = scene->player->dir[X];
 	projectile->dir[Y] = scene->player->dir[Y];
-	projectile->speed = 0.6;
+	projectile->speed = 0.8;
 	projectile->damage = 20;
 	projectile->v_move = 500;
 	projectile->proj_type = projectile_type;

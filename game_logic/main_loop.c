@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 12:09:52 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 10:04:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ void	rotate_left(t_scene *scene)
 	scene->player->p_angle -= 0.1;
 	if (scene->player->p_angle > 2 * M_PI)
 		scene->player->p_angle -= 2 * M_PI;
+	else if (scene->player->p_angle < 0)
+		scene->player->p_angle += 2 * M_PI;
 	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
 	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
 	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)
 		* 16.5;
 	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2)
 		* 16.5;
-	printf("angle: %f\n", scene->player->p_angle);
 }
 
 void	rotate_right(t_scene *scene)
@@ -31,6 +32,8 @@ void	rotate_right(t_scene *scene)
 	scene->player->p_angle += 0.1;
 	if (scene->player->p_angle < 0)
 		scene->player->p_angle += 2 * M_PI;
+	else if (scene->player->p_angle > 2 * M_PI)
+		scene->player->p_angle -= 2 * M_PI;
 	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
 	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
 	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)

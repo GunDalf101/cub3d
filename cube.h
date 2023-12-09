@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 01:37:26 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 10:56:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,9 @@ typedef struct s_sprite
     double                inverse_det;
     double                sprite_distance;
     double                perp_dist;
+	int					 	hitpoint;
+	int					 	sprite_type;
+	int						hitbox;
     int                    sprite_screen_x;
     int                    sprite_height;
     int                    sprite_width;
@@ -347,5 +350,6 @@ void                    animated_sprite(t_scene scene, int i);
 void					allocat_warlock(t_scene *scene, int i, int j, int *count);
 void					initial_anime_calculation(t_scene *scene, int count);
 void					animated_line_coord(t_scene *scene, int count);
+int						projectile_collide(t_scene *scene, t_projectile *projectile);
 
 #endif

@@ -6,11 +6,12 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:04:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 01:32:50 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 10:40:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+#include <limits.h>
 
 void	allocat_barrel(t_scene *scene, int i, int j, int *count)
 {
@@ -20,9 +21,11 @@ void	allocat_barrel(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->sprite_img = scene->barrel_img;
 	scene->sprites[*count]->animation_img = NULL;
 	scene->sprites[*count]->v_move = 1100 * WIN_HEIGHT / 1200;
-	scene->sprites[*count]->collision_box = 40;
+	scene->sprites[*count]->collision_box = 30;
+	scene->sprites[*count]->hitbox = 30;
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
+	scene->sprites[*count]->hitpoint = 100;
 	(*count)++;
 }
 
@@ -34,9 +37,11 @@ void	allocat_pillar(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->sprite_img = scene->pillar_img;
 	scene->sprites[*count]->animation_img = NULL;
 	scene->sprites[*count]->v_move = 50 * WIN_HEIGHT / 1200;
-	scene->sprites[*count]->collision_box = 40;
+	scene->sprites[*count]->collision_box = 30;
+	scene->sprites[*count]->hitbox = 20;
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
+	scene->sprites[*count]->hitpoint = 100;
 	(*count)++;
 }
 
@@ -49,8 +54,10 @@ void	allocat_manaorb(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->animation_img = NULL;
 	scene->sprites[*count]->v_move = -500 * WIN_HEIGHT / 1200;
 	scene->sprites[*count]->collision_box = 0;
+	scene->sprites[*count]->hitbox = 0;
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
+	scene->sprites[*count]->hitpoint = INT_MAX;
 	(*count)++;
 }
 

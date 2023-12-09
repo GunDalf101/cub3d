@@ -29,6 +29,7 @@ SOURCES = cube.c \
 		game_logic/collision_raycast.c \
 		game_logic/movements.c \
 		game_logic/main_loop.c \
+		game_logic/projectile_sprite_interaction.c \
 		keybinds/keybinds.c \
 		keybinds/mousebinds.c \
 

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 01:32:55 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 10:40:22 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 void	allocat_warlock(t_scene *scene, int i, int j, int *count)
 {
 	scene->sprites[*count] = ft_calloc(1, sizeof(t_sprite));
-	printf("count: %d\n", *count);
 	if (!scene->sprites[*count])
 		exit(0);
 	scene->sprites[*count]->animation_img = scene->evil_warlock[0];
-	scene->sprites[*count]->v_move = 0;
+	scene->sprites[*count]->v_move = 500 * WIN_HEIGHT / 1200;
 	scene->sprites[*count]->collision_box = 0;
+	scene->sprites[*count]->hitbox = 30;
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
+	scene->sprites[*count]->hitpoint = 100;
 	(*count)++;
 }
 
