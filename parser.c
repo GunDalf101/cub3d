@@ -29,11 +29,11 @@ static int	run(char **maze, int *maze_info, int i, int j)
 		run(maze, maze_info, i, j + 1);
 	else if (ft_strchr(&MAP_KNOWN_CHARS[1], maze[i][j - 1])) // look left
 		run(maze, maze_info, i, j - 1);
-	else if (maze_info[i] <= maze_info[i - 1] && ft_strchr(&MAP_KNOWN_CHARS[1], maze[i
-				- 1][j])) // look up
+	else if (maze_info[i] <= maze_info[i - 1] && ft_strchr(&MAP_KNOWN_CHARS[1],
+			maze[i - 1][j])) // look up
 		run(maze, maze_info, i - 1, j);
-	else if (maze_info[i] <= maze_info[i + 1] && ft_strchr(&MAP_KNOWN_CHARS[1], maze[i
-				+ 1][j])) // look down
+	else if (maze_info[i] <= maze_info[i + 1] && ft_strchr(&MAP_KNOWN_CHARS[1],
+			maze[i + 1][j])) // look down
 		run(maze, maze_info, i + 1, j);
 	return (0);
 }
@@ -152,4 +152,3 @@ int	parser(char *filename, t_map *map)
 	printf("set_map_props check.\n");
 	return (0);
 }
-
