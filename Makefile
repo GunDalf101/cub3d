@@ -38,6 +38,7 @@ SOURCES = cube.c \
 		parser___.c \
 		parser____.c \
 		parser_____.c \
+		parser______.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

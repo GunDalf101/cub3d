@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 23:12:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 03:33:17 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:51:52 by hbouhach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static int	run(char **maze, int *maze_info, int i, int j)
 	else if (maze[i + 1][j] == ' ') // check down
 		return (1);
 	maze[i][j] = '1';
-	if (ft_strchr("0NSEW", maze[i][j + 1])) // look right
+	if (ft_strchr(&MAP_KNOWN_CHARS[1], maze[i][j + 1])) // look right
 		run(maze, maze_info, i, j + 1);
-	else if (ft_strchr("0NSEW", maze[i][j - 1])) // look left
+	else if (ft_strchr(&MAP_KNOWN_CHARS[1], maze[i][j - 1])) // look left
 		run(maze, maze_info, i, j - 1);
-	else if (maze_info[i] <= maze_info[i - 1] && ft_strchr("0NSEW", maze[i
+	else if (maze_info[i] <= maze_info[i - 1] && ft_strchr(&MAP_KNOWN_CHARS[1], maze[i
 				- 1][j])) // look up
 		run(maze, maze_info, i - 1, j);
-	else if (maze_info[i] <= maze_info[i + 1] && ft_strchr("0NSEW", maze[i
+	else if (maze_info[i] <= maze_info[i + 1] && ft_strchr(&MAP_KNOWN_CHARS[1], maze[i
 				+ 1][j])) // look down
 		run(maze, maze_info, i + 1, j);
 	return (0);
@@ -81,8 +81,7 @@ static int	check_map(char **map_lines)
 		j = 0;
 		while (map_lines[i][j])
 		{
-			if ((i == 0 || !map_lines[i + 1]) && !ft_strchr(" 1",
-					map_lines[i][j]))
+			if (!start_walled(map_lines[i]) || !end_walled(map_lines[i]))
 				return (1);
 			if (map_lines[i][j] != ' ' && !ft_strchr(MAP_KNOWN_CHARS,
 					map_lines[i][j]))
@@ -153,3 +152,4 @@ int	parser(char *filename, t_map *map)
 	printf("set_map_props check.\n");
 	return (0);
 }
+

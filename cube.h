@@ -18,8 +18,8 @@
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
-# define EX_MAP_KNOWN_CHARS "0*1*N!S!W!E!P*M*T*B*V*D*"
-# define MAP_KNOWN_CHARS "01NSWEPMTBVD"
+# define EX_MAP_KNOWN_CHARS "1*0*N!S!W!E!P*M*T*B*V*D*"
+# define MAP_KNOWN_CHARS "10NSWEPMTBVD"
 
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "gnl/get_next_line.h"
@@ -392,5 +392,6 @@ int						fill_rgb(unsigned char rgb[3], char *rgbl);
 int						check_token_counts(char **map_lines);
 int						ends_with_ws(char *s);
 void					allocat_doors(t_scene *scene);
-
+int						start_walled(char *line);
+int						end_walled(char *line);
 #endif
