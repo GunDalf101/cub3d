@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 19:16:09 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 01:37:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 12:27:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	animated_sprite(t_scene scene, int i)
 {
 	static int	frame;
 
-	if (frame >= 60)
+	if (frame >= 15000)
 		frame = 0;
-	scene.sprites[i]->animation_img = scene.evil_warlock[frame / 6];
+	scene.sprites[i]->animation_img = scene.evil_warlock[frame / 1500];
 	spawn_animations(&scene, i);
 	frame++;
 }

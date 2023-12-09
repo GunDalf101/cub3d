@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 11:01:00 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 12:50:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
-# define EX_MAP_KNOWN_CHARS "0*1*N!S!W!E!P*M*T*B*V*"
-# define MAP_KNOWN_CHARS "01NSWEPMTBV"
+# define EX_MAP_KNOWN_CHARS "0*1*N!S!W!E!P*M*T*B*V*D*"
+# define MAP_KNOWN_CHARS "01NSWEPMTBVD"
 
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "gnl/get_next_line.h"
@@ -167,28 +167,28 @@ typedef struct s_projectile
 
 typedef struct s_sprite
 {
-    double                pos[2];
-    double                relative_pos[2];
-    double                transform[2];
-    double                inverse_det;
-    double                sprite_distance;
-    double                perp_dist;
-	int					 	hitpoint;
-	int					 	sprite_type;
-	int						hitbox;
-    int                    sprite_screen_x;
-    int                    sprite_height;
-    int                    sprite_width;
-    int                    tex[2];
-    int                    d;
-    int                    collision_box;
-    int                    v_move;
-    int                    v_move_screen;
-    int                    start[2];
-    int                    end[2];
-    mlx_image_t            *sprite_img;
-    mlx_image_t            *animation_img;
-}                        t_sprite;
+	double				pos[2];
+	double				relative_pos[2];
+	double				transform[2];
+	double				inverse_det;
+	double				sprite_distance;
+	double				perp_dist;
+	int					hitpoint;
+	int					sprite_type;
+	int					hitbox;
+	int					sprite_screen_x;
+	int					sprite_height;
+	int					sprite_width;
+	int					tex[2];
+	int					d;
+	int					collision_box;
+	int					v_move;
+	int					v_move_screen;
+	int					start[2];
+	int					end[2];
+	mlx_image_t			*sprite_img;
+	mlx_image_t			*animation_img;
+}						t_sprite;
 
 typedef struct s_player
 {
@@ -292,6 +292,8 @@ typedef struct s_scene
 	mlx_image_t			*trap_img;
 	mlx_texture_t		*floor_tex;
 	mlx_image_t			*floor_img;
+	mlx_texture_t		*door_tex;
+	mlx_image_t			*door_img;
 	mlx_texture_t		*ceil_tex;
 	mlx_image_t			*ceil_img;
 	mlx_key_data_t		key_data;
@@ -325,11 +327,11 @@ int						occasional_free(t_scene *scene);
 
 int						parser(char *filename, t_map *map);
 int						load_textures(void *mlxptr, t_map *map);
-void	drawline_from_textures(t_scene *scene,
+void					drawline_from_textures(t_scene *scene,
 							t_ray_caster *wizard);
 int						does_it_collide(t_scene *scene, int cas);
-void	delete_projectile(t_scene *scene,
-						t_projectile *projectile);
+void					delete_projectile(t_scene *scene,
+							t_projectile *projectile);
 void					add_projectile(t_scene *scene, int projectile_type);
 void					spawn_sprites(t_scene *scene, int count);
 void					spawn_proj(t_scene *scene, t_projectile *projectile);
@@ -351,7 +353,8 @@ void					allocat_warlock(t_scene *scene, int i, int j,
 							int *count);
 void					initial_anime_calculation(t_scene *scene, int count);
 void					animated_line_coord(t_scene *scene, int count);
-int						projectile_collide(t_scene *scene, t_projectile *projectile);
+int						projectile_collide(t_scene *scene,
+							t_projectile *projectile);
 
 int						parser(char *filename, t_map *map);
 int						check_filename_sanity(const char *filename);

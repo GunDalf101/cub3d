@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 12:51:49 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 12:48:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	dda_loop(t_scene *scene, t_ray_caster *wizard)
 		if (scene->map->map[scene->player->\
 			vision_rays[wizard->x]->current_cell[X] \
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
-			/ UNIT] == '1')
+			/ UNIT] == '1' || scene->map->map[scene->player->\
+			vision_rays[wizard->x]->current_cell[X] \
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+			/ UNIT] == 'D')
 			scene->player->vision_rays[wizard->x]->will_hit = TRUE;
 	}
 }
