@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 01:38:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 14:31:11 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,21 @@
 
 void	sprites_only(t_scene scene)
 {
-	int	i;
+	int			i;
+	static int	frame;
 
+	if (frame >= 40)
+		frame = 0;
 	i = 0;
 	while (i < scene.sprite_count)
 	{
 		if (scene.sprites[i]->animation_img)
-			animated_sprite(scene, i);
+			animated_sprite(scene, i, frame);
 		else
 			spawn_sprites(&scene, i);
 		i++;
 	}
+	frame++;
 }
 
 void	sprites_projectiles(t_scene scene)

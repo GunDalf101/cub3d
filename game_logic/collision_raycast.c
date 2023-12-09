@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:08:54 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 11:33:20 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:41:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_sprite_collision(int x, int y, t_scene scene, int indexer)
 
 	distance = calculate_distance(x, y, scene.sprites[indexer]->pos[X],
 			scene.sprites[indexer]->pos[Y]);
-	if (distance < scene.sprites[indexer]->collision_box)
+	if (indexer < scene.sprite_count && distance < scene.sprites[indexer]->collision_box)
 		return (TRUE);
 	return (FALSE);
 }

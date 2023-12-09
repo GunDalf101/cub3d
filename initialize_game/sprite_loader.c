@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:03:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 12:47:01 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 14:34:00 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,20 +122,20 @@ void	sprite_count(t_scene *scene)
 
 	i = 0;
 	count = 0;
-	scene->anim_count = 0;
+	scene->door_count = 0;
 	while (i < scene->map->map_height)
 	{
 		j = 0;
 		while (j < scene->map->map_width)
 		{
-			if (scene->map->map[i][j] == 'B')
-				count++;
-			if (scene->map->map[i][j] == 'P')
+			if (scene->map->map[i][j] == 'B' || scene->map->map[i][j] == 'P')
 				count++;
 			if (scene->map->map[i][j] == 'M')
 				count++;
 			if (scene->map->map[i][j] == 'V')
 				count++;
+			if (scene->map->map[i][j] == 'D')
+				scene->door_count++;
 			j++;
 		}
 		i++;

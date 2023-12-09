@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 12:50:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 14:42:04 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ enum					e_projectile
 	FIREBALL,
 	ICEBALL
 };
+
+typedef	struct s_door
+{
+	int					state;
+	int					pos[2];
+}						t_door;
 
 typedef struct s_ray_caster
 {
@@ -260,6 +266,8 @@ typedef struct s_scene
 	int					maplol[10][10];
 	t_map				*map;
 	t_sprite			**sprites;
+	t_door				**doors;
+	int					door_count;
 	t_player			*player;
 	int					win_width;
 	int					win_height;
@@ -348,7 +356,7 @@ void					move_right(t_scene *scene);
 void					load_floor_textures(t_scene *scene);
 void					ceiling_casting(t_scene *scene);
 void					load_warlock(void *mlxptr, t_scene *scene);
-void					animated_sprite(t_scene scene, int i);
+void					animated_sprite(t_scene scene, int i, int frame);
 void					allocat_warlock(t_scene *scene, int i, int j,
 							int *count);
 void					initial_anime_calculation(t_scene *scene, int count);
@@ -383,4 +391,6 @@ int						verify_sprite(t_map *map, char **splited, int seen[4],
 int						fill_rgb(unsigned char rgb[3], char *rgbl);
 int						check_token_counts(char **map_lines);
 int						ends_with_ws(char *s);
+void					allocat_doors(t_scene *scene);
+
 #endif

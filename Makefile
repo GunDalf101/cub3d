@@ -21,6 +21,7 @@ SOURCES = cube.c \
 		initialize_game/sprite_alloc.c \
 		initialize_game/player_alloc.c \
 		initialize_game/sprite_loader.c \
+		initialize_game/doors_alloc.c \
 		game_logic/collisions.c \
 		game_logic/projectile_logic.c \
 		game_logic/raw_logic.c \

@@ -6,11 +6,38 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 12:48:51 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:08:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+
+int	door_state(t_scene *scene, t_ray_caster *wizard)
+{
+	int	i;
+	
+	i = 0;
+	while(i < scene->door_count)
+	{
+		if (scene->doors[i]->pos[X] == scene->player->vision_rays[wizard->x]->current_cell[X] / UNIT && scene->doors[i]->pos[Y] == scene->player->vision_rays[wizard->x]->current_cell[Y] / UNIT)
+			return (scene->doors[i]->state);
+		i++;
+	}
+	return (scene->doors[i]->state);
+}
+
+int	will_hit(t_scene *scene, t_ray_caster *wizard)
+{
+	if (scene->map->map[scene->player->\
+			vision_rays[wizard->x]->current_cell[X] \
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y] \
+			/ UNIT] == '1' || (scene->map->map[scene->player->\
+			vision_rays[wizard->x]->current_cell[X] \
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+			/ UNIT] == 'D' && !door_state(scene, wizard)))
+		return (TRUE);
+	return (FALSE);
+}
 
 void	dda_loop(t_scene *scene, t_ray_caster *wizard)
 {
@@ -33,13 +60,7 @@ void	dda_loop(t_scene *scene, t_ray_caster *wizard)
 				+= scene->player->vision_rays[wizard->x]->step[X];
 			scene->player->vision_rays[wizard->x]->side = NS;
 		}
-		if (scene->map->map[scene->player->\
-			vision_rays[wizard->x]->current_cell[X] \
-			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
-			/ UNIT] == '1' || scene->map->map[scene->player->\
-			vision_rays[wizard->x]->current_cell[X] \
-			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
-			/ UNIT] == 'D')
+		if (will_hit(scene, wizard))
 			scene->player->vision_rays[wizard->x]->will_hit = TRUE;
 	}
 }
