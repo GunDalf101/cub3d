@@ -11,7 +11,6 @@ SOURCES = cube.c \
 		rendering/sprite_calcul.c \
 		rendering/render_animation.c \
 		rendering/animation_calcul.c \
-		parser.c \
 		textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
@@ -32,6 +31,12 @@ SOURCES = cube.c \
 		game_logic/projectile_sprite_interaction.c \
 		keybinds/keybinds.c \
 		keybinds/mousebinds.c \
+		parser.c \
+		parser_.c \
+		parser__.c \
+		parser___.c \
+		parser____.c \
+		parser_____.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

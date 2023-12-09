@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 10:56:02 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 11:01:00 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,104 +252,132 @@ typedef struct s_map
 
 typedef struct s_scene
 {
-    void                *mlx_ptr;
-    void                *mlx_win;
-    mlx_image_t            *mlx_img;
-    double                camera_x;
-    int                    fd;
-    int                    maplol[10][10];
-    t_map                *map;
-    t_sprite            **sprites;
-    t_player            *player;
-    int                    win_width;
-    int                    win_height;
-    double                frame_time;
-    double                time;
-    double                oldtime;
-    double                damaged_time;
-    double                old_damaged_time;
-    double                *dist2;
-    double                *z_buffer;
-    double                *dist_buffer;
-    double                move_speed;
-    double                rot_speed;
-    int                    sprite_count;
-    int                    indexer;
-    int                    anim_count;
-    int                    *anim_ids;
-    mlx_texture_t        *texture;
-    mlx_texture_t        *barrel_tex;
-    mlx_image_t            *barrel_img;
-    mlx_texture_t        *pillar_tex;
-    mlx_image_t            *pillar_img;
-    mlx_texture_t        *fireball_tex;
-    mlx_image_t            *fireball_img;
-    mlx_texture_t        *manaorb_tex;
-    mlx_image_t            *manaorb_img;
-    mlx_texture_t        *iceball_tex;
-    mlx_image_t            *iceball_img;
-    mlx_texture_t        *trap_tex;
-    mlx_image_t            *trap_img;
-    mlx_texture_t        *floor_tex;
-    mlx_image_t            *floor_img;
-    mlx_texture_t        *ceil_tex;
-    mlx_image_t            *ceil_img;
-    mlx_key_data_t        key_data;
-    t_projectile        *projectiles;
-    mlx_image_t            **evil_warlock;
-}                        t_scene;
+	void				*mlx_ptr;
+	void				*mlx_win;
+	mlx_image_t			*mlx_img;
+	double				camera_x;
+	int					fd;
+	int					maplol[10][10];
+	t_map				*map;
+	t_sprite			**sprites;
+	t_player			*player;
+	int					win_width;
+	int					win_height;
+	double				frame_time;
+	double				time;
+	double				oldtime;
+	double				damaged_time;
+	double				old_damaged_time;
+	double				*dist2;
+	double				*z_buffer;
+	double				*dist_buffer;
+	double				move_speed;
+	double				rot_speed;
+	int					sprite_count;
+	int					indexer;
+	int					anim_count;
+	int					*anim_ids;
+	mlx_texture_t		*texture;
+	mlx_texture_t		*barrel_tex;
+	mlx_image_t			*barrel_img;
+	mlx_texture_t		*pillar_tex;
+	mlx_image_t			*pillar_img;
+	mlx_texture_t		*fireball_tex;
+	mlx_image_t			*fireball_img;
+	mlx_texture_t		*manaorb_tex;
+	mlx_image_t			*manaorb_img;
+	mlx_texture_t		*iceball_tex;
+	mlx_image_t			*iceball_img;
+	mlx_texture_t		*trap_tex;
+	mlx_image_t			*trap_img;
+	mlx_texture_t		*floor_tex;
+	mlx_image_t			*floor_img;
+	mlx_texture_t		*ceil_tex;
+	mlx_image_t			*ceil_img;
+	mlx_key_data_t		key_data;
+	t_projectile		*projectiles;
+	mlx_image_t			**evil_warlock;
+}						t_scene;
 
-void                    ray_caster(t_scene *scene);
-void                    initsprites(t_scene *scene);
-void                    renderitall(t_scene scene);
-void                    drawbar(t_scene scene);
-void                    drawline(t_dda *dda, int x2, int y2, t_scene scene);
-void                    hookercur(double xpos, double ypos, void *scene2);
-void                    hooker(mlx_key_data_t keycode, void *scene2);
-int32_t                    ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b,
-                            u_int8_t a);
-void                    floor_casting(t_scene *scene);
-void                    allocat_player(t_scene *scene);
-void                    projectile_logic(t_scene *scene);
-void                    dynamic_logic(t_scene *scene);
-void                    load_sprites(t_scene *scene);
-void                    load_projectiles(t_scene *scene);
-void                    sprite_count(t_scene *scene);
-int                        collision_ray(t_dda dda, int x2, int y2, t_scene scene);
-t_projectile            *proj_sort(t_projectile *head);
-void                    initial_calculation(t_scene *scene, int count);
-void                    line_coordinates(t_scene *scene, int count);
-void                    setup_rays(t_scene *scene, t_ray_caster *wizard);
-int                        final_free(t_scene *scene);
-int                        occasional_free(t_scene *scene);
+void					ray_caster(t_scene *scene);
+void					initsprites(t_scene *scene);
+void					renderitall(t_scene scene);
+void					drawbar(t_scene scene);
+void					drawline(t_dda *dda, int x2, int y2, t_scene scene);
+void					hookercur(double xpos, double ypos, void *scene2);
+void					hooker(mlx_key_data_t keycode, void *scene2);
+int32_t					ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b,
+							u_int8_t a);
+void					floor_casting(t_scene *scene);
+void					allocat_player(t_scene *scene);
+void					projectile_logic(t_scene *scene);
+void					dynamic_logic(t_scene *scene);
+void					load_sprites(t_scene *scene);
+void					load_projectiles(t_scene *scene);
+void					sprite_count(t_scene *scene);
+int						collision_ray(t_dda dda, int x2, int y2, t_scene scene);
+t_projectile			*proj_sort(t_projectile *head);
+void					initial_calculation(t_scene *scene, int count);
+void					line_coordinates(t_scene *scene, int count);
+void					setup_rays(t_scene *scene, t_ray_caster *wizard);
+int						final_free(t_scene *scene);
+int						occasional_free(t_scene *scene);
 
-int                        parser(char *filename, t_map *map);
-int                        load_textures(void *mlxptr, t_map *map);
-void                    drawline_from_textures(t_scene *scene,
-                            t_ray_caster *wizard);
-int                        does_it_collide(t_scene *scene, int cas);
-void                    delete_projectile(t_scene *scene,
-                            t_projectile *projectile);
-void                    add_projectile(t_scene *scene, int projectile_type);
-void                    spawn_sprites(t_scene *scene, int count);
-void                    spawn_proj(t_scene *scene, t_projectile *projectile);
-void                    sort_sprites(t_sprite **sprites, int count);
-void                    draw_minimap_circle(t_scene *scene);
-void                    drawbar(t_scene scene);
-void                    sky_floor_render(t_scene scene);
-void                    death_screen(t_scene scene);
-void                    gameloop(void *scene2);
-void                    move_forward(t_scene *scene);
-void                    move_backward(t_scene *scene);
-void                    move_left(t_scene *scene);
-void                    move_right(t_scene *scene);
-void                    load_floor_textures(t_scene *scene);
-void                    ceiling_casting(t_scene *scene);
-void                    load_warlock(void *mlxptr, t_scene *scene);
-void                    animated_sprite(t_scene scene, int i);
-void					allocat_warlock(t_scene *scene, int i, int j, int *count);
+int						parser(char *filename, t_map *map);
+int						load_textures(void *mlxptr, t_map *map);
+void	drawline_from_textures(t_scene *scene,
+							t_ray_caster *wizard);
+int						does_it_collide(t_scene *scene, int cas);
+void	delete_projectile(t_scene *scene,
+						t_projectile *projectile);
+void					add_projectile(t_scene *scene, int projectile_type);
+void					spawn_sprites(t_scene *scene, int count);
+void					spawn_proj(t_scene *scene, t_projectile *projectile);
+void					sort_sprites(t_sprite **sprites, int count);
+void					draw_minimap_circle(t_scene *scene);
+void					drawbar(t_scene scene);
+void					sky_floor_render(t_scene scene);
+void					death_screen(t_scene scene);
+void					gameloop(void *scene2);
+void					move_forward(t_scene *scene);
+void					move_backward(t_scene *scene);
+void					move_left(t_scene *scene);
+void					move_right(t_scene *scene);
+void					load_floor_textures(t_scene *scene);
+void					ceiling_casting(t_scene *scene);
+void					load_warlock(void *mlxptr, t_scene *scene);
+void					animated_sprite(t_scene scene, int i);
+void					allocat_warlock(t_scene *scene, int i, int j,
+							int *count);
 void					initial_anime_calculation(t_scene *scene, int count);
 void					animated_line_coord(t_scene *scene, int count);
 int						projectile_collide(t_scene *scene, t_projectile *projectile);
 
+int						parser(char *filename, t_map *map);
+int						check_filename_sanity(const char *filename);
+void					free_array(char **arr);
+int						open_file(char *filename, int *fd);
+int						arr_size(char **arr);
+char					*strip_line(char *l);
+int						is_all_digit(char *str);
+char					*non_empty_gnl(int fd);
+int						arr_has_any(int *arr, int len, int v);
+char					**clone_arr(char **arr);
+int						arr_push(char ***lv, char *nl);
+int						close_temp_fds(int tfds[4]);
+int						str_starts_with(char *str, char *s);
+int						pad_map(t_map *map);
+int						*init_stuff(char **ll, int *i);
+int						*gen_arr_info(char **arr);
+int						token_count_in_str(char *str, char c);
+int						read_map(t_map *map, int fd);
+int						read_texture(t_map *map, char *l, int *tfds);
+int						set_map_props(t_map *map);
+int						check_token_counts(char **map_lines);
+int						read_rgbs(t_map *map, char *l);
+int						verify_sprite(t_map *map, char **splited, int seen[4],
+							int *tfds);
+int						fill_rgb(unsigned char rgb[3], char *rgbl);
+int						check_token_counts(char **map_lines);
+int						ends_with_ws(char *s);
 #endif
