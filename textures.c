@@ -75,6 +75,11 @@ void    drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 			/ UNIT] == 'D')
         wtext = scene->door_img;
+    else if (scene->map->map[scene->player->\
+            vision_rays[wizard->x]->current_cell[X] \
+            / UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+            / UNIT] == 'L')
+        wtext = scene->end_img;
     else
         wtext = scene->map->textures_mlx_imgs[wdir];
     if (wdir == EAST || wdir == WEST)

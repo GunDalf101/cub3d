@@ -6,13 +6,28 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 10:48:27 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 10:58:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 23:12:25 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-int	projectile_hit(t_projectile *projectile, t_sprite *sprite)
+void	calcul_score(t_sprite *sprite, t_scene *scene)
+{
+	if (sprite->sprite_type == WARLOCK)
+	{
+		scene->player->mana_points += 10;
+		scene->score += 50;
+	}
+	else if (sprite->sprite_type == BARREL)
+		scene->score += 50;
+	else if (sprite->sprite_type == PILLAR)
+		scene->score += 10;
+	else if (sprite->sprite_type == MANAORB)
+		scene->score += 0;
+}
+
+int	projectile_hit(t_projectile *projectile, t_sprite *sprite, t_scene *scene)
 {
 	int	k;
 	int	l;
@@ -27,6 +42,8 @@ int	projectile_hit(t_projectile *projectile, t_sprite *sprite)
 		sprite->hitpoint -= projectile->damage;
 		if (sprite->hitpoint <= 0)
 		{
+			calcul_score(sprite, scene);
+			printf("score: %d\n", scene->score);
 			sprite->pos[X] = -UNIT;
 			sprite->pos[Y] = -UNIT;
 		}
@@ -46,7 +63,7 @@ int	projectile_collide(t_scene *scene, t_projectile *projectile)
 	j = projectile->pos[Y];
 	while (it < scene->sprite_count)
 	{
-		if (projectile_hit(projectile, scene->sprites[it]))
+		if (projectile_hit(projectile, scene->sprites[it], scene))
 			return (1);
 		it++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 23:03:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 11:44:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 12:07:48 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	set_step_y(t_scene *scene, t_ray_caster *wizard)
 void	set_difference(t_scene *scene, t_ray_caster *wizard)
 {
 	if (scene->player->vision_rays[wizard->x]->dir[Y] != 0)
-		scene->player->vision_rays[wizard->x]->delta_ray[Y] = fabs(1
+		scene->player->vision_rays[wizard->x]->delta_ray[Y] = fabs(UNIT
 				/ scene->player->vision_rays[wizard->x]->dir[Y]);
 	else
 		scene->player->vision_rays[wizard->x]->delta_ray[Y] = __DBL_MAX__;
 	if (scene->player->vision_rays[wizard->x]->dir[X] != 0)
-		scene->player->vision_rays[wizard->x]->delta_ray[X] = fabs(1
+		scene->player->vision_rays[wizard->x]->delta_ray[X] = fabs(UNIT
 				/ scene->player->vision_rays[wizard->x]->dir[X]);
 	else
 		scene->player->vision_rays[wizard->x]->delta_ray[X] = __DBL_MAX__;

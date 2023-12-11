@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:03:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 14:34:00 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:41:30 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	load_floor_textures(t_scene *scene)
 	scene->door_img = mlx_texture_to_image(scene->mlx_ptr, scene->door_tex);
 	mlx_resize_image(scene->door_img, WIN_WIDTH, WIN_WIDTH);
 	mlx_delete_texture(scene->door_tex);
-	// printf("trap loaded\n");
 }
 
 void	load_projectiles(t_scene *scene)

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:11:32 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 11:20:33 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 12:12:31 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	sky_floor_render(t_scene scene)
 
 	i = 0;
 	j = 0;
-	while (i++ < scene.player->central_angle + WIN_HEIGHT / 2
+	while (++i < scene.player->central_angle + WIN_HEIGHT / 2
 		- scene.player->crouch)
 	{
 		dda.x1 = 0;
@@ -59,7 +59,7 @@ void	sky_floor_render(t_scene scene)
 		drawline(&dda, WIN_WIDTH, i, scene);
 	}
 	i = scene.player->central_angle + WIN_HEIGHT / 2 - scene.player->crouch;
-	while (i++ < WIN_HEIGHT)
+	while (++i < WIN_HEIGHT)
 	{
 		dda.x1 = 0;
 		dda.y1 = i;
@@ -67,6 +67,34 @@ void	sky_floor_render(t_scene scene)
 		floor_rgb[1] << 16 | scene.map->floor_rgb[2] << 8 | 255;
 		drawline(&dda, WIN_WIDTH, i, scene);
 		i++;
+	}
+}
+
+void	win_screen(t_scene scene)
+{
+	t_death	death;
+
+	death.i = 0;
+	while (death.i++ < scene.win_img->height)
+	{
+		death.j = 0;
+		while (death.j++ < scene.win_img->width)
+		{
+			death.r = scene.win_img->pixels[death.i * 4 * scene.win_img->width
+				+ death.j * 4];
+			death.g = scene.win_img->pixels[death.i * 4 * scene.win_img->width
+				+ death.j * 4 + 1];
+			death.b = scene.win_img->pixels[death.i * 4 * scene.win_img->width
+				+ death.j * 4 + 2];
+			death.a = scene.win_img->pixels[death.i * 4 * scene.win_img->width
+				+ death.j * 4 + 3];
+			if (death.a == 0)
+				continue ;
+			mlx_put_pixel(scene.mlx_img, death.j + WIN_WIDTH / 2
+				- scene.win_img->width / 2, death.i + WIN_HEIGHT / 2
+				- scene.win_img->height / 2, ft_pixel(death.r, death.g, death.b,
+					death.a));
+		}
 	}
 }
 
@@ -101,9 +129,7 @@ void	death_screen(t_scene scene)
 	{
 		death.j = 0;
 		while (death.j++ < death_img->width)
-		{
 			draw_death(scene, &death, death_img);
-		}
 	}
 	mlx_delete_image(scene.mlx_ptr, death_img);
 }

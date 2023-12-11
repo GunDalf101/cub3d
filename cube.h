@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 14:42:04 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 12:12:48 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
-# define EX_MAP_KNOWN_CHARS "1*0*N!S!W!E!P*M*T*B*V*D*"
-# define MAP_KNOWN_CHARS "10NSWEPMTBVD"
+# define EX_MAP_KNOWN_CHARS "1*0*N!S!W!E!L*P*M*T*B*V*D*"
+# define MAP_KNOWN_CHARS "10NSWELPMTBVD"
 
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "gnl/get_next_line.h"
@@ -78,7 +78,15 @@ enum					e_projectile
 	ICEBALL
 };
 
-typedef	struct s_door
+enum					e_sprite
+{
+	BARREL,
+	PILLAR,
+	MANAORB,
+	WARLOCK
+};
+
+typedef struct s_door
 {
 	int					state;
 	int					pos[2];
@@ -115,6 +123,8 @@ typedef struct s_floor_cast
 	int					tx;
 	int					ty;
 	int					color;
+	int					cell_x;
+	int					cell_y;
 }						t_floor_cast;
 
 typedef struct s_ray
@@ -256,14 +266,26 @@ typedef struct s_map
 	unsigned char		ceiling_rgb[3];
 }						t_map;
 
+typedef struct s_timer
+{
+	int					time_origin;
+	int					time_current;
+	int					seconds;
+	int					minutes;
+	int					hours;
+	mlx_image_t			*timer_img;
+}						t_timer;
+
 typedef struct s_scene
 {
 	void				*mlx_ptr;
 	void				*mlx_win;
 	mlx_image_t			*mlx_img;
+	t_timer				timer;
 	double				camera_x;
 	int					fd;
 	int					maplol[10][10];
+	int					score;
 	t_map				*map;
 	t_sprite			**sprites;
 	t_door				**doors;
@@ -285,6 +307,7 @@ typedef struct s_scene
 	int					indexer;
 	int					anim_count;
 	int					*anim_ids;
+	int					win;
 	mlx_texture_t		*texture;
 	mlx_texture_t		*barrel_tex;
 	mlx_image_t			*barrel_img;
@@ -298,6 +321,10 @@ typedef struct s_scene
 	mlx_image_t			*iceball_img;
 	mlx_texture_t		*trap_tex;
 	mlx_image_t			*trap_img;
+	mlx_texture_t		*end_tex;
+	mlx_image_t			*end_img;
+	mlx_texture_t		*win_tex;
+	mlx_image_t			*win_img;
 	mlx_texture_t		*floor_tex;
 	mlx_image_t			*floor_img;
 	mlx_texture_t		*door_tex;
@@ -305,6 +332,7 @@ typedef struct s_scene
 	mlx_texture_t		*ceil_tex;
 	mlx_image_t			*ceil_img;
 	mlx_key_data_t		key_data;
+	mlx_image_t			*score_img;
 	t_projectile		*projectiles;
 	mlx_image_t			**evil_warlock;
 }						t_scene;
@@ -394,4 +422,10 @@ int						ends_with_ws(char *s);
 void					allocat_doors(t_scene *scene);
 int						start_walled(char *line);
 int						end_walled(char *line);
+void					check_door(mlx_key_data_t keycode, t_scene *scene);
+void					load_end(t_scene *scene);
+void					drawtimer(t_scene scene);
+void					load_timer(t_scene *scene);
+void					win_screen(t_scene scene);
+
 #endif

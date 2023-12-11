@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:51:16 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 17:10:02 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:22:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int32_t	ft_pixel(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	return ((r << 24) + (g << 16) + (b << 8) + a);
 }
 
 void	update_error_and_position(t_dda *dda, int *x, int *y)

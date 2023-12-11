@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:04:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 14:51:38 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/10 23:28:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	allocat_barrel(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->hitbox = 30;
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
-	scene->sprites[*count]->hitpoint = 100;
+	scene->sprites[*count]->hitpoint = 150;
+	scene->sprites[*count]->sprite_type = BARREL;
 	(*count)++;
 }
 
@@ -41,7 +42,8 @@ void	allocat_pillar(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->hitbox = 20;
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
-	scene->sprites[*count]->hitpoint = 100;
+	scene->sprites[*count]->hitpoint = 500;
+	scene->sprites[*count]->sprite_type = PILLAR;
 	(*count)++;
 }
 
@@ -58,6 +60,7 @@ void	allocat_manaorb(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
 	scene->sprites[*count]->hitpoint = INT_MAX;
+	scene->sprites[*count]->sprite_type = MANAORB;
 	(*count)++;
 }
 
@@ -91,9 +94,14 @@ void	allocat_sprites(t_scene *scene)
 
 void	initsprites(t_scene *scene)
 {
+	scene->score_img = NULL;
+	scene->projectiles = NULL;
+	scene->win = FALSE;
+	scene->timer.time_origin = mlx_get_time();
 	load_sprites(scene);
 	load_projectiles(scene);
 	load_warlock(scene->mlx_ptr, scene);
+	load_end(scene);
 	load_floor_textures(scene);
 	sprite_count(scene);
 	allocat_sprites(scene);

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 12:46:26 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 13:03:09 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 12:08:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ void	get_ceiling_texture_color(t_scene *scene, t_floor_cast *ceilin)
 
 void	render_ceiling_pixel(t_scene *scene, t_floor_cast *ceilin)
 {
-	ceilin->current_dist = WIN_WIDTH / (2.0 * (ceilin->y - scene->player->crouch
-				+ scene->player->central_angle) - WIN_WIDTH);
+	ceilin->current_dist = WIN_HEIGHT / (2.0 * \
+				(ceilin->y - scene->player->crouch
+				+ scene->player->central_angle) - WIN_HEIGHT);
 	ceilin->weight = ceilin->current_dist / ceilin->row_distance;
 	ceilin->current_floor_x = ceilin->weight * ceilin->floor_x + (1.0
 			- ceilin->weight) * scene->player->pos[X] / 3;

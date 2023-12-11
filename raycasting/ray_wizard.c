@@ -6,35 +6,23 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 15:08:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:55:33 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-int	door_state(t_scene *scene, t_ray_caster *wizard)
-{
-	int	i;
-	
-	i = 0;
-	while(i < scene->door_count)
-	{
-		if (scene->doors[i]->pos[X] == scene->player->vision_rays[wizard->x]->current_cell[X] / UNIT && scene->doors[i]->pos[Y] == scene->player->vision_rays[wizard->x]->current_cell[Y] / UNIT)
-			return (scene->doors[i]->state);
-		i++;
-	}
-	return (scene->doors[i]->state);
-}
-
 int	will_hit(t_scene *scene, t_ray_caster *wizard)
 {
-	if (scene->map->map[scene->player->\
-			vision_rays[wizard->x]->current_cell[X] \
-			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y] \
-			/ UNIT] == '1' || (scene->map->map[scene->player->\
-			vision_rays[wizard->x]->current_cell[X] \
+	if (scene->map->map[scene->player->vision_rays[wizard->x]->current_cell[X]
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
-			/ UNIT] == 'D' && !door_state(scene, wizard)))
+		/ UNIT] == '1' || (scene->map->map[scene->player->\
+			vision_rays[wizard->x]->current_cell[X]
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+			/ UNIT] == 'D' || (scene->map->map[scene->player->\
+			vision_rays[wizard->x]->current_cell[X]
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+			/ UNIT] == 'L')))
 		return (TRUE);
 	return (FALSE);
 }
@@ -68,14 +56,14 @@ void	dda_loop(t_scene *scene, t_ray_caster *wizard)
 void	wall_height_calculation(t_scene *scene, t_ray_caster *wizard)
 {
 	if (scene->player->vision_rays[wizard->x]->side == EW)
-		scene->player->vision_rays[wizard->x]->wall_dist = \
-		(scene->player->vision_rays[wizard->x]->current_cell[Y]
+		scene->player->vision_rays[wizard->x]->wall_dist = (scene->player->\
+		vision_rays[wizard->x]->current_cell[Y]
 				- scene->player->vision_rays[wizard->x]->pos[Y] + (1
 					- scene->player->vision_rays[wizard->x]->step[Y]) / 2)
 			/ scene->player->vision_rays[wizard->x]->dir[Y];
 	else
-		scene->player->vision_rays[wizard->x]->wall_dist = \
-		(scene->player->vision_rays[wizard->x]->current_cell[X]
+		scene->player->vision_rays[wizard->x]->wall_dist = (scene->player->\
+		vision_rays[wizard->x]->current_cell[X]
 				- scene->player->vision_rays[wizard->x]->pos[X] + (1
 					- scene->player->vision_rays[wizard->x]->step[X]) / 2)
 			/ scene->player->vision_rays[wizard->x]->dir[X];
@@ -111,18 +99,18 @@ void	ray_caster(t_scene *scene)
 	ceiling_casting(scene);
 	scene->player->vision_rays = malloc(sizeof(t_ray) * WIN_WIDTH);
 	if (!scene->player->vision_rays && final_free(scene))
-		exit (1);
+		exit(1);
 	scene->z_buffer = malloc(sizeof(double) * WIN_WIDTH);
 	if (!scene->z_buffer && occasional_free(scene) && final_free(scene))
-		exit (1);
+		exit(1);
 	while (wizard.x < WIN_WIDTH)
 	{
 		setup_rays(scene, &wizard);
 		dda_loop(scene, &wizard);
 		wall_height_calculation(scene, &wizard);
 		render_walls(scene, &wizard);
-		scene->z_buffer[wizard.x] = \
-		scene->player->vision_rays[wizard.x]->wall_dist;
+		scene->z_buffer[wizard.x] = scene->player->\
+		vision_rays[wizard.x]->wall_dist;
 		wizard.x++;
 	}
 }

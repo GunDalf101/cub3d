@@ -6,11 +6,28 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 14:40:53 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 15:09:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:02:29 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+
+void	load_end(t_scene *scene)
+{
+	scene->end_tex = mlx_load_png("textures/portal.png");
+	if (!scene->end_tex)
+		exit(0);
+	scene->end_img = mlx_texture_to_image(scene->mlx_ptr, scene->end_tex);
+	mlx_resize_image(scene->end_img, 500, 500);
+	mlx_delete_texture(scene->end_tex);
+	scene->win_tex = mlx_load_png("assets/victory.png");
+	if (!scene->win_tex)
+		exit(0);
+	scene->win_img = mlx_texture_to_image(scene->mlx_ptr, scene->win_tex);
+	mlx_resize_image(scene->win_img, WIN_WIDTH, scene->win_img->height
+		* WIN_WIDTH / scene->win_img->width);
+	mlx_delete_texture(scene->win_tex);
+}
 
 void	allocat_door(t_scene *scene, int i, int j, int *count)
 {
@@ -25,9 +42,9 @@ void	allocat_door(t_scene *scene, int i, int j, int *count)
 
 void	allocat_doors(t_scene *scene)
 {
-	int i;
-	int count;
-	int j;
+	int	i;
+	int	count;
+	int	j;
 
 	scene->doors = ft_calloc(scene->door_count, sizeof(t_door *));
 	if (!scene->doors)

@@ -23,7 +23,8 @@ int	check_sprite_collision(int x, int y, t_scene scene, int indexer)
 
 	distance = calculate_distance(x, y, scene.sprites[indexer]->pos[X],
 			scene.sprites[indexer]->pos[Y]);
-	if (indexer < scene.sprite_count && distance < scene.sprites[indexer]->collision_box)
+	if (indexer < scene.sprite_count
+		&& distance < scene.sprites[indexer]->collision_box)
 		return (TRUE);
 	return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 10:40:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/09 23:07:26 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	allocat_warlock(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
 	scene->sprites[*count]->hitpoint = 100;
+	scene->sprites[*count]->sprite_type = WARLOCK;
 	(*count)++;
 }
 
@@ -88,6 +89,7 @@ void	allocat_player(t_scene *scene)
 
 	i = 0;
 	j = 0;
+	scene->score = 0;
 	scene->player = malloc(sizeof(t_player));
 	if (!scene->player)
 		exit(0);

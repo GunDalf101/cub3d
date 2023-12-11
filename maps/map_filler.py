@@ -1,7 +1,7 @@
 import random
 
 def generate_random_map(input_map, probability):
-    symbols = ['B', 'V', 'P', 'T', 'M']
+    symbols = ['B', 'V', 'P', 'T', 'M', 'D']
     output_map = []
 
     for row in input_map:

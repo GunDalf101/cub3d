@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/07 13:01:49 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:54:40 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,19 @@ void	get_floor_texture_color(t_scene *scene, t_floor_cast *floor)
 
 void	render_floor_pixel(t_scene *scene, t_floor_cast *floor)
 {
-	floor->current_dist = WIN_WIDTH / (2.0 * (floor->y + scene->player->crouch
-				- scene->player->central_angle) - WIN_WIDTH);
+	floor->current_dist = WIN_HEIGHT / (2.0 * (floor->y + scene->player->crouch
+				- scene->player->central_angle) - WIN_HEIGHT);
 	floor->weight = floor->current_dist / floor->row_distance;
 	floor->current_floor_x = floor->weight * floor->floor_x + (1.0
 			- floor->weight) * scene->player->pos[X] / 3;
 	floor->current_floor_y = floor->weight * floor->floor_y + (1.0
 			- floor->weight) * scene->player->pos[Y] / 3;
-	floor->tx = (int)(scene->map->textures_mlx_imgs[0]->width
+	floor->tx = (int)(scene->floor_img->width
 			* (floor->current_floor_x) / 33.5)
-		% scene->map->textures_mlx_imgs[0]->width;
-	floor->ty = (int)(scene->map->textures_mlx_imgs[0]->height
+		% scene->floor_img->width;
+	floor->ty = (int)(scene->floor_img->height
 			* (floor->current_floor_y) / 33.5)
-		% scene->map->textures_mlx_imgs[0]->height;
+		% scene->floor_img->height;
 	get_floor_texture_color(scene, floor);
 	mlx_put_pixel(scene->mlx_img, floor->x, floor->y, floor->color);
 }
