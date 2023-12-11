@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 20:39:49 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 22:06:23 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	renderitall(t_scene scene)
 	if (scene.win == TRUE)
 	{
 		draw_ending(scene);
+		sleep(1);
 		win_screen(scene);
 	}
 	draw_minimap_circle(&scene);
