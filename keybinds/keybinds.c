@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:37:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 19:05:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 22:29:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	scene->key_data = keycode;
 	if (keycode.key == MLX_KEY_ESCAPE)
 	{
+		system("pkill afplay &");
 		final_free(scene);
 		exit(0);
 	}
