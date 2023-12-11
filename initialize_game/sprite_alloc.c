@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:04:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/10 23:28:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:50:25 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,23 @@ void	allocat_manaorb(t_scene *scene, int i, int j, int *count)
 	(*count)++;
 }
 
+void	allocat_portal(t_scene *scene, int i, int j, int *count)
+{
+	scene->sprites[*count] = ft_calloc(1, sizeof(t_sprite));
+	if (!scene->sprites[*count])
+		exit(0);
+	scene->sprites[*count]->sprite_img = scene->portal_img;
+	scene->sprites[*count]->animation_img = NULL;
+	scene->sprites[*count]->v_move = -500 * WIN_HEIGHT / 1200;
+	scene->sprites[*count]->collision_box = 0;
+	scene->sprites[*count]->hitbox = 0;
+	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
+	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
+	scene->sprites[*count]->hitpoint = INT_MAX;
+	scene->sprites[*count]->sprite_type = PORTAL;
+	(*count)++;
+}
+
 void	allocat_sprites(t_scene *scene)
 {
 	int	i;
@@ -88,6 +105,8 @@ void	allocat_sprites(t_scene *scene)
 				allocat_manaorb(scene, i, j, &count);
 			if (scene->map->map[i][j] == 'V')
 				allocat_warlock(scene, i, j, &count);
+			if (scene->map->map[i][j] == 'Z' || scene->map->map[i][j] == 'Y')
+				allocat_portal(scene, i, j, &count);
 		}
 	}
 }
@@ -97,6 +116,7 @@ void	initsprites(t_scene *scene)
 	scene->score_img = NULL;
 	scene->projectiles = NULL;
 	scene->win = FALSE;
+	scene->fast_travel = FALSE;
 	scene->timer.time_origin = mlx_get_time();
 	load_sprites(scene);
 	load_projectiles(scene);

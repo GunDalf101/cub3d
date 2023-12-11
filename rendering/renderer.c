@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 12:12:07 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:49:42 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,45 @@ void	load_score(t_scene *scene)
 	free(score_str);
 }
 
+void	draw_ending(t_scene scene)
+{
+	t_death	death;
+
+	death.i = 0;
+	while (death.i++ < scene.ending_img->height - 1)
+	{
+		death.j = 0;
+		while (death.j++ < scene.ending_img->width - 1)
+		{
+			death.r = scene.ending_img->pixels[death.i * 4
+				* scene.ending_img->width + death.j * 4];
+			death.g = scene.ending_img->pixels[death.i * 4
+				* scene.ending_img->width + death.j * 4 + 1];
+			death.b = scene.ending_img->pixels[death.i * 4
+				* scene.ending_img->width + death.j * 4 + 2];
+			death.a = scene.ending_img->pixels[death.i * 4
+				* scene.ending_img->width + death.j * 4 + 3];
+			if (death.a == 0)
+				continue ;
+			mlx_put_pixel(scene.mlx_img, death.j, death.i, ft_pixel(death.r,
+					death.g, death.b, death.a));
+		}
+	}
+}
+
 void	renderitall(t_scene scene)
 {
-	sky_floor_render(scene);
-	ray_caster(&scene);
-	sprites_projectiles(scene);
+	if (scene.win != TRUE)
+	{
+		sky_floor_render(scene);
+		ray_caster(&scene);
+		sprites_projectiles(scene);
+	}
+	if (scene.win == TRUE)
+	{
+		draw_ending(scene);
+		win_screen(scene);
+	}
 	draw_minimap_circle(&scene);
 	drawbar(scene);
 	load_score(&scene);
@@ -108,8 +142,7 @@ void	renderitall(t_scene scene)
 	drawtimer(scene);
 	if (scene.player->is_ded == TRUE)
 		death_screen(scene);
-	if (scene.win == TRUE)
-		win_screen(scene);
 	mlx_image_to_window(scene.mlx_ptr, scene.mlx_img, 0, 0);
-	occasional_free(&scene);
+	if (scene.win != TRUE)
+		occasional_free(&scene);
 }

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 12:54:20 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 10:41:10 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:23:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 void	check_player_health(t_scene *scene)
 {
+	static int	i;
+
 	if (scene->player->health_points <= 0)
+	{
+		if (i == 0)
+			system("afplay assets/death.mp3 &");
 		scene->player->is_ded = TRUE;
+	}
+	if (scene->player->is_ded == TRUE)
+		i++;
 }
 
 void	check_trapped(t_scene *scene)
@@ -77,8 +85,6 @@ void	check_win(t_scene *scene)
 	}
 	if (scene->win == TRUE)
 		i++;
-	if (i == 200)
-		exit(0);
 }
 
 void	check_timer(t_scene *scene)

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 00:17:31 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:06:32 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,37 @@ void	trap_logic(t_scene *scene)
 	}
 }
 
+void	check_pole(t_scene *scene)
+{
+	if (scene->map->map[(int)(scene->player->pos[X])
+		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] == 'Z'
+		&& !scene->fast_travel)
+	{
+		scene->player->pos[X] = scene->south_pole[X] * UNIT + UNIT / 2;
+		scene->player->pos[Y] = scene->south_pole[Y] * UNIT + UNIT / 2;
+		scene->fast_travel = TRUE;
+	}
+	if (scene->map->map[(int)(scene->player->pos[X])
+		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] == 'Y'
+		&& !scene->fast_travel)
+	{
+		scene->player->pos[X] = scene->north_pole[X] * UNIT + UNIT / 2;
+		scene->player->pos[Y] = scene->north_pole[Y] * UNIT + UNIT / 2;
+		scene->fast_travel = TRUE;
+	}
+	if (scene->map->map[(int)(scene->player->pos[X])
+		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] != 'Z'
+		&& scene->map->map[(int)(scene->player->pos[X])
+		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] != 'Y')
+		scene->fast_travel = FALSE;
+}
+
 void	gameloop(void *scene2)
 {
 	t_scene	*scene;
 
 	scene = (t_scene *)scene2;
+	check_pole(scene);
 	mlx_delete_image(scene->mlx_ptr, scene->mlx_img);
 	scene->mlx_img = mlx_new_image(scene->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	scene->oldtime = scene->time;

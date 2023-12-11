@@ -23,7 +23,7 @@ while True:
         break
     input_map.append(row)
 
-probability = 0.1
+probability = 0.2
 
 output_map = generate_random_map(input_map, probability)
 

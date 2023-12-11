@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:37:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 09:44:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 13:23:38 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	velocity_keys(mlx_key_data_t keycode, t_scene *scene)
 		scene->player->crouch = FALSE;
 		scene->player->velocity = 1.5;
 	}
+	if (scene->player->is_ded || scene->win)
+		scene->player->velocity = 0;
 }
 
 void	spells_keys(mlx_key_data_t keycode, t_scene *scene)

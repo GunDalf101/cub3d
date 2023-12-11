@@ -6,20 +6,20 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 12:12:48 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:46:57 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 1000
-# define WIN_HEIGHT 1000
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 800
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
-# define EX_MAP_KNOWN_CHARS "1*0*N!S!W!E!L*P*M*T*B*V*D*"
-# define MAP_KNOWN_CHARS "10NSWELPMTBVD"
+# define EX_MAP_KNOWN_CHARS "1*0*N!S!W!E!L*P*M*T*B*V*D*Y*Z*"
+# define MAP_KNOWN_CHARS "10NSWELPMTBVDYZ"
 
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "gnl/get_next_line.h"
@@ -83,7 +83,8 @@ enum					e_sprite
 	BARREL,
 	PILLAR,
 	MANAORB,
-	WARLOCK
+	WARLOCK,
+	PORTAL
 };
 
 typedef struct s_door
@@ -284,6 +285,9 @@ typedef struct s_scene
 	t_timer				timer;
 	double				camera_x;
 	int					fd;
+	int					fast_travel;
+	int					north_pole[2];
+	int					south_pole[2];
 	int					maplol[10][10];
 	int					score;
 	t_map				*map;
@@ -329,8 +333,12 @@ typedef struct s_scene
 	mlx_image_t			*floor_img;
 	mlx_texture_t		*door_tex;
 	mlx_image_t			*door_img;
+	mlx_texture_t		*ending_tex;
+	mlx_image_t			*ending_img;
 	mlx_texture_t		*ceil_tex;
 	mlx_image_t			*ceil_img;
+	mlx_texture_t		*portal_tex;
+	mlx_image_t			*portal_img;
 	mlx_key_data_t		key_data;
 	mlx_image_t			*score_img;
 	t_projectile		*projectiles;

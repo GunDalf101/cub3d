@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:17:02 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 00:03:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:26:04 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	sprite_coloring(t_scene *scene, int count, int stripe, int j)
 	a = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
 		* 4 * scene->sprites[count]->sprite_img->width
 		+ scene->sprites[count]->tex[X] * 4 + 3];
-	if (a < 200)
+	if (a < 100)
 		return ;
 	mlx_put_pixel(scene->mlx_img, stripe, scene->player->central_angle
 		- scene->player->crouch + j, ft_pixel(r, g, b, a));

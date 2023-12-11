@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 14:40:53 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 11:02:29 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:06:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ void	load_end(t_scene *scene)
 	mlx_resize_image(scene->win_img, WIN_WIDTH, scene->win_img->height
 		* WIN_WIDTH / scene->win_img->width);
 	mlx_delete_texture(scene->win_tex);
+	scene->ending_tex = mlx_load_png("assets/ending.png");
+	if (!scene->ending_tex)
+		exit(0);
+	scene->ending_img = mlx_texture_to_image(scene->mlx_ptr, scene->ending_tex);
+	mlx_resize_image(scene->ending_img, WIN_WIDTH - 1, WIN_HEIGHT - 1);
+	mlx_delete_texture(scene->ending_tex);
 }
 
 void	allocat_door(t_scene *scene, int i, int j, int *count)
@@ -58,6 +64,16 @@ void	allocat_doors(t_scene *scene)
 		{
 			if (scene->map->map[i][j] == 'D')
 				allocat_door(scene, i, j, &count);
+			if (scene->map->map[i][j] == 'Z')
+			{
+				scene->north_pole[X] = i;
+				scene->north_pole[Y] = j;
+			}
+			if (scene->map->map[i][j] == 'Y')
+			{
+				scene->south_pole[X] = i;
+				scene->south_pole[Y] = j;
+			}
 		}
 	}
 }

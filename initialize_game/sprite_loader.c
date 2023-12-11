@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:03:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 11:41:30 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:22:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,14 @@ void	load_projectiles(t_scene *scene)
 	mlx_resize_image(scene->iceball_img, 150 * WIN_HEIGHT / 1200, 150
 		* WIN_HEIGHT / 1200);
 	mlx_delete_texture(scene->iceball_tex);
+	scene->portal_tex = mlx_load_png("assets/portal.png");
+	if (!scene->portal_tex)
+		exit(0);
+	scene->portal_img = mlx_texture_to_image(scene->mlx_ptr,
+			scene->portal_tex);
+	mlx_resize_image(scene->portal_img, 500 * WIN_HEIGHT / 1200, 500
+		* WIN_HEIGHT / 1200);
+	mlx_delete_texture(scene->portal_tex);
 }
 
 void	load_warlock(void *mlxptr, t_scene *scene)
@@ -129,9 +137,9 @@ void	sprite_count(t_scene *scene)
 		{
 			if (scene->map->map[i][j] == 'B' || scene->map->map[i][j] == 'P')
 				count++;
-			if (scene->map->map[i][j] == 'M')
+			if (scene->map->map[i][j] == 'M' || scene->map->map[i][j] == 'V')
 				count++;
-			if (scene->map->map[i][j] == 'V')
+			if (scene->map->map[i][j] == 'Z' || scene->map->map[i][j] == 'Y')
 				count++;
 			if (scene->map->map[i][j] == 'D')
 				scene->door_count++;

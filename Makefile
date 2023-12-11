@@ -106,6 +106,9 @@ fclean: clean
 	@rm -f $(NAME)
 	@echo "\033[3m\033[1m\033[42m\033[31m~~The directory have been fully wiped~~\033[0m"; \
 
+m : all clean
+	./cub3d maps/map.cub
+
 re: fclean all
 
 .PHONY: all bonus libft clean fclean re
