@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:11:32 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 15:17:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 20:28:30 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	sky_floor_render(t_scene scene)
 		dda.color = scene.map->floor_rgb[0] << 24 | scene.map->\
 		floor_rgb[1] << 16 | scene.map->floor_rgb[2] << 8 | 255;
 		drawline(&dda, WIN_WIDTH, i, scene);
-		i++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 17:06:32 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:08:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rotate_left(t_scene *scene)
 {
-	scene->player->p_angle -= 0.1;
+	scene->player->p_angle -= 0.2;
 	if (scene->player->p_angle > 2 * M_PI)
 		scene->player->p_angle -= 2 * M_PI;
 	else if (scene->player->p_angle < 0)
@@ -29,7 +29,7 @@ void	rotate_left(t_scene *scene)
 
 void	rotate_right(t_scene *scene)
 {
-	scene->player->p_angle += 0.1;
+	scene->player->p_angle += 0.2;
 	if (scene->player->p_angle < 0)
 		scene->player->p_angle += 2 * M_PI;
 	else if (scene->player->p_angle > 2 * M_PI)
@@ -80,31 +80,6 @@ void	trap_logic(t_scene *scene)
 			scene->old_damaged_time = scene->damaged_time;
 		}
 	}
-}
-
-void	check_pole(t_scene *scene)
-{
-	if (scene->map->map[(int)(scene->player->pos[X])
-		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] == 'Z'
-		&& !scene->fast_travel)
-	{
-		scene->player->pos[X] = scene->south_pole[X] * UNIT + UNIT / 2;
-		scene->player->pos[Y] = scene->south_pole[Y] * UNIT + UNIT / 2;
-		scene->fast_travel = TRUE;
-	}
-	if (scene->map->map[(int)(scene->player->pos[X])
-		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] == 'Y'
-		&& !scene->fast_travel)
-	{
-		scene->player->pos[X] = scene->north_pole[X] * UNIT + UNIT / 2;
-		scene->player->pos[Y] = scene->north_pole[Y] * UNIT + UNIT / 2;
-		scene->fast_travel = TRUE;
-	}
-	if (scene->map->map[(int)(scene->player->pos[X])
-		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] != 'Z'
-		&& scene->map->map[(int)(scene->player->pos[X])
-		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] != 'Y')
-		scene->fast_travel = FALSE;
 }
 
 void	gameloop(void *scene2)

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:04:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 16:50:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:11:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,36 +79,6 @@ void	allocat_portal(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->hitpoint = INT_MAX;
 	scene->sprites[*count]->sprite_type = PORTAL;
 	(*count)++;
-}
-
-void	allocat_sprites(t_scene *scene)
-{
-	int	i;
-	int	count;
-	int	j;
-
-	scene->sprites = ft_calloc(scene->sprite_count, sizeof(t_sprite *));
-	if (!scene->sprites)
-		exit(0);
-	i = -1;
-	count = 0;
-	while (++i < scene->map->map_height)
-	{
-		j = -1;
-		while (++j < scene->map->map_width)
-		{
-			if (scene->map->map[i][j] == 'B')
-				allocat_barrel(scene, i, j, &count);
-			if (scene->map->map[i][j] == 'P')
-				allocat_pillar(scene, i, j, &count);
-			if (scene->map->map[i][j] == 'M')
-				allocat_manaorb(scene, i, j, &count);
-			if (scene->map->map[i][j] == 'V')
-				allocat_warlock(scene, i, j, &count);
-			if (scene->map->map[i][j] == 'Z' || scene->map->map[i][j] == 'Y')
-				allocat_portal(scene, i, j, &count);
-		}
-	}
 }
 
 void	initsprites(t_scene *scene)

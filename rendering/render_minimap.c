@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 20:07:21 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 17:41:29 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 20:46:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ void	minimap_coloring(t_minimap *minimap, t_scene *scene)
 		&& scene->map->map[(int)(minimap->j)][(int)(minimap->i)] == '1')
 		mlx_put_pixel(scene->mlx_img, minimap->pos_x, minimap->pos_y,
 			0x000000FF);
+	else if ((pow(minimap->pos_x - minimap->o_x, 2) + pow(minimap->pos_y
+				- minimap->o_y, 2)) <= 10000
+		&& scene->map->map[(int)(minimap->j)][(int)(minimap->i)] == 'T')
+		mlx_put_pixel(scene->mlx_img, minimap->pos_x, minimap->pos_y,
+			0xCC0033FF);
 	else if ((pow(minimap->pos_x - minimap->o_x, 2) + pow(minimap->pos_y
 				- minimap->o_y, 2)) <= 10000
 		&& scene->map->map[(int)(minimap->j)][(int)(minimap->i)] != '1')

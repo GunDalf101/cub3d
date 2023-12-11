@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 16:46:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 20:40:11 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -435,5 +435,18 @@ void					load_end(t_scene *scene);
 void					drawtimer(t_scene scene);
 void					load_timer(t_scene *scene);
 void					win_screen(t_scene scene);
+void					check_pole(t_scene *scene);
+void					allocat_sprites(t_scene *scene);
+void					allocat_barrel(t_scene *scene, int i, int j,
+							int *count);
+void					allocat_pillar(t_scene *scene, int i, int j,
+							int *count);
+void					allocat_manaorb(t_scene *scene, int i, int j,
+							int *count);
+void					allocat_portal(t_scene *scene, int i, int j,
+							int *count);
+void					check_win(t_scene *scene);
+void					check_timer(t_scene *scene);
+void					draw_ending(t_scene scene);
 
 #endif

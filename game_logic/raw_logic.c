@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 12:54:20 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 16:23:02 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:33:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,35 +70,6 @@ void	restore_mana(t_scene *scene)
 		scene->map->map[(int)(scene->player->pos[X])
 			/ UNIT][(int)(scene->player->pos[Y]) / UNIT] = '0';
 	}
-}
-
-void	check_win(t_scene *scene)
-{
-	static int	i;
-
-	if (scene->map->map[(int)(scene->player->pos[X])
-		/ UNIT][(int)(scene->player->pos[Y]) / UNIT] == 'L')
-	{
-		if (i == 0)
-			system("afplay assets/win.mp3 &");
-		scene->win = TRUE;
-	}
-	if (scene->win == TRUE)
-		i++;
-}
-
-void	check_timer(t_scene *scene)
-{
-	int		time;
-
-	if (scene->win)
-		return ;
-	time = mlx_get_time() - scene->timer.time_origin;
-	scene->timer.hours = time / 3600;
-	time %= 3600;
-	scene->timer.minutes = time / 60;
-	time %= 60;
-	scene->timer.seconds = time;
 }
 
 void	dynamic_logic(t_scene *scene)

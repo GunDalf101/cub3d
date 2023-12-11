@@ -13,6 +13,7 @@ SOURCES = cube.c \
 		rendering/animation_calcul.c \
 		rendering/timer_display.c \
 		rendering/timer_loading.c \
+		rendering/draw_scenes.c \
 		textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
@@ -24,6 +25,7 @@ SOURCES = cube.c \
 		initialize_game/player_alloc.c \
 		initialize_game/sprite_loader.c \
 		initialize_game/doors_alloc.c \
+		initialize_game/alloc_handler.c \
 		game_logic/collisions.c \
 		game_logic/projectile_logic.c \
 		game_logic/raw_logic.c \
@@ -32,6 +34,8 @@ SOURCES = cube.c \
 		game_logic/movements.c \
 		game_logic/main_loop.c \
 		game_logic/projectile_sprite_interaction.c \
+		game_logic/check_teleport.c \
+		game_logic/logical_numbers.c \
 		keybinds/keybinds.c \
 		keybinds/mousebinds.c \
 		keybinds/door_checker.c \

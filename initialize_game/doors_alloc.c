@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 14:40:53 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 17:06:12 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:20:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ void	allocat_door(t_scene *scene, int i, int j, int *count)
 	(*count)++;
 }
 
+void	set_pole_coordinates(t_scene *scene, int i, int j)
+{
+	if (scene->map->map[i][j] == 'Z')
+	{
+		scene->north_pole[X] = i;
+		scene->north_pole[Y] = j;
+	}
+	if (scene->map->map[i][j] == 'Y')
+	{
+		scene->south_pole[X] = i;
+		scene->south_pole[Y] = j;
+	}
+}
+
 void	allocat_doors(t_scene *scene)
 {
 	int	i;
@@ -64,16 +78,7 @@ void	allocat_doors(t_scene *scene)
 		{
 			if (scene->map->map[i][j] == 'D')
 				allocat_door(scene, i, j, &count);
-			if (scene->map->map[i][j] == 'Z')
-			{
-				scene->north_pole[X] = i;
-				scene->north_pole[Y] = j;
-			}
-			if (scene->map->map[i][j] == 'Y')
-			{
-				scene->south_pole[X] = i;
-				scene->south_pole[Y] = j;
-			}
+			set_pole_coordinates(scene, i, j);
 		}
 	}
 }
