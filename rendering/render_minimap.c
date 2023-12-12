@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 20:07:21 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 22:10:51 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 16:45:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,28 @@ void	minimap_init(t_minimap *minimap, t_scene *scene)
 
 void	minimap_coloring(t_minimap *minimap, t_scene *scene)
 {
+	double	distance_squared;
+
+	distance_squared = pow(minimap->pos_x - minimap->o_x, 2)
+		+ pow(minimap->pos_y - minimap->o_y, 2);
 	if ((minimap->i < 0 || minimap->j < 0 || minimap->i >= scene->map->map_width
-			|| minimap->j >= scene->map->map_height) && (pow(minimap->pos_x
-				- minimap->o_x, 2) + pow(minimap->pos_y - minimap->o_y,
-				2)) <= 10000)
+			|| minimap->j >= scene->map->map_height)
+		&& distance_squared <= 10000)
 		mlx_put_pixel(scene->mlx_img, minimap->pos_x, minimap->pos_y,
 			0x00000000);
-	else if ((pow(minimap->pos_x - minimap->o_x, 2) + pow(minimap->pos_y
-				- minimap->o_y, 2)) <= 10000
+	else if (distance_squared <= 10000
 		&& scene->map->map[(int)(minimap->j)][(int)(minimap->i)] == '1')
 		mlx_put_pixel(scene->mlx_img, minimap->pos_x, minimap->pos_y,
 			0x000000FF);
-	else if ((pow(minimap->pos_x - minimap->o_x, 2) + pow(minimap->pos_y
-				- minimap->o_y, 2)) <= 10000
+	else if (distance_squared <= 10000
 		&& scene->map->map[(int)(minimap->j)][(int)(minimap->i)] == 'T')
 		mlx_put_pixel(scene->mlx_img, minimap->pos_x, minimap->pos_y,
 			0xFF4E01FF);
-	else if ((pow(minimap->pos_x - minimap->o_x, 2) + pow(minimap->pos_y
-				- minimap->o_y, 2)) <= 10000
+	else if (distance_squared <= 10000
 		&& (scene->map->map[(int)(minimap->j)][(int)(minimap->i)] == 'C'))
 		mlx_put_pixel(scene->mlx_img, minimap->pos_x, minimap->pos_y,
 			0xCD7F32FF);
-	else if ((pow(minimap->pos_x - minimap->o_x, 2) + pow(minimap->pos_y
-				- minimap->o_y, 2)) <= 10000
+	else if (distance_squared <= 10000
 		&& scene->map->map[(int)(minimap->j)][(int)(minimap->i)] != '1')
 		mlx_put_pixel(scene->mlx_img, minimap->pos_x, minimap->pos_y,
 			0x9b7653FF);
@@ -81,6 +80,6 @@ void	draw_minimap_circle(t_scene *scene)
 	minimap.dda.x1 = minimap.o_x;
 	minimap.dda.y1 = minimap.o_y;
 	minimap.dda.color = 0x00FF00FF;
-	drawline(&minimap.dda, (minimap.o_x + scene->player->dir[Y]
-			/ 2), (minimap.o_y + scene->player->dir[X] / 2), *scene);
+	drawline(&minimap.dda, (minimap.o_x + scene->player->dir[Y] / 2),
+		(minimap.o_y + scene->player->dir[X] / 2), *scene);
 }
