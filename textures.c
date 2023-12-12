@@ -61,6 +61,22 @@ static t_direction  get_wall_dir(t_player *player, int x)
     // get_wall_dir(scene->map, x, start_y);
     // printf("looking at wall: [%s]\n", scene->player->vision_rays[x]->side == EW ? (scene->player->dir[X] < 0 ? "WE" : "EA") : (scene->player->dir[Y] < 0 ? "NO" : "SO"));
 
+static mlx_image_t  *get_texture(t_scene *scene, t_ray_caster *wizard)
+{
+    if (scene->map->map[scene->player->\
+			vision_rays[wizard->x]->current_cell[X] \
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+			/ UNIT] == 'D')
+        return (scene->door_img);
+    else if (scene->map->map[scene->player->\
+            vision_rays[wizard->x]->current_cell[X] \
+            / UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+            / UNIT] == 'L')
+        return (scene->end_img);
+    else
+        return (scene->map->textures_mlx_imgs[get_wall_dir(scene->player, wizard->x)]);
+}
+
 void    drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 {
     t_direction	wdir;
@@ -70,18 +86,7 @@ void    drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 	double		y;
 
     wdir = get_wall_dir(scene->player, wizard->x);
-    if (scene->map->map[scene->player->\
-			vision_rays[wizard->x]->current_cell[X] \
-			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
-			/ UNIT] == 'D')
-        wtext = scene->door_img;
-    else if (scene->map->map[scene->player->\
-            vision_rays[wizard->x]->current_cell[X] \
-            / UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
-            / UNIT] == 'L')
-        wtext = scene->end_img;
-    else
-        wtext = scene->map->textures_mlx_imgs[wdir];
+    wtext = get_texture(scene, wizard);
     if (wdir == EAST || wdir == WEST)
         i = scene->player->vision_rays[wizard->x]->current_cell[X] % UNIT;
     else
