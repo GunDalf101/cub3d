@@ -36,6 +36,9 @@ SOURCES = cube.c \
 		game_logic/projectile_sprite_interaction.c \
 		game_logic/check_teleport.c \
 		game_logic/logical_numbers.c \
+		game_logic/state_machine.c \
+		game_logic/enemy_los.c \
+		game_logic/check_state.c \
 		keybinds/keybinds.c \
 		keybinds/mousebinds.c \
 		keybinds/door_checker.c \

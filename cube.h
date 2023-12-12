@@ -6,15 +6,15 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 20:40:11 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 00:23:20 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 800
+# define WIN_WIDTH 1100
+# define WIN_HEIGHT 600
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
@@ -38,19 +38,18 @@ typedef enum e_direction
 	WEST
 }						t_direction;
 
-enum					e_move
-{
-	FORWARD,
-	BACKWARDS,
-	LEFT,
-	RIGHT,
-	STOP
-};
-
 enum					e_general
 {
 	EW,
 	NS
+};
+
+enum					e_state
+{
+	IDLE,
+	PURSUIT,
+	ATTACK,
+	DEAD
 };
 
 enum					e_coord
@@ -186,17 +185,20 @@ typedef struct s_sprite
 {
 	double				pos[2];
 	double				relative_pos[2];
+	double				dir[2];
 	double				transform[2];
 	double				inverse_det;
 	double				sprite_distance;
 	double				perp_dist;
 	int					hitpoint;
 	int					sprite_type;
+	int					state;
 	int					hitbox;
 	int					sprite_screen_x;
 	int					sprite_height;
 	int					sprite_width;
 	int					tex[2];
+	int					sped;
 	int					d;
 	int					collision_box;
 	int					v_move;
@@ -294,6 +296,7 @@ typedef struct s_scene
 	t_sprite			**sprites;
 	t_door				**doors;
 	int					door_count;
+	int					war_index;
 	t_player			*player;
 	int					win_width;
 	int					win_height;
@@ -448,5 +451,8 @@ void					allocat_portal(t_scene *scene, int i, int j,
 void					check_win(t_scene *scene);
 void					check_timer(t_scene *scene);
 void					draw_ending(t_scene scene);
+void					check_enemy_state(t_scene *scene);
+void					state_machine(t_scene *scene);
+int						line_o_sight(t_dda dda, int x2, int y2, t_scene scene);
 
 #endif

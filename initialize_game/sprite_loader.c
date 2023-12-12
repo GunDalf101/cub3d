@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:03:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 17:22:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 00:44:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	load_floor_textures(t_scene *scene)
 	scene->ceil_img = mlx_texture_to_image(scene->mlx_ptr, scene->ceil_tex);
 	mlx_resize_image(scene->ceil_img, WIN_WIDTH, WIN_HEIGHT);
 	mlx_delete_texture(scene->ceil_tex);
-	scene->trap_tex = mlx_load_png("textures/lava.png");
+	scene->trap_tex = mlx_load_png("textures/acid.png");
 	if (!scene->trap_tex)
 		exit(0);
 	scene->trap_img = mlx_texture_to_image(scene->mlx_ptr, scene->trap_tex);
-	mlx_resize_image(scene->trap_img, WIN_WIDTH, WIN_WIDTH);
+	mlx_resize_image(scene->trap_img, WIN_WIDTH, WIN_HEIGHT);
 	mlx_delete_texture(scene->trap_tex);
 	scene->door_tex = mlx_load_png("textures/door.png");
 	if (!scene->door_tex)

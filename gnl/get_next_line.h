@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbouhach <hbouhach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 12:14:32 by hbouhach          #+#    #+#             */
-/*   Updated: 2023/10/26 16:59:18 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/12/12 22:51:49 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 
-#define BUFFER_SIZE 100
+# define BUFFER_SIZE 100
 
 typedef struct s_stream
 {

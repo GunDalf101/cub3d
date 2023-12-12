@@ -6,23 +6,17 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 14:03:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 22:54:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 #include <stdio.h>
 
-void	mlx_exit(void)
-{
-	system("leaks cub3d");
-}
-
 int	main(int argc, char *argv[])
 {
 	t_scene	scene;
 
-	atexit(mlx_exit);
 	scene.map = ft_calloc(sizeof(t_map), 1);
 	if (argc != 2)
 		return (1);

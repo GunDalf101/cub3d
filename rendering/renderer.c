@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 22:06:23 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:11:47 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	load_score(t_scene *scene)
 
 void	renderitall(t_scene scene)
 {
+	(void)scene;
 	if (scene.win != TRUE)
 	{
 		sky_floor_render(scene);

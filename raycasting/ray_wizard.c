@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 20:29:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:02:11 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	wall_height_calculation(t_scene *scene, t_ray_caster *wizard)
 					- scene->player->vision_rays[wizard->x]->step[X]) / 2)
 			/ scene->player->vision_rays[wizard->x]->dir[X];
 	scene->player->vision_rays[wizard->x]->wall_height = (int)(WIN_HEIGHT
-			/ scene->player->vision_rays[wizard->x]->wall_dist * 3);
+			/ scene->player->vision_rays[wizard->x]->wall_dist * 3 \
+			* WIN_WIDTH / WIN_HEIGHT);
 }
 
 void	render_walls(t_scene *scene, t_ray_caster *wizard)

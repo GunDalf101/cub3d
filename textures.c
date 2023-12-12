@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:46:46 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 16:46:47 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 22:47:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,39 +56,20 @@ static t_direction	get_wall_dir(t_player *player, int x)
 	return (SOUTH);
 }
 
-// static char * stringity_dir(t_direction dir)
-// {
-//     if (dir == SOUTH)
-//         return ("SOUTH");
-//     else if (dir == EAST)
-//         return ("EAST");
-//     else if (dir == WEST)
-//         return ("WEST");
-//     else
-//         return ("NORTH");
-// }
-// if (wdir != NORTH && wdir != SOUTH)
-// printf("current wall: (%d, %d) DIR: (%s)\n",
-// scene->player->vision_rays[x]->current_cell[X] / UNIT,
-// scene->player->vision_rays[x]->current_cell[Y] / UNIT, stringity_dir(wdir));
-// printf("draw a line from: (%d,%d) to (%d,%d)\n", x, start_y, x, end_y);
-// get_wall_dir(scene->map, x, start_y);
-// printf("looking at wall: [%s]\n",
-// scene->player->vision_rays[x]->side == EW ? (scene->player->dir[X] < 0 ? "WE" : "EA") : (scene->player->dir[Y] < 0 ? "NO" : "SO"));
-
 static mlx_image_t	*get_texture(t_scene *scene, t_ray_caster *wizard)
 {
 	if (scene->map->map[scene->player->vision_rays[wizard->x]->current_cell[X]
-		/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 		/ UNIT] == 'D')
 		return (scene->door_img);
-	else if (scene->map->map[scene->player->vision_rays[wizard->x]->current_cell[X]
-		/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
+	else if (scene->map->map[scene->player->vision_rays[wizard->x]->\
+	current_cell[X]
+			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 		/ UNIT] == 'L')
 		return (scene->end_img);
 	else
 		return (scene->map->textures_mlx_imgs[get_wall_dir(scene->player,
-				wizard->x)]);
+					wizard->x)]);
 }
 
 void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)

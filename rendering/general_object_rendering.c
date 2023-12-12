@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:11:32 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 20:28:30 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 21:39:58 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	win_screen(t_scene scene)
 	t_death	death;
 
 	death.i = 0;
-	while (death.i++ < scene.win_img->height)
+	while (death.i++ < WIN_HEIGHT - 1)
 	{
 		death.j = 0;
-		while (death.j++ < scene.win_img->width)
+		while (death.j++ < WIN_WIDTH - 1)
 		{
 			death.r = scene.win_img->pixels[death.i * 4 * scene.win_img->width
 				+ death.j * 4];

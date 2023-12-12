@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 19:08:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 22:51:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,13 @@ void	gameloop(void *scene2)
 
 	scene = (t_scene *)scene2;
 	check_pole(scene);
+	check_enemy_state(scene);
+	state_machine(scene);
 	mlx_delete_image(scene->mlx_ptr, scene->mlx_img);
 	scene->mlx_img = mlx_new_image(scene->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	scene->oldtime = scene->time;
 	scene->time = mlx_get_time();
 	scene->frame_time = (scene->time - scene->oldtime);
-	printf("FPS: %f\n", 1 / scene->frame_time);
 	movement_logic(scene);
 	trap_logic(scene);
 	projectile_logic(scene);

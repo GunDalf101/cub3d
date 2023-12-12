@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:04:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 19:11:50 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:16:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	allocat_barrel(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
 	scene->sprites[*count]->hitpoint = 150;
 	scene->sprites[*count]->sprite_type = BARREL;
+	scene->sprites[*count]->state = IDLE;
 	(*count)++;
 }
 
@@ -61,6 +62,7 @@ void	allocat_manaorb(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
 	scene->sprites[*count]->hitpoint = INT_MAX;
 	scene->sprites[*count]->sprite_type = MANAORB;
+	scene->sprites[*count]->state = IDLE;
 	(*count)++;
 }
 
@@ -78,6 +80,7 @@ void	allocat_portal(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
 	scene->sprites[*count]->hitpoint = INT_MAX;
 	scene->sprites[*count]->sprite_type = PORTAL;
+	scene->sprites[*count]->state = IDLE;
 	(*count)++;
 }
 

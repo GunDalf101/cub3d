@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 23:00:51 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/06 23:01:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:21:55 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ void	initial_calculation(t_scene *scene, int count)
 		* (scene->player->dir[X] * scene->sprites[count]->relative_pos[Y]
 			- scene->player->dir[Y] * scene->sprites[count]->relative_pos[X]);
 	scene->sprites[count]->v_move_screen = (int)(scene->sprites[count]->v_move
-			/ scene->sprites[count]->transform[Y]);
+			/ scene->sprites[count]->transform[Y]) * WIN_WIDTH / WIN_HEIGHT;
 	scene->sprites[count]->sprite_screen_x = (int)((WIN_WIDTH / 2) * (1
 				+ scene->sprites[count]->transform[X]
 				/ scene->sprites[count]->transform[Y]));
 	scene->sprites[count]->sprite_height = abs((int)(scene->sprites[count]->\
-		sprite_img->height / (scene->sprites[count]->transform[Y]) * 7));
+		sprite_img->height / (scene->sprites[count]->transform[Y]) * 7)) \
+		* WIN_WIDTH / WIN_HEIGHT;
 }
 
 void	line_coordinates(t_scene *scene, int count)
@@ -51,7 +52,8 @@ void	line_coordinates(t_scene *scene, int count)
 		scene->sprites[count]->end[Y] = WIN_HEIGHT
 			- scene->player->central_angle + scene->player->crouch - 1;
 	scene->sprites[count]->sprite_width = abs((int)(scene->sprites[count]->\
-		sprite_img->width / (scene->sprites[count]->transform[Y]) * 7));
+		sprite_img->width / (scene->sprites[count]->transform[Y]) * 7)) * \
+		WIN_WIDTH / WIN_HEIGHT;
 	scene->sprites[count]->start[X] = scene->sprites[count]->sprite_screen_x
 		- scene->sprites[count]->sprite_width / 2;
 	if (scene->sprites[count]->start[X] < 0)

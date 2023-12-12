@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 12:19:03 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 00:44:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	is_trap(t_scene *scene, t_floor_cast *floor)
 	if (floor->current_floor_y / 34.25 + scene->player->pos[Y] / (UNIT
 			* 34.25) > 0 && floor->current_floor_x / 34.25
 		+ scene->player->pos[X] / (UNIT * 34.25) > 0 && floor->current_floor_y
-		/ 34.25 + scene->player->pos[Y] / (UNIT * 34.25) < scene->map->map_width
-		&& floor->current_floor_x / 34.25 + scene->player->pos[X] / (UNIT
-			* 34.25) < scene->map->map_height
+		/ 34.25 + scene->player->pos[Y] / (UNIT
+			* 34.25) < scene->map->map_height && floor->current_floor_x / 34.25
+		+ scene->player->pos[X] / (UNIT * 34.25) < scene->map->map_width
 		&& scene->map->map[(int)(floor->current_floor_x / 34.25
 			+ scene->player->pos[X] / (UNIT
 				* 34.25))][(int)(floor->current_floor_y / 34.25
@@ -28,43 +28,59 @@ int	is_trap(t_scene *scene, t_floor_cast *floor)
 	return (0);
 }
 
+int	test_color(t_scene *scene, t_floor_cast *floor)
+{
+	u_int8_t	r;
+	u_int8_t	g;
+	u_int8_t	b;
+	u_int8_t	a;
+
+	r = scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
+		+ floor->tx * 4] / 2 + scene->trap_img->pixels[scene->trap_img->width
+		* floor->ty * 4 + floor->tx * 4] / 2;
+	g = (scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
+			+ floor->tx * 4 + 1] / 2)
+		+ scene->trap_img->pixels[scene->trap_img->width * floor->ty * 4
+		+ floor->tx * 4 + 1] / 2;
+	b = (scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
+			+ floor->tx * 4 + 2] / 2)
+		+ scene->trap_img->pixels[scene->trap_img->width * floor->ty * 4
+		+ floor->tx * 4 + 2] / 2;
+	a = (scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
+			+ floor->tx * 4 + 3] / 2)
+		+ scene->trap_img->pixels[scene->trap_img->width * floor->ty * 4
+		+ floor->tx * 4 + 3] / 2;
+	return (ft_pixel(r, g, b, a));
+}
+
 void	get_floor_texture_color(t_scene *scene, t_floor_cast *floor)
 {
-	floor->color = ft_pixel(scene->floor_img->pixels[scene->\
-			floor_img->width * floor->ty * 4 + floor->tx * 4],
-			scene->floor_img->pixels[scene->floor_img->width \
-			* floor->ty * 4 + floor->tx * 4 + 1],
-			scene->floor_img->pixels[scene->floor_img->width \
-			* floor->ty * 4 + floor->tx * 4 + 2],
-			scene->floor_img->pixels[scene->floor_img->width \
-			* floor->ty * 4 + floor->tx * 4 + 3]);
+	floor->color = ft_pixel(scene->floor_img->pixels[scene->floor_img->width
+			* floor->ty * 4 + floor->tx * 4],
+			scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
+			+ floor->tx * 4 + 1],
+			scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
+			+ floor->tx * 4 + 2],
+			scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
+			+ floor->tx * 4 + 3]);
 	if (is_trap(scene, floor))
-		floor->color = ft_pixel(scene->trap_img->pixels[scene->\
-				trap_img->\
-				width * floor->ty * 4 + floor->tx * 4],
-				scene->trap_img->pixels[scene->trap_img->width \
-				* floor->ty * 4 + floor->tx * 4 + 1],
-				scene->trap_img->pixels[scene->trap_img->width \
-				* floor->ty * 4 + floor->tx * 4 + 2],
-				scene->trap_img->pixels[scene->trap_img->width \
-				* floor->ty * 4 + floor->tx * 4 + 3]);
+		floor->color = test_color(scene, floor);
 }
 
 void	render_floor_pixel(t_scene *scene, t_floor_cast *floor)
 {
 	floor->current_dist = WIN_HEIGHT / (2.0 * (floor->y + scene->player->crouch
-				- scene->player->central_angle) - WIN_HEIGHT);
+				- scene->player->central_angle) - WIN_HEIGHT) * WIN_WIDTH
+		/ WIN_HEIGHT;
 	floor->weight = floor->current_dist / floor->row_distance;
 	floor->current_floor_x = floor->weight * floor->floor_x + (1.0
 			- floor->weight) * scene->player->pos[X] / 3;
 	floor->current_floor_y = floor->weight * floor->floor_y + (1.0
 			- floor->weight) * scene->player->pos[Y] / 3;
-	floor->tx = (int)(scene->floor_img->width
-			* (floor->current_floor_x) / 33.5)
-		% scene->floor_img->width;
-	floor->ty = (int)(scene->floor_img->height
-			* (floor->current_floor_y) / 33.5)
-		% scene->floor_img->height;
+	floor->tx = (int)(scene->trap_img->width * (floor->current_floor_x) / 33.5)
+		% scene->trap_img->width;
+	floor->ty = (int)(scene->trap_img->height * (floor->current_floor_y) / 33.5)
+		% scene->trap_img->height;
 	get_floor_texture_color(scene, floor);
 	mlx_put_pixel(scene->mlx_img, floor->x, floor->y, floor->color);
 }

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:43:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/08 01:11:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/12 20:27:16 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	occasional_free(t_scene *scene)
 	if (scene->player->vision_rays)
 		free(scene->player->vision_rays);
 	scene->player->vision_rays = NULL;
+	mlx_delete_image(scene->mlx_ptr, scene->timer.timer_img);
+	mlx_delete_image(scene->mlx_ptr, scene->score_img);
 	return (1);
 }
 

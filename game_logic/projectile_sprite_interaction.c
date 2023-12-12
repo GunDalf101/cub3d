@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 10:48:27 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 23:12:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 00:28:57 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	projectile_hit(t_projectile *projectile, t_sprite *sprite, t_scene *scene)
 			printf("score: %d\n", scene->score);
 			sprite->pos[X] = -UNIT;
 			sprite->pos[Y] = -UNIT;
+			system("afplay assets/ghostdeath.mp3 &");
+			sprite->state = DEAD;
 		}
 		return (1);
 	}

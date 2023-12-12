@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 23:12:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/09 15:51:52 by hbouhach         ###   ########.fr       */
+/*   Updated: 2023/12/13 00:40:18 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,24 @@ static int	run(char **maze, int *maze_info, int i, int j)
 {
 	if (!maze[i][j + 1] || !maze[i + 1] || i == 0 || j == 0)
 		return (1);
-	if (maze[i][j + 1] == ' ') // check right
+	if (maze[i][j + 1] == ' ')
 		return (1);
-	else if (maze[i][j - 1] == ' ') // check left
+	else if (maze[i][j - 1] == ' ')
 		return (1);
-	else if (maze[i - 1][j] == ' ') // check up
+	else if (maze[i - 1][j] == ' ')
 		return (1);
-	else if (maze[i + 1][j] == ' ') // check down
+	else if (maze[i + 1][j] == ' ')
 		return (1);
 	maze[i][j] = '1';
-	if (ft_strchr(&MAP_KNOWN_CHARS[1], maze[i][j + 1])) // look right
+	if (ft_strchr(&MAP_KNOWN_CHARS[1], maze[i][j + 1]))
 		run(maze, maze_info, i, j + 1);
-	else if (ft_strchr(&MAP_KNOWN_CHARS[1], maze[i][j - 1])) // look left
+	else if (ft_strchr(&MAP_KNOWN_CHARS[1], maze[i][j - 1]))
 		run(maze, maze_info, i, j - 1);
 	else if (maze_info[i] <= maze_info[i - 1] && ft_strchr(&MAP_KNOWN_CHARS[1],
-			maze[i - 1][j])) // look up
+			maze[i - 1][j]))
 		run(maze, maze_info, i - 1, j);
 	else if (maze_info[i] <= maze_info[i + 1] && ft_strchr(&MAP_KNOWN_CHARS[1],
-			maze[i + 1][j])) // look down
+			maze[i + 1][j]))
 		run(maze, maze_info, i + 1, j);
 	return (0);
 }

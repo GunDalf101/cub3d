@@ -1,7 +1,7 @@
-NO ./textures/egypt.png
-SO ./textures/1.png
-WE ./textures/2.png
-EA ./textures/2.png
+NO ./textures/STONE3.png
+SO ./textures/STONE3.png
+WE ./textures/STONE2.png
+EA ./textures/STONE2.png
 C 135,206,235
 F 220,100,0
 
