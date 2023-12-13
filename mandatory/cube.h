@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 04:36:27 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 05:41:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 # define CUBE_H
 
 # define WIN_WIDTH 1000
-# define WIN_HEIGHT 600
+# define WIN_HEIGHT 1000
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
-# define EX_MAP_KNOWN_CHARS "1*0*N!S!W!E!L*P*M*T*B*V*D*Y*Z*"
-# define MAP_KNOWN_CHARS "10NSWELPMTBVDYZ"
+# define EX_MAP_KNOWN_CHARS "1*0*N!S!W!E!"
+# define MAP_KNOWN_CHARS "10NSWE"
 
-# include "./MLX42/include/MLX42/MLX42.h"
-# include "gnl/get_next_line.h"
-# include "libft/libft.h"
+# include "../MLX42/include/MLX42/MLX42.h"
+# include "../gnl/get_next_line.h"
+# include "../libft/libft.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>

@@ -1,62 +1,85 @@
-NAME = cub3d
+NAME = cub3D
 
-SOURCES = cube.c \
-		free_funcs.c \
-		rendering/renderer.c \
-		rendering/render_sprite.c \
-		rendering/render_projectile.c \
-		rendering/render_minimap.c \
-		rendering/rendering_utils.c \
-		rendering/general_object_rendering.c \
-		rendering/sprite_calcul.c \
-		rendering/render_animation.c \
-		rendering/animation_calcul.c \
-		rendering/timer_display.c \
-		rendering/timer_loading.c \
-		rendering/draw_scenes.c \
-		textures.c \
+SOURCES = mandatory/cube.c \
+		mandatory/free_funcs.c \
+		mandatory/rendering/renderer.c \
+		mandatory/rendering/rendering_utils.c \
+		mandatory/textures.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
-		raycasting/ray_wizard.c \
-		raycasting/floor_cast.c \
-		raycasting/raycast_setup.c \
-		raycasting/ceil_cast.c \
-		raycasting/test_color.c \
-		initialize_game/sprite_alloc.c \
-		initialize_game/player_alloc.c \
-		initialize_game/sprite_loader.c \
-		initialize_game/doors_alloc.c \
-		initialize_game/alloc_handler.c \
-		game_logic/collisions.c \
-		game_logic/projectile_logic.c \
-		game_logic/raw_logic.c \
-		game_logic/projectile_sort.c \
-		game_logic/collision_raycast.c \
-		game_logic/movements.c \
-		game_logic/main_loop.c \
-		game_logic/projectile_sprite_interaction.c \
-		game_logic/check_teleport.c \
-		game_logic/logical_numbers.c \
-		game_logic/state_machine.c \
-		game_logic/enemy_los.c \
-		game_logic/check_state.c \
-		keybinds/keybinds.c \
-		keybinds/mousebinds.c \
-		keybinds/door_checker.c \
-		parser.c \
-		parser_.c \
-		parser__.c \
-		parser___.c \
-		parser____.c \
-		parser_____.c \
-		parser______.c \
+		mandatory/raycasting/ray_wizard.c \
+		mandatory/raycasting/raycast_setup.c \
+		mandatory/initialize_game/player_alloc.c \
+		mandatory/game_logic/movements.c \
+		mandatory/game_logic/main_loop.c \
+		mandatory/keybinds/keybinds.c \
+		mandatory/parser.c \
+		mandatory/parser_.c \
+		mandatory/parser__.c \
+		mandatory/parser___.c \
+		mandatory/parser____.c \
+		mandatory/parser_____.c \
+		mandatory/parser______.c \
+
+SOURCES_BNS = bonus/cube.c \
+		bonus/free_funcs.c \
+		bonus/rendering/renderer.c \
+		bonus/rendering/render_sprite.c \
+		bonus/rendering/render_projectile.c \
+		bonus/rendering/render_minimap.c \
+		bonus/rendering/rendering_utils.c \
+		bonus/rendering/general_object_rendering.c \
+		bonus/rendering/sprite_calcul.c \
+		bonus/rendering/render_animation.c \
+		bonus/rendering/animation_calcul.c \
+		bonus/rendering/timer_display.c \
+		bonus/rendering/timer_loading.c \
+		bonus/rendering/draw_scenes.c \
+		bonus/textures.c \
+		gnl/get_next_line.c \
+		gnl/get_next_line_utils.c \
+		bonus/raycasting/ray_wizard.c \
+		bonus/raycasting/floor_cast.c \
+		bonus/raycasting/raycast_setup.c \
+		bonus/raycasting/ceil_cast.c \
+		bonus/raycasting/test_color.c \
+		bonus/initialize_game/sprite_alloc.c \
+		bonus/initialize_game/player_alloc.c \
+		bonus/initialize_game/sprite_loader.c \
+		bonus/initialize_game/doors_alloc.c \
+		bonus/initialize_game/alloc_handler.c \
+		bonus/game_logic/collisions.c \
+		bonus/game_logic/projectile_logic.c \
+		bonus/game_logic/raw_logic.c \
+		bonus/game_logic/projectile_sort.c \
+		bonus/game_logic/collision_raycast.c \
+		bonus/game_logic/movements.c \
+		bonus/game_logic/main_loop.c \
+		bonus/game_logic/projectile_sprite_interaction.c \
+		bonus/game_logic/check_teleport.c \
+		bonus/game_logic/logical_numbers.c \
+		bonus/game_logic/state_machine.c \
+		bonus/game_logic/enemy_los.c \
+		bonus/game_logic/check_state.c \
+		bonus/keybinds/keybinds.c \
+		bonus/keybinds/mousebinds.c \
+		bonus/keybinds/door_checker.c \
+		bonus/parser.c \
+		bonus/parser_.c \
+		bonus/parser__.c \
+		bonus/parser___.c \
+		bonus/parser____.c \
+		bonus/parser_____.c \
+		bonus/parser______.c \
 
 OBJECTS = $(SOURCES:.c=.o)
+
+OBJECTS_BNS = $(SOURCES_BNS:.c=.o)
 
 INCLUDES = cube.h gnl/get_next_line.h
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ofast -g
+CFLAGS = -Wall -Wextra -Werror -Ofast -funroll-loops
 LIBFT = libft/libft.a
 all: elderscroll libft gnl $(NAME)
 	@if [ $$? -eq 0 ]; then \
@@ -67,7 +90,11 @@ $(NAME):$(OBJECTS) $(GNLOBJ)
 	@cc $(CFLAGS) $(OBJECTS) $(LIBFT) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
-%.o: %.c cub3d.h gnl/get_next_line.h
+bonus: elderscroll libft gnl $(OBJECTS_BNS)
+	@cc $(CFLAGS) $(OBJECTS_BNS) $(LIBFT) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
+	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
+
+%.o: %.c bonus/cub3d.h mandatory/cub3d.h gnl/get_next_line.h
 	@$(CC) $(CFLAGS) libmlx42.a -Iinclude -I$(shell brew --prefix glfw)/include -c $< -o $@
 	@echo "\033[33m$< compiled \033[0m"
 
@@ -105,7 +132,7 @@ libft:
 	@echo "\033[35m$@ have been made \033[0m"
 
 clean:
-	@rm -f $(OBJECTS)
+	@rm -f $(OBJECTS) $(OBJECTS_BNS)
 	@make -s -C libft clean
 	@echo "\033[3m\033[1m\033[42m\033[31m~~   The objects have been cleaned   ~~\033[0m"; \
 

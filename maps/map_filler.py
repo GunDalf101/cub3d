@@ -34,7 +34,7 @@ def print_map(game_map):
     for row in game_map:
         print("".join(row))
 
-map_size = 30
+map_size = 40
 game_map = generate_map(map_size)
 
 def generate_random_map(input_map, probability):
@@ -60,7 +60,7 @@ def generate_random_map(input_map, probability):
 #         break
 #     input_map.append(row)
 
-probability = 0.2
+probability = 0.15
 
 output_map = generate_random_map(game_map, probability)
 
