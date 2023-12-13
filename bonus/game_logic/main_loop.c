@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 05:53:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:17:26 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	gameloop(void *scene2)
 	scene->oldtime = scene->time;
 	scene->time = mlx_get_time();
 	scene->frame_time = (scene->time - scene->oldtime);
-	printf("FPS: %f\n", 1 / scene->frame_time);
+	// printf("FPS: %f\n", 1 / scene->frame_time);
 	movement_logic(scene);
 	trap_logic(scene);
 	projectile_logic(scene);

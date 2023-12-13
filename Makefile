@@ -79,7 +79,7 @@ OBJECTS_BNS = $(SOURCES_BNS:.c=.o)
 INCLUDES = cube.h gnl/get_next_line.h
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ofast -funroll-loops
+CFLAGS = -Wall -Wextra -Werror -Ofast
 LIBFT = libft/libft.a
 all: elderscroll libft gnl $(NAME)
 	@if [ $$? -eq 0 ]; then \

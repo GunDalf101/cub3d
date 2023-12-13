@@ -6,31 +6,11 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 05:15:32 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 19:58:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
-
-void	allocat_warlock(t_scene *scene, int i, int j, int *count)
-{
-	scene->sprites[*count] = ft_calloc(1, sizeof(t_sprite));
-	if (!scene->sprites[*count])
-		exit(0);
-	scene->sprites[*count]->animation_img = scene->evil_warlock[0];
-	scene->sprites[*count]->v_move = 500 * WIN_HEIGHT / 1200;
-	scene->sprites[*count]->collision_box = 0;
-	scene->sprites[*count]->hitbox = 30;
-	scene->sprites[*count]->pos[Y] = j * UNIT + UNIT / 2;
-	scene->sprites[*count]->pos[X] = i * UNIT + UNIT / 2;
-	scene->sprites[*count]->hitpoint = 100;
-	scene->sprites[*count]->sprite_type = WARLOCK;
-	scene->sprites[*count]->state = IDLE;
-	scene->sprites[*count]->dir[Y] = 0;
-	scene->sprites[*count]->dir[X] = 0;
-	scene->sprites[*count]->sped = 4;
-	(*count)++;
-}
 
 void	player_dir(t_scene *scene, int i, int j)
 {

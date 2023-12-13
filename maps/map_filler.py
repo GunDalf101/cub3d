@@ -1,28 +1,95 @@
 import random
 
-def generate_map(size):
+def generate_room(size, num_rooms):
     # Initialize the map with all walls
     game_map = [['1' for _ in range(size + 2)] for _ in range(size + 2)]
 
-    # Place empty space inside the walls
+    # Create a list to store room information
+    rooms = []
+
+    # Function to check if a point is inside any existing room
+    def point_in_rooms(row, col):
+        for room in rooms:
+            if room['left'] <= col <= room['right'] and room['top'] <= row <= room['bottom']:
+                return True
+        return False
+
+    # Function to create a room
+    def create_room():
+        room_width = random.randint(3, 8)
+        room_height = random.randint(3, 8)
+        room_left = random.randint(1, size - room_width - 1)
+        room_top = random.randint(1, size - room_height - 1)
+        room_right = room_left + room_width
+        room_bottom = room_top + room_height
+        return {'left': room_left, 'top': room_top, 'right': room_right, 'bottom': room_bottom}
+
+    # Function to connect two rooms with a corridor
+    def connect_rooms(room1, room2):
+        row, col = room1['bottom'] + 1, random.randint(room1['left'], room1['right'])
+        while row < room2['top']:
+            game_map[row][col] = '0'
+            row += 1
+        if col < room2['left']:
+            while col < room2['left']:
+                game_map[row][col] = '0'
+                col += 1
+        else:
+            while col > room2['right']:
+                game_map[row][col] = '0'
+                col -= 1
+
+    # Generate rooms
+    for _ in range(num_rooms):
+        room = create_room()
+
+        # Check if the new room overlaps with existing rooms
+        while any(point_in_rooms(row, col) for row in range(room['top'], room['bottom'] + 1)
+                  for col in range(room['left'], room['right'] + 1)):
+            room = create_room()
+
+        # Place the room on the map
+        for row in range(room['top'], room['bottom'] + 1):
+            for col in range(room['left'], room['right'] + 1):
+                game_map[row][col] = '0'
+
+        # Connect the new room to an existing room (if any)
+        if rooms:
+            connect_rooms(room, random.choice(rooms))
+
+        # Add the new room to the list
+        rooms.append(room)
+
+    # Place player (E) and exit (L) in random rooms
+    player_room = random.choice(rooms)
+    player_row, player_col = random.randint(player_room['top'], player_room['bottom']), random.randint(player_room['left'], player_room['right'])
+    game_map[player_row][player_col] = 'E'
+
+    exit_room = random.choice(rooms)
+    while exit_room == player_room:
+        exit_room = random.choice(rooms)
+    exit_row, exit_col = random.randint(exit_room['top'], exit_room['bottom']), random.randint(exit_room['left'], exit_room['right'])
+    game_map[exit_row][exit_col] = 'L'
+
+    return game_map
+
+def generate_map(size):
+    game_map = [['1' for _ in range(size + 2)] for _ in range(size + 2)]
+
     for row in range(1, size + 1):
         for col in range(1, size + 1):
             game_map[row][col] = '0'
 
-    # Place walls randomly within the empty space
     for _ in range(size * size // 4):
         row, col = random.randint(1, size), random.randint(1, size)
-        game_map[row][col] = '1'  # '1' represents a wall
+        game_map[row][col] = '1'
 
-    # Place player (E) at a random position
     player_row, player_col = random.randint(1, size), random.randint(1, size)
     game_map[player_row][player_col] = 'E'
 
-    # Place exit (L) at a random position
     exit_row, exit_col = random.randint(1, size), random.randint(1, size)
     game_map[exit_row][exit_col] = 'L'
 
-    # Place random squares (Z and Y)
     z_row, z_col = random.randint(1, size), random.randint(1, size)
     y_row, y_col = random.randint(1, size), random.randint(1, size)
     game_map[z_row][z_col] = 'Z'
@@ -34,8 +101,10 @@ def print_map(game_map):
     for row in game_map:
         print("".join(row))
 
-map_size = 40
-game_map = generate_map(map_size)
+map_size = 100
+num_rooms = 300
+game_map = generate_room(map_size , num_rooms)
+# game_map = generate_map(map_size)
 
 def generate_random_map(input_map, probability):
     symbols = ['B', 'V', 'P', 'T', 'M', 'D']

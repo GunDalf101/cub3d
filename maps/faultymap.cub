@@ -2,8 +2,8 @@ NO ./textures/STONE3.png
 SO ./textures/STONE2.png
 WE ./textures/STONE3.png
 EA ./textures/STONE2.png
-C 200,30,122
-F 200,100,0
+C 135,206,235
+F 220,100,0
 
 
 111111111111111111111

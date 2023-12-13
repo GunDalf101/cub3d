@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 04:36:07 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 22:32:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	is_trap(t_scene *scene, t_floor_cast *floor)
 			* 34.25) > 0 && floor->current_floor_x / 34.25
 		+ scene->player->pos[X] / (UNIT * 34.25) > 0 && floor->current_floor_y
 		/ 34.25 + scene->player->pos[Y] / (UNIT
-			* 34.25) < scene->map->map_height && floor->current_floor_x / 34.25
-		+ scene->player->pos[X] / (UNIT * 34.25) < scene->map->map_width
+			* 34.25) < scene->map->map_width && floor->current_floor_x / 34.25
+		+ scene->player->pos[X] / (UNIT * 34.25) < scene->map->map_height
 		&& scene->map->map[(int)(floor->current_floor_x / 34.25
 			+ scene->player->pos[X] / (UNIT
 				* 34.25))][(int)(floor->current_floor_y / 34.25
 			+ scene->player->pos[Y] / (UNIT * 34.25))] == 'T')
-		return (1);
+			return (1);
 	return (0);
 }
 

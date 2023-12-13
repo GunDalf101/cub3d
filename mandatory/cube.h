@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 05:41:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:59:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUBE_H
 
 # define WIN_WIDTH 1000
-# define WIN_HEIGHT 1000
+# define WIN_HEIGHT 600
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
