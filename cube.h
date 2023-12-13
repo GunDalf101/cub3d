@@ -6,14 +6,14 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 00:23:20 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 04:36:27 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 1100
+# define WIN_WIDTH 1000
 # define WIN_HEIGHT 600
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
@@ -222,6 +222,7 @@ typedef struct s_player
 	int					right;
 	int					rot_left;
 	int					rot_right;
+	int					attacking;
 	double				velocity;
 	double				is_jumping;
 	double				is_trapped;
@@ -346,6 +347,7 @@ typedef struct s_scene
 	mlx_image_t			*score_img;
 	t_projectile		*projectiles;
 	mlx_image_t			**evil_warlock;
+	mlx_image_t			**finn_sword;
 }						t_scene;
 
 void					ray_caster(t_scene *scene);
@@ -454,5 +456,9 @@ void					draw_ending(t_scene scene);
 void					check_enemy_state(t_scene *scene);
 void					state_machine(t_scene *scene);
 int						line_o_sight(t_dda dda, int x2, int y2, t_scene scene);
+void					load_sword(void *mlxptr, t_scene *scene);
+void					draw_attack(t_scene *scene);
+void					melee_attack(t_scene *scene);
+int						test_color(t_scene *scene, t_floor_cast *floor);
 
 #endif

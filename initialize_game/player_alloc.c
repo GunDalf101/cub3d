@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 18:37:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 03:02:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ void	allocat_player(t_scene *scene)
 		}
 		i++;
 	}
+	scene->player->attacking = FALSE;
 	initialize_player(scene);
 }

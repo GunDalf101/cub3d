@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 19:12:11 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 19:16:23 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 04:32:56 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,46 @@ void	allocat_sprites(t_scene *scene)
 {
 	allocate_sprite_memory(scene);
 	create_and_initialize_sprites(scene);
+}
+
+mlx_texture_t	*load_single_sword_texture(void *mlxptr, const char *path)
+{
+	mlx_texture_t	*texture;
+
+	texture = mlx_load_png(path);
+	(void)mlxptr;
+	if (!texture)
+	{
+		fprintf(stderr, "Error loading texture at path: %s\n", path);
+		exit(1);
+	}
+	return (texture);
+}
+
+void	load_sword(void *mlxptr, t_scene *scene)
+{
+	int		i;
+	char	sword_path[30];
+
+	ft_strlcpy(sword_path, "assets/sword/finnsword01.png", 30);
+	scene->finn_sword = malloc(sizeof(mlx_image_t *) * 18);
+	if (!scene->finn_sword)
+		exit(1);
+	i = 0;
+	while (i < 18)
+	{
+		scene->finn_sword[i] = mlx_texture_to_image(mlxptr,
+				load_single_sword_texture(mlxptr, sword_path));
+		mlx_resize_image(scene->finn_sword[i], WIN_WIDTH, WIN_HEIGHT);
+		if (i % 10 == 8)
+		{
+			sword_path[23] = '0';
+			sword_path[22] += 1;
+		}
+		else
+		{
+			sword_path[23] += 1;
+		}
+		i++;
+	}
 }

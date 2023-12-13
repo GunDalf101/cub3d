@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 22:51:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 04:42:36 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	trap_logic(t_scene *scene)
 		scene->damaged_time = mlx_get_time();
 		if (scene->player->is_trapped == 1.00)
 		{
+			system("afplay assets/acid.mp3 &");
 			scene->old_damaged_time = scene->damaged_time;
 			if (scene->player->health_points - 10 < 0)
 				scene->player->health_points = 0;
@@ -73,6 +74,7 @@ void	trap_logic(t_scene *scene)
 		}
 		if (scene->damaged_time - scene->old_damaged_time > 1)
 		{
+			system("afplay assets/acid.mp3 &");
 			if (scene->player->health_points - 10 < 0)
 				scene->player->health_points = 0;
 			else

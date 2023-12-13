@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:37:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 22:29:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 04:22:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,10 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	player_movement(keycode, scene);
 	player_rotation(keycode, scene);
 	velocity_keys(keycode, scene);
-	if (keycode.key == MLX_KEY_SPACE && keycode.action == MLX_PRESS)
+	if (keycode.key == MLX_KEY_Q && keycode.action == MLX_PRESS)
 		check_door(keycode, scene);
+	if (keycode.key == MLX_KEY_3 && keycode.action == MLX_PRESS && \
+	!scene->win && !scene->player->is_ded && !scene->player->attacking)
+		melee_attack(scene);
 	spells_keys(keycode, scene);
 }

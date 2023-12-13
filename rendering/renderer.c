@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 23:11:47 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 04:14:47 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	renderitall(t_scene scene)
 		sky_floor_render(scene);
 		ray_caster(&scene);
 		sprites_projectiles(scene);
+		draw_attack(&scene);
 	}
 	if (scene.win == TRUE)
 	{

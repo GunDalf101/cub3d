@@ -21,6 +21,7 @@ SOURCES = cube.c \
 		raycasting/floor_cast.c \
 		raycasting/raycast_setup.c \
 		raycasting/ceil_cast.c \
+		raycasting/test_color.c \
 		initialize_game/sprite_alloc.c \
 		initialize_game/player_alloc.c \
 		initialize_game/sprite_loader.c \

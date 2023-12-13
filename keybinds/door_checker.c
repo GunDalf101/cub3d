@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:26:02 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/10 23:38:49 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/13 04:22:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,34 @@ void	check_door(mlx_key_data_t keycode, t_scene *scene)
 		if (x <= door_x + UNIT && x >= door_x && y <= door_y + UNIT
 			&& y >= door_y)
 			open_or_closed(scene, door_x, door_y, i);
+		i++;
+	}
+}
+
+void	melee_attack(t_scene *scene)
+{
+	int	i;
+
+	i = 0;
+	scene->player->attacking = TRUE;
+	system("afplay assets/slash.mp3 &");
+	while (i < scene->sprite_count)
+	{
+		if (scene->sprites[i]->sprite_type == WARLOCK
+			&& scene->sprites[i]->sprite_distance < 70)
+		{
+			scene->sprites[i]->hitpoint -= 20;
+			if (scene->sprites[i]->hitpoint <= 0)
+			{
+				scene->player->mana_points += 10;
+				scene->score += 50;
+				printf("score: %d\n", scene->score);
+				scene->sprites[i]->pos[X] = -UNIT;
+				scene->sprites[i]->pos[Y] = -UNIT;
+				system("afplay assets/ghostdeath.mp3 &");
+				scene->sprites[i]->state = DEAD;
+			}
+		}
 		i++;
 	}
 }
