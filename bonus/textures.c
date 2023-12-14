@@ -12,36 +12,6 @@
 
 #include "cube.h"
 
-static void	perror_faulty_texuture(char *fpath)
-{
-	printf("could not load texture: [%s]\n", fpath);
-	exit(1);
-}
-
-int	load_textures(void *mlxptr, t_map *map)
-{
-	int				i;
-	mlx_texture_t	*texture;
-
-	map->textures_mlx_imgs = malloc(sizeof(mlx_image_t *) * 4);
-	if (!map->textures_mlx_imgs)
-		return (1);
-	i = 0;
-	while (i < 4)
-	{
-		texture = mlx_load_png(map->textures_paths[i]);
-		if (!texture)
-			perror_faulty_texuture(map->textures_paths[i]);
-		map->textures_mlx_imgs[i] = mlx_texture_to_image(mlxptr, texture);
-		if (!map->textures_mlx_imgs[i])
-			perror_faulty_texuture(map->textures_paths[i]);
-		mlx_resize_image(map->textures_mlx_imgs[i], WIN_WIDTH, WIN_WIDTH);
-		mlx_delete_texture(texture);
-		i++;
-	}
-	return (0);
-}
-
 static t_direction	get_wall_dir(t_player *player, int x)
 {
 	if (player->vision_rays[x]->side == EW)
@@ -72,21 +42,46 @@ static mlx_image_t	*get_texture(t_scene *scene, t_ray_caster *wizard)
 					wizard->x)]);
 }
 
-void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
+static void	draw_pixel(t_scene *scene, t_ray_caster *wizard, mlx_image_t *wtext, long long iy)
+{
+	int	i;
+	int	y;
+
+	i = (int)(iy & 0xFFFFFFFF);
+    y = (int)((iy >> 32) & 0xFFFFFFFF);
+	mlx_put_pixel(scene->mlx_img, wizard->x, wizard->linestart,
+			ft_pixel(wtext->pixels[(int)y * wtext->width * 4 + i * 4]
+				* wizard->intensity, wtext->pixels[(int)y * wtext->width * 4 + i
+				* 4 + 1] * wizard->intensity, wtext->pixels[(int)y
+				* wtext->width * 4 + i * 4 + 2] * wizard->intensity,
+				wtext->pixels[(int)y * wtext->width * 4 + i * 4 + 3]));
+}
+
+static int	get_index(t_scene *scene, t_ray_caster *wizard)
 {
 	t_direction	wdir;
+	int			i;
+
+	wdir = get_wall_dir(scene->player, wizard->x);
+	if (wdir == EAST || wdir == WEST)
+		i = scene->player->vision_rays[wizard->x]->\
+		current_cell[X] % UNIT;
+	else
+		i = scene->player->vision_rays[wizard->x]->\
+		current_cell[Y] % UNIT;
+	return (i);
+}
+
+void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
+{
 	int			i;
 	mlx_image_t	*wtext;
 	double		wh;
 	double		y;
 
-	wdir = get_wall_dir(scene->player, wizard->x);
 	wtext = get_texture(scene, wizard);
-	if (wdir == EAST || wdir == WEST)
-		i = scene->player->vision_rays[wizard->x]->current_cell[X] % UNIT;
-	else
-		i = scene->player->vision_rays[wizard->x]->current_cell[Y] % UNIT;
-	i = wtext->width / UNIT * i;
+	i = get_index(scene, wizard);
+	i *= (wtext->width / UNIT);
 	wh = wizard->trueend - wizard->truestart;
 	wh = wtext->height / wh;
 	y = abs(wizard->truestart - wizard->linestart) * wh;
@@ -94,12 +89,7 @@ void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 			* 0.03 + 1);
 	while (wizard->linestart < wizard->lineend)
 	{
-		mlx_put_pixel(scene->mlx_img, wizard->x, wizard->linestart,
-			ft_pixel(wtext->pixels[(int)y * wtext->width * 4 + i * 4]
-				* wizard->intensity, wtext->pixels[(int)y * wtext->width * 4 + i
-				* 4 + 1] * wizard->intensity, wtext->pixels[(int)y
-				* wtext->width * 4 + i * 4 + 2] * wizard->intensity,
-				wtext->pixels[(int)y * wtext->width * 4 + i * 4 + 3]));
+		draw_pixel(scene, wizard, wtext, ((uint64_t)i << 32) | (uint64_t)y);
 		wizard->linestart++;
 		y += wh;
 	}

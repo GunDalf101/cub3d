@@ -5,6 +5,7 @@ SOURCES = mandatory/cube.c \
 		mandatory/rendering/renderer.c \
 		mandatory/rendering/rendering_utils.c \
 		mandatory/textures.c \
+		mandatory/textures_.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 		mandatory/raycasting/ray_wizard.c \
@@ -36,6 +37,7 @@ SOURCES_BNS = bonus/cube.c \
 		bonus/rendering/timer_loading.c \
 		bonus/rendering/draw_scenes.c \
 		bonus/textures.c \
+		bonus/textures_.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 		bonus/raycasting/ray_wizard.c \
