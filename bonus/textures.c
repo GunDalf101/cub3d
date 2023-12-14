@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:46:46 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 22:47:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 05:44:37 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static mlx_image_t	*get_texture(t_scene *scene, t_ray_caster *wizard)
 		/ UNIT] == 'D')
 		return (scene->door_img);
 	else if (scene->map->map[scene->player->vision_rays[wizard->x]->\
-	current_cell[X]
+			current_cell[X]
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 		/ UNIT] == 'L')
 		return (scene->end_img);
@@ -90,12 +90,15 @@ void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 	wh = wizard->trueend - wizard->truestart;
 	wh = wtext->height / wh;
 	y = abs(wizard->truestart - wizard->linestart) * wh;
+	wizard->intensity = 1 / (scene->player->vision_rays[wizard->x]->wall_dist
+			* 0.03 + 1);
 	while (wizard->linestart < wizard->lineend)
 	{
 		mlx_put_pixel(scene->mlx_img, wizard->x, wizard->linestart,
-			ft_pixel(wtext->pixels[(int)y * wtext->width * 4 + i * 4],
-				wtext->pixels[(int)y * wtext->width * 4 + i * 4 + 1],
-				wtext->pixels[(int)y * wtext->width * 4 + i * 4 + 2],
+			ft_pixel(wtext->pixels[(int)y * wtext->width * 4 + i * 4]
+				* wizard->intensity, wtext->pixels[(int)y * wtext->width * 4 + i
+				* 4 + 1] * wizard->intensity, wtext->pixels[(int)y
+				* wtext->width * 4 + i * 4 + 2] * wizard->intensity,
 				wtext->pixels[(int)y * wtext->width * 4 + i * 4 + 3]));
 		wizard->linestart++;
 		y += wh;

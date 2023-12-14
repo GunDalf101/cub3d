@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:18:18 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/05 19:51:11 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 05:16:40 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,23 @@ void	linear_coords(t_scene *scene, t_projectile *projectile)
 void	projectile_coloring(t_scene *scene, t_projectile *projectile,
 		int stripe, int j)
 {
+	double		intensity;
 	u_int8_t	r;
 	u_int8_t	g;
 	u_int8_t	b;
 	u_int8_t	a;
 
+	intensity = 1 / (((projectile->proj_distance / UNIT) * 0.3) + 1);
 	projectile->d = (j - projectile->v_move_screen) * 256 - WIN_HEIGHT * 128
 		+ projectile->proj_height * 128;
 	projectile->tex[Y] = ((projectile->d * projectile->proj_img->height)
 			/ projectile->proj_height) / 256;
 	r = projectile->proj_img->pixels[projectile->tex[Y] * 4
-		* projectile->proj_img->width + projectile->tex[X] * 4];
+		* projectile->proj_img->width + projectile->tex[X] * 4] * intensity;
 	g = projectile->proj_img->pixels[projectile->tex[Y] * 4
-		* projectile->proj_img->width + projectile->tex[X] * 4 + 1];
+		* projectile->proj_img->width + projectile->tex[X] * 4 + 1] * intensity;
 	b = projectile->proj_img->pixels[projectile->tex[Y] * 4
-		* projectile->proj_img->width + projectile->tex[X] * 4 + 2];
+		* projectile->proj_img->width + projectile->tex[X] * 4 + 2] * intensity;
 	a = projectile->proj_img->pixels[projectile->tex[Y] * 4
 		* projectile->proj_img->width + projectile->tex[X] * 4 + 3];
 	if (a < 255)

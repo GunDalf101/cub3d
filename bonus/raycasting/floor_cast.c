@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 22:32:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 05:13:35 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,32 @@
 
 int	is_trap(t_scene *scene, t_floor_cast *floor)
 {
-	if (floor->current_floor_y / 34.25 + scene->player->pos[Y] / (UNIT
-			* 34.25) > 0 && floor->current_floor_x / 34.25
-		+ scene->player->pos[X] / (UNIT * 34.25) > 0 && floor->current_floor_y
-		/ 34.25 + scene->player->pos[Y] / (UNIT
-			* 34.25) < scene->map->map_width && floor->current_floor_x / 34.25
-		+ scene->player->pos[X] / (UNIT * 34.25) < scene->map->map_height
-		&& scene->map->map[(int)(floor->current_floor_x / 34.25
-			+ scene->player->pos[X] / (UNIT
-				* 34.25))][(int)(floor->current_floor_y / 34.25
-			+ scene->player->pos[Y] / (UNIT * 34.25))] == 'T')
-			return (1);
+	if (floor->current_floor_y / (34 + 1 / 3.0) + scene->player->pos[Y] / (UNIT
+			* (34 + 1 / 3.0)) > 0 && floor->current_floor_x / (34 + 1 / 3.0)
+		+ scene->player->pos[X] / (UNIT * (34 + 1 / 3.0)) > 0
+		&& floor->current_floor_y / (34 + 1 / 3.0) + scene->player->pos[Y]
+		/ (UNIT * (34 + 1 / 3.0)) < scene->map->map_width
+		&& floor->current_floor_x / (34 + 1 / 3.0) + scene->player->pos[X]
+		/ (UNIT * (34 + 1 / 3.0)) < scene->map->map_height
+		&& scene->map->map[(int)(floor->current_floor_x / (34 + 1 / 3.0)
+			+ scene->player->pos[X] / (UNIT * (34 + 1
+					/ 3.0)))][(int)(floor->current_floor_y / (34 + 1 / 3.0)
+			+ scene->player->pos[Y] / (UNIT * (34 + 1 / 3.0)))] == 'T')
+		return (1);
 	return (0);
 }
 
 void	get_floor_texture_color(t_scene *scene, t_floor_cast *floor)
 {
+	double	intensity;
+
+	intensity = 1 / ((floor->current_dist * 0.3) + 1);
 	floor->color = ft_pixel(scene->floor_img->pixels[scene->floor_img->width
-			* floor->ty * 4 + floor->tx * 4],
+			* floor->ty * 4 + floor->tx * 4] * intensity,
 			scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
-			+ floor->tx * 4 + 1],
+			+ floor->tx * 4 + 1] * intensity,
 			scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
-			+ floor->tx * 4 + 2],
+			+ floor->tx * 4 + 2] * intensity,
 			scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
 			+ floor->tx * 4 + 3]);
 	if (is_trap(scene, floor))
@@ -52,10 +56,10 @@ void	render_floor_pixel(t_scene *scene, t_floor_cast *floor)
 			- floor->weight) * scene->player->pos[X] / 3;
 	floor->current_floor_y = floor->weight * floor->floor_y + (1.0
 			- floor->weight) * scene->player->pos[Y] / 3;
-	floor->tx = (int)(scene->trap_img->width * (floor->current_floor_x) / 33.5)
-		% scene->trap_img->width;
-	floor->ty = (int)(scene->trap_img->height * (floor->current_floor_y) / 33.5)
-		% scene->trap_img->height;
+	floor->tx = (int)(scene->trap_img->width * (floor->current_floor_x) / (UNIT
+				/ 3.0)) % scene->trap_img->width;
+	floor->ty = (int)(scene->trap_img->height * (floor->current_floor_y) / (UNIT
+				/ 3.0)) % scene->trap_img->height;
 	get_floor_texture_color(scene, floor);
 	mlx_put_pixel(scene->mlx_img, floor->x, floor->y, floor->color);
 }

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:46:46 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 22:47:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 10:46:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,19 @@ void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 	double		wh;
 	double		y;
 
+	if (UNIT > WIN_WIDTH)
+		wizard->unit = WIN_WIDTH;
+	else
+		wizard->unit = UNIT;
 	wdir = get_wall_dir(scene->player, wizard->x);
 	wtext = get_texture(scene, wizard);
 	if (wdir == EAST || wdir == WEST)
-		i = scene->player->vision_rays[wizard->x]->current_cell[X] % UNIT;
+		i = scene->player->vision_rays[wizard->x]->\
+		current_cell[X] % wizard->unit;
 	else
-		i = scene->player->vision_rays[wizard->x]->current_cell[Y] % UNIT;
-	i = wtext->width / UNIT * i;
+		i = scene->player->vision_rays[wizard->x]->\
+		current_cell[Y] % wizard->unit;
+	i = wtext->width / wizard->unit * i;
 	wh = wizard->trueend - wizard->truestart;
 	wh = wtext->height / wh;
 	y = abs(wizard->truestart - wizard->linestart) * wh;

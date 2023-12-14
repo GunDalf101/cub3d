@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 05:42:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 05:53:28 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rotate_left(t_scene *scene)
 {
-	scene->player->p_angle -= 0.2;
+	scene->player->p_angle -= 0.1;
 	if (scene->player->p_angle > 2 * M_PI)
 		scene->player->p_angle -= 2 * M_PI;
 	else if (scene->player->p_angle < 0)
@@ -29,7 +29,7 @@ void	rotate_left(t_scene *scene)
 
 void	rotate_right(t_scene *scene)
 {
-	scene->player->p_angle += 0.2;
+	scene->player->p_angle += 0.1;
 	if (scene->player->p_angle < 0)
 		scene->player->p_angle += 2 * M_PI;
 	else if (scene->player->p_angle > 2 * M_PI)

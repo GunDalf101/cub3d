@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 04:45:39 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 10:30:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_door
 typedef struct s_ray_caster
 {
 	int					x;
+	double				intensity;
 	int					linestart;
 	int					truestart;
 	int					lineend;

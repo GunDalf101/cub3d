@@ -6,15 +6,15 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 01:14:47 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 10:44:20 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 1000
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 1100
+# define WIN_HEIGHT 1000
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 1000
 
@@ -95,6 +95,7 @@ typedef struct s_door
 typedef struct s_ray_caster
 {
 	int					x;
+	int					unit;
 	int					linestart;
 	int					truestart;
 	int					lineend;

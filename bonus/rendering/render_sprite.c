@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:17:02 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 23:05:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 05:13:13 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 void	sprite_coloring(t_scene *scene, int count, int stripe, int j)
 {
+	double		intensity;
 	u_int8_t	r;
 	u_int8_t	g;
 	u_int8_t	b;
 	u_int8_t	a;
 
+	intensity = 1 / (((scene->sprites[count]->sprite_distance / UNIT) * 0.3)
+			+ 1);
 	r = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
 		* 4 * scene->sprites[count]->sprite_img->width
-		+ scene->sprites[count]->tex[X] * 4];
+		+ scene->sprites[count]->tex[X] * 4] * intensity;
 	g = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
 		* 4 * scene->sprites[count]->sprite_img->width
-		+ scene->sprites[count]->tex[X] * 4 + 1];
+		+ scene->sprites[count]->tex[X] * 4 + 1] * intensity;
 	b = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
 		* 4 * scene->sprites[count]->sprite_img->width
-		+ scene->sprites[count]->tex[X] * 4 + 2];
+		+ scene->sprites[count]->tex[X] * 4 + 2] * intensity;
 	a = scene->sprites[count]->sprite_img->pixels[scene->sprites[count]->tex[Y]
 		* 4 * scene->sprites[count]->sprite_img->width
 		+ scene->sprites[count]->tex[X] * 4 + 3];
