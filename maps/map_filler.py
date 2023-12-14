@@ -102,7 +102,7 @@ def print_map(game_map):
         print("".join(row))
 
 map_size = 100
-num_rooms = 300
+num_rooms = 100
 game_map = generate_room(map_size , num_rooms)
 # game_map = generate_map(map_size)
 

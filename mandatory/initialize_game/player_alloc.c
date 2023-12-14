@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 19:58:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 01:17:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	initialize_player(t_scene *scene)
 	scene->player->backwards = FALSE;
 	scene->player->left = FALSE;
 	scene->player->right = FALSE;
-	scene->player->velocity = 1.5;
+	scene->player->velocity = 1.5 * UNIT / 100;
 	scene->player->is_jumping = FALSE;
 	scene->player->is_trapped = FALSE;
 	scene->player->crouch = FALSE;
