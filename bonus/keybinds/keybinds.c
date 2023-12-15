@@ -73,13 +73,15 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 {
 	t_scene	*scene;
 
-	scene = (t_scene *)scene2;
+	scene = scene2;
+	mlx_set_cursor_mode(scene->mlx_ptr, MLX_MOUSE_DISABLED);
 	scene->key_data = keycode;
+	if (keycode.key == MLX_KEY_LEFT_ALT)
+		return (mlx_set_cursor_mode(scene->mlx_ptr, MLX_MOUSE_NORMAL));
 	if (keycode.key == MLX_KEY_ESCAPE)
 	{
 		system("pkill afplay &");
-		final_free(scene);
-		exit(0);
+		return (final_free(scene), exit(0));
 	}
 	if (scene->win || scene->player->is_ded)
 	{
