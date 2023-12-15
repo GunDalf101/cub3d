@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 10:19:20 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/14 11:13:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	main(int argc, char *argv[])
 	scene.map = ft_calloc(sizeof(t_map), 1);
 	if (!scene.map)
 		return (1);
-	if (parser(argv[1], scene.map) && printf("ERROR\n"))
-		return (1);
+	if (parser(argv[1], scene.map))
+		return (printf("ERROR\n"), 1);
 	allocat_player(&scene);
 	scene.mlx_ptr = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Escape From GunDalf", 1);
 	if (load_textures(scene.mlx_ptr, scene.map))
