@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 19:31:24 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 20:39:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 06:11:52 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	check_timer(t_scene *scene)
 {
 	int		time;
 
-	if (scene->win)
-		return ;
 	time = mlx_get_time() - scene->timer.time_origin;
 	scene->timer.hours = time / 3600;
 	time %= 3600;

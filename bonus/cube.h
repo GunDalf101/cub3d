@@ -6,15 +6,15 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 10:30:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:31:48 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 1000
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 1280
+# define WIN_HEIGHT 720
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
@@ -24,6 +24,7 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../gnl/get_next_line.h"
 # include "../libft/libft.h"
+# include <time.h>
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -227,6 +228,7 @@ typedef struct s_player
 	double				velocity;
 	double				is_jumping;
 	double				is_trapped;
+	double				is_lit;
 	double				crouch;
 	t_ray				**vision_rays;
 	int					health_points;
@@ -307,6 +309,8 @@ typedef struct s_scene
 	double				oldtime;
 	double				damaged_time;
 	double				old_damaged_time;
+	double				lit_time;
+	double				old_lit_time;
 	double				*dist2;
 	double				*z_buffer;
 	double				*dist_buffer;
@@ -317,6 +321,7 @@ typedef struct s_scene
 	int					anim_count;
 	int					*anim_ids;
 	int					win;
+	double				light_multiplier;
 	mlx_texture_t		*texture;
 	mlx_texture_t		*barrel_tex;
 	mlx_image_t			*barrel_img;
@@ -461,5 +466,6 @@ void					load_sword(void *mlxptr, t_scene *scene);
 void					draw_attack(t_scene *scene);
 void					melee_attack(t_scene *scene);
 int						test_color(t_scene *scene, t_floor_cast *floor);
+void					calcul_score(t_sprite *sprite, t_scene *scene);
 
 #endif

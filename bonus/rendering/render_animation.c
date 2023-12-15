@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 19:16:09 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 05:46:05 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:25:40 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	animation_coloring(t_scene *scene, int count, int stripe, int j)
 	u_int8_t	b;
 	u_int8_t	a;
 
-	intensity = 1 / (((scene->sprites[count]->sprite_distance / UNIT) * 0.3)
-			+ 1);
+	intensity = 1 / (((scene->sprites[count]->sprite_distance / UNIT) \
+	* scene->light_multiplier) + 1);
 	r = scene->sprites[count]->animation_img->pixels[scene->sprites[count]->\
 	tex[Y] * 4 * scene->sprites[count]->animation_img->width
 		+ scene->sprites[count]->tex[X] * 4] * intensity;

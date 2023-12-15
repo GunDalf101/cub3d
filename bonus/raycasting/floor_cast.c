@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 05:13:35 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:25:16 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	get_floor_texture_color(t_scene *scene, t_floor_cast *floor)
 {
 	double	intensity;
 
-	intensity = 1 / ((floor->current_dist * 0.3) + 1);
+	intensity = 1 / ((floor->current_dist * scene->light_multiplier) + 1);
 	floor->color = ft_pixel(scene->floor_img->pixels[scene->floor_img->width
 			* floor->ty * 4 + floor->tx * 4] * intensity,
 			scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4

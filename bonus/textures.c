@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:46:46 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 05:44:37 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:25:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static mlx_image_t	*get_texture(t_scene *scene, t_ray_caster *wizard)
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 		/ UNIT] == 'D')
 		return (scene->door_img);
-	else if (scene->map->map[scene->player->vision_rays[wizard->x]->\
-			current_cell[X]
+	else if (scene->map->map[scene->player->\
+	vision_rays[wizard->x]->current_cell[X]
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 		/ UNIT] == 'L')
 		return (scene->end_img);
@@ -42,19 +42,20 @@ static mlx_image_t	*get_texture(t_scene *scene, t_ray_caster *wizard)
 					wizard->x)]);
 }
 
-static void	draw_pixel(t_scene *scene, t_ray_caster *wizard, mlx_image_t *wtext, long long iy)
+static void	draw_pixel(t_scene *scene, t_ray_caster *wizard, mlx_image_t *wtext,
+		long long iy)
 {
 	int	i;
 	int	y;
 
-	i = (int)(iy & 0xFFFFFFFF);
-    y = (int)((iy >> 32) & 0xFFFFFFFF);
+	y = (int)(iy & 0xFFFFFFFF);
+	i = (int)((iy >> 32) & 0xFFFFFFFF);
 	mlx_put_pixel(scene->mlx_img, wizard->x, wizard->linestart,
-			ft_pixel(wtext->pixels[(int)y * wtext->width * 4 + i * 4]
-				* wizard->intensity, wtext->pixels[(int)y * wtext->width * 4 + i
-				* 4 + 1] * wizard->intensity, wtext->pixels[(int)y
-				* wtext->width * 4 + i * 4 + 2] * wizard->intensity,
-				wtext->pixels[(int)y * wtext->width * 4 + i * 4 + 3]));
+		ft_pixel(wtext->pixels[(int)y * wtext->width * 4 + i * 4]
+			* wizard->intensity, wtext->pixels[(int)y * wtext->width * 4 + i * 4
+			+ 1] * wizard->intensity, wtext->pixels[(int)y * wtext->width * 4
+			+ i * 4 + 2] * wizard->intensity, wtext->pixels[(int)y
+			* wtext->width * 4 + i * 4 + 3]));
 }
 
 static int	get_index(t_scene *scene, t_ray_caster *wizard)
@@ -64,11 +65,9 @@ static int	get_index(t_scene *scene, t_ray_caster *wizard)
 
 	wdir = get_wall_dir(scene->player, wizard->x);
 	if (wdir == EAST || wdir == WEST)
-		i = scene->player->vision_rays[wizard->x]->\
-		current_cell[X] % UNIT;
+		i = scene->player->vision_rays[wizard->x]->current_cell[X] % UNIT;
 	else
-		i = scene->player->vision_rays[wizard->x]->\
-		current_cell[Y] % UNIT;
+		i = scene->player->vision_rays[wizard->x]->current_cell[Y] % UNIT;
 	return (i);
 }
 
@@ -86,7 +85,7 @@ void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 	wh = wtext->height / wh;
 	y = abs(wizard->truestart - wizard->linestart) * wh;
 	wizard->intensity = 1 / (scene->player->vision_rays[wizard->x]->wall_dist
-			* 0.03 + 1);
+			* scene->light_multiplier / 10 + 1);
 	while (wizard->linestart < wizard->lineend)
 	{
 		draw_pixel(scene, wizard, wtext, ((uint64_t)i << 32) | (uint64_t)y);

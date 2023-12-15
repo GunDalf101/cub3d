@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:39:38 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 19:27:24 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 04:14:35 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	display_sword(t_scene *scene, int frame, t_death death)
 
 void	draw_attack(t_scene *scene)
 {
-	t_death		death;
-	static int	frame;
+	t_death			death;
+	static double	frame;
 
 	death.i = 0;
 	if (frame >= 18)
@@ -75,7 +75,7 @@ void	draw_attack(t_scene *scene)
 		frame = 0;
 		return ;
 	}
-	display_sword(scene, frame, death);
+	display_sword(scene, (int)frame, death);
 	if (scene->player->attacking == TRUE)
-		frame++;
+		frame += 0.4 / scene->move_speed;
 }

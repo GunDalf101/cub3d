@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:26:02 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 06:05:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:11:58 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,14 @@ void	melee_attack(t_scene *scene)
 	system("afplay assets/slash.mp3 &");
 	while (i < scene->sprite_count)
 	{
-		if (scene->sprites[i]->sprite_type == WARLOCK
-			&& scene->sprites[i]->sprite_distance < 70)
+		if (scene->sprites[i]->sprite_distance < 70)
 		{
-			scene->sprites[i]->hitpoint -= 40;
+			scene->sprites[i]->hitpoint -= 30;
 			if (scene->sprites[i]->hitpoint <= 0)
 			{
-				scene->player->mana_points += 10;
-				scene->score += 50;
-				printf("score: %d\n", scene->score);
+				calcul_score(scene->sprites[i], scene);
 				scene->sprites[i]->pos[X] = -UNIT;
 				scene->sprites[i]->pos[Y] = -UNIT;
-				system("afplay assets/ghostdeath.mp3 &");
 				scene->sprites[i]->state = DEAD;
 			}
 		}

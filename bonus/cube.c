@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:46:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 11:13:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:09:56 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char *argv[])
 {
 	t_scene	scene;
 
-	if (argc != 2)
+	if (srand(time(NULL)), argc != 2)
 		return (1);
 	if (WIN_HEIGHT < 500 || WIN_WIDTH < 500)
 		return (1);

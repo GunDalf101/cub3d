@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 04:35:55 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 05:13:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:25:20 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	test_color(t_scene *scene, t_floor_cast *floor)
 	u_int8_t	b;
 	u_int8_t	a;
 
-	intensity = 1 / ((floor->current_dist * 0.3) + 1);
+	intensity = 1 / ((floor->current_dist * scene->light_multiplier) + 1);
 	r = (scene->floor_img->pixels[scene->floor_img->width * floor->ty * 4
 			+ floor->tx * 4] / 2
 			+ scene->trap_img->pixels[scene->trap_img->width * floor->ty * 4

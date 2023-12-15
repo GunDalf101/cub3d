@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 10:48:27 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 00:28:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:11:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,22 @@
 
 void	calcul_score(t_sprite *sprite, t_scene *scene)
 {
+	int	rand_num;
+
+	rand_num = rand() % 5;
 	if (sprite->sprite_type == WARLOCK)
 	{
-		scene->player->mana_points += 10;
+		system("afplay assets/ghostdeath.mp3 &");
 		scene->score += 50;
 	}
 	else if (sprite->sprite_type == BARREL)
+	{
+		if (rand_num == 0)
+			scene->player->health_points += 10;
+		if (rand_num == 1)
+			scene->player->mana_points += 10;
 		scene->score += 50;
+	}
 	else if (sprite->sprite_type == PILLAR)
 		scene->score += 10;
 	else if (sprite->sprite_type == MANAORB)
@@ -43,10 +52,8 @@ int	projectile_hit(t_projectile *projectile, t_sprite *sprite, t_scene *scene)
 		if (sprite->hitpoint <= 0)
 		{
 			calcul_score(sprite, scene);
-			printf("score: %d\n", scene->score);
 			sprite->pos[X] = -UNIT;
 			sprite->pos[Y] = -UNIT;
-			system("afplay assets/ghostdeath.mp3 &");
 			sprite->state = DEAD;
 		}
 		return (1);

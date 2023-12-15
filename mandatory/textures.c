@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:46:46 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 10:46:51 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 03:41:56 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static mlx_image_t	*get_texture(t_scene *scene, t_ray_caster *wizard)
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 		/ UNIT] == 'D')
 		return (scene->door_img);
-	else if (scene->map->map[scene->player->vision_rays[wizard->x]->\
-	current_cell[X]
+	else if (scene->map->map[scene->player->\
+		vision_rays[wizard->x]->current_cell[X]
 			/ UNIT][scene->player->vision_rays[wizard->x]->current_cell[Y]
 		/ UNIT] == 'L')
 		return (scene->end_img);
@@ -42,13 +42,14 @@ static mlx_image_t	*get_texture(t_scene *scene, t_ray_caster *wizard)
 					wizard->x)]);
 }
 
-static void	draw_pixel(t_scene *scene, t_ray_caster *wizard, mlx_image_t *wtext, long long iy)
+static void	draw_pixel(t_scene *scene, t_ray_caster *wizard, mlx_image_t *wtext,
+		long long iy)
 {
 	int	i;
 	int	y;
 
-	i = (int)(iy & 0xFFFFFFFF);
-    y = (int)((iy >> 32) & 0xFFFFFFFF);
+	y = (int)(iy & 0xFFFFFFFF);
+	i = (int)((iy >> 32) & 0xFFFFFFFF);
 	mlx_put_pixel(scene->mlx_img, wizard->x, wizard->linestart,
 		ft_pixel(wtext->pixels[(int)y * wtext->width * 4 + i * 4],
 			wtext->pixels[(int)y * wtext->width * 4 + i * 4 + 1],
@@ -64,11 +65,11 @@ static int	get_index(t_scene *scene, t_ray_caster *wizard)
 
 	wdir = get_wall_dir(scene->player, wizard->x);
 	if (wdir == EAST || wdir == WEST)
-		i = scene->player->vision_rays[wizard->x]->\
-		current_cell[X] % wizard->unit;
+		i = scene->player->vision_rays[wizard->x]->current_cell[X]
+			% wizard->unit;
 	else
-		i = scene->player->vision_rays[wizard->x]->\
-		current_cell[Y] % wizard->unit;
+		i = scene->player->vision_rays[wizard->x]->current_cell[Y]
+			% wizard->unit;
 	return (i);
 }
 

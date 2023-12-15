@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:45:09 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 22:50:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 04:17:53 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	is_player_close_for_attack(const t_player *player, const t_sprite *enemy)
 int	is_player_in_range_for_pursuit(const t_player *player,
 		const t_sprite *enemy, const t_dda *dda, const t_scene *scene)
 {
-	return (player->pos[X] + 10 * UNIT > enemy->pos[X] && player->pos[X] - 10
-		* UNIT < enemy->pos[X] && player->pos[Y] + 10 * UNIT > enemy->pos[Y]
-		&& player->pos[Y] - 10 * UNIT < enemy->pos[Y] && line_o_sight(*dda,
+	return (player->pos[X] + 8 * UNIT > enemy->pos[X] && player->pos[X] - 8
+		* UNIT < enemy->pos[X] && player->pos[Y] + 8 * UNIT > enemy->pos[Y]
+		&& player->pos[Y] - 8 * UNIT < enemy->pos[Y] && line_o_sight(*dda,
 			enemy->pos[X], enemy->pos[Y], *scene));
 }
 

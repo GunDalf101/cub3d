@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 01:39:42 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:30:59 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	allocat_warlock(t_scene *scene, int i, int j, int *count)
 	scene->sprites[*count]->state = IDLE;
 	scene->sprites[*count]->dir[Y] = 0;
 	scene->sprites[*count]->dir[X] = 0;
-	scene->sprites[*count]->sped = 4;
+	scene->sprites[*count]->sped = 100;
 	(*count)++;
 }
 
@@ -78,9 +78,10 @@ void	initialize_player(t_scene *scene)
 	scene->player->backwards = FALSE;
 	scene->player->left = FALSE;
 	scene->player->right = FALSE;
-	scene->player->velocity = 1;
+	scene->player->velocity = 2;
 	scene->player->is_jumping = FALSE;
 	scene->player->is_trapped = FALSE;
+	scene->player->is_lit = FALSE;
 	scene->player->crouch = FALSE;
 	scene->player->will_collide[Y] = FALSE;
 	scene->player->will_collide[X] = FALSE;

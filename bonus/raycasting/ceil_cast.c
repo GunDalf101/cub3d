@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 12:46:26 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 05:13:32 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:25:13 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	get_ceiling_texture_color(t_scene *scene, t_floor_cast *ceilin)
 {
 	double	intensity;
 
-	intensity = 1 / ((ceilin->current_dist * 0.3) + 1);
+	intensity = 1 / ((ceilin->current_dist * scene->light_multiplier) + 1);
 	ceilin->color = ft_pixel(scene->ceil_img->pixels[scene->ceil_img->width
 			* ceilin->ty * 4 + ceilin->tx * 4] * intensity,
 			scene->ceil_img->pixels[scene->ceil_img->width * ceilin->ty * 4

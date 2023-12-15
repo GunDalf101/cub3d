@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:18:18 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 05:16:40 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 05:25:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	projectile_coloring(t_scene *scene, t_projectile *projectile,
 	u_int8_t	b;
 	u_int8_t	a;
 
-	intensity = 1 / (((projectile->proj_distance / UNIT) * 0.3) + 1);
+	intensity = 1 / (((projectile->proj_distance / UNIT) \
+	* scene->light_multiplier) + 1);
 	projectile->d = (j - projectile->v_move_screen) * 256 - WIN_HEIGHT * 128
 		+ projectile->proj_height * 128;
 	projectile->tex[Y] = ((projectile->d * projectile->proj_img->height)

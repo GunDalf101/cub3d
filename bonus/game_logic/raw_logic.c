@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 12:54:20 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 19:33:06 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 06:11:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	restore_mana(t_scene *scene)
 
 void	dynamic_logic(t_scene *scene)
 {
+	if (scene->win || scene->player->is_ded)
+		return ;
 	check_timer(scene);
 	check_player_health(scene);
 	check_trapped(scene);
