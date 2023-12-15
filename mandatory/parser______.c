@@ -31,3 +31,16 @@ int	end_walled(char *line)
 		i--;
 	return (line[i] == '1');
 }
+
+void	perror_exit(char *str)
+{
+	printf("Error\n%s\n", str);
+	exit(0);
+}
+
+int	this_or_that(int a, int b)
+{
+	if (a)
+		return (a);
+	return (b);
+}

@@ -20,7 +20,7 @@ int	check_filename_sanity(const char *filename)
 	if (flen > 4 && filename[flen - 4] == '.' && filename[flen - 3] == 'c'
 		&& filename[flen - 2] == 'u' && filename[flen - 1] == 'b')
 		return (0);
-	return (1);
+	return (perror_exit("Invalid map filename."), 1);
 }
 
 void	free_array(char **arr)

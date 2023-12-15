@@ -65,7 +65,7 @@ int	fill_rgb(unsigned char rgb[3], char *rgbl)
 
 int	check_token_counts(char **map_lines)
 {
-	static int	seen[sizeof(MAP_KNOWN_CHARS)];
+	static int	pdir_seen;
 	int			i;
 	int			j;
 	char		*ret;
@@ -82,14 +82,14 @@ int	check_token_counts(char **map_lines)
 				if (EX_MAP_KNOWN_CHARS[((ret - MAP_KNOWN_CHARS) * 2)
 						+ 1] == '!')
 				{
-					if (arr_has_any(seen, 10, 1))
-						return (1);
-					seen[ret - MAP_KNOWN_CHARS] = 1;
+					if (pdir_seen)
+						perror_exit("duplicate unique-token in map.");
+					pdir_seen = 1;
 				}
 			}
 		}
 	}
-	return (!arr_has_any(seen, 10, 1));
+	return (!pdir_seen);
 }
 
 int	ends_with_ws(char *s)
