@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:37:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 06:10:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 08:15:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,62 +57,6 @@ void	velocity_keys(mlx_key_data_t keycode, t_scene *scene)
 		scene->player->velocity = 0;
 }
 
-void	light_spell(mlx_key_data_t keycode, t_scene *scene)
-{
-	if (keycode.key == MLX_KEY_3 && keycode.action == MLX_REPEAT
-		&& scene->player->mana_points >= 5)
-	{
-		scene->lit_time = mlx_get_time();
-		scene->player->is_lit += TRUE;
-		if (scene->player->is_lit == 1.00)
-		{
-			scene->old_lit_time = scene->lit_time;
-			scene->light_multiplier = 0.2;
-			scene->player->mana_points -= 5;
-		}
-		if (scene->lit_time - scene->old_lit_time > 1)
-		{
-			scene->old_lit_time = scene->lit_time;
-			scene->player->mana_points -= 5;
-		}
-	}
-	else if (keycode.key == MLX_KEY_3 && keycode.action == MLX_RELEASE)
-	{
-		scene->player->is_lit = FALSE;
-		scene->light_multiplier = 0.5;
-	}
-}
-
-void	spells_keys(mlx_key_data_t keycode, t_scene *scene)
-{
-	if (keycode.key == MLX_KEY_E && scene->player->mana_points >= 20
-		&& scene->player->health_points > 0
-		&& scene->player->health_points < 100 && keycode.action == 1)
-	{
-		system("afplay assets/Heal.mp3 &");
-		scene->player->mana_points -= 20;
-		if (scene->player->health_points + 20 > 100)
-			scene->player->health_points = 100;
-		else
-			scene->player->health_points += 20;
-	}
-	if (keycode.key == MLX_KEY_1 && keycode.action == MLX_RELEASE
-		&& scene->player->mana_points >= 5)
-	{
-		system("afplay assets/FireBall.mp3 &");
-		scene->player->mana_points -= 5;
-		add_projectile(scene, FIREBALL);
-	}
-	if (keycode.key == MLX_KEY_2 && keycode.action == MLX_RELEASE
-		&& scene->player->mana_points >= 5)
-	{
-		system("afplay assets/IceOrb.mp3 &");
-		scene->player->mana_points -= 5;
-		add_projectile(scene, ICEBALL);
-	}
-	light_spell(keycode, scene);
-}
-
 void	player_rotation(mlx_key_data_t keycode, t_scene *scene)
 {
 	if (keycode.key == MLX_KEY_LEFT && keycode.action == MLX_PRESS)
@@ -148,7 +92,6 @@ void	hooker(mlx_key_data_t keycode, void *scene2)
 	player_movement(keycode, scene);
 	player_rotation(keycode, scene);
 	velocity_keys(keycode, scene);
-	if (keycode.key == MLX_KEY_Q && keycode.action == MLX_PRESS)
-		check_door(keycode, scene);
+	check_door(keycode, scene);
 	spells_keys(keycode, scene);
 }

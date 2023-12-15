@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 14:40:53 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 21:41:50 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 12:10:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	load_end(t_scene *scene)
 	if (!scene->end_tex)
 		exit(0);
 	scene->end_img = mlx_texture_to_image(scene->mlx_ptr, scene->end_tex);
-	mlx_resize_image(scene->end_img, 500, 500);
+	mlx_resize_image(scene->end_img, UNIT, UNIT);
 	mlx_delete_texture(scene->end_tex);
 	scene->win_tex = mlx_load_png("assets/victory.png");
 	if (!scene->win_tex)

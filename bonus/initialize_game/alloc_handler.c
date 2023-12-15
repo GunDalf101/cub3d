@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 19:12:11 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 04:32:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:28:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	load_sword(void *mlxptr, t_scene *scene)
 	{
 		scene->finn_sword[i] = mlx_texture_to_image(mlxptr,
 				load_single_sword_texture(mlxptr, sword_path));
-		mlx_resize_image(scene->finn_sword[i], WIN_WIDTH, WIN_HEIGHT);
+		mlx_resize_image(scene->finn_sword[i], WIN_WIDTH, 360 * WIN_WIDTH / 640);
 		if (i % 10 == 8)
 		{
 			sword_path[23] = '0';

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 04:23:18 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:59:01 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	rotate_left(t_scene *scene)
 		scene->player->p_angle -= 2 * M_PI;
 	else if (scene->player->p_angle < 0)
 		scene->player->p_angle += 2 * M_PI;
-	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
-	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
-	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)
+	scene->player->dir[Y] = cos(scene->player->p_angle) * 25;
+	scene->player->dir[X] = sin(scene->player->p_angle) * 25;
+	scene->player->plane[Y] = cos(scene->player->p_angle + M_PI / 2)
 		* 16.5;
-	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2)
+	scene->player->plane[X] = sin(scene->player->p_angle + M_PI / 2)
 		* 16.5;
 }
 
@@ -34,11 +34,11 @@ void	rotate_right(t_scene *scene)
 		scene->player->p_angle += 2 * M_PI;
 	else if (scene->player->p_angle > 2 * M_PI)
 		scene->player->p_angle -= 2 * M_PI;
-	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
-	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
-	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)
+	scene->player->dir[Y] = cos(scene->player->p_angle) * 25;
+	scene->player->dir[X] = sin(scene->player->p_angle) * 25;
+	scene->player->plane[Y] = cos(scene->player->p_angle + M_PI / 2)
 		* 16.5;
-	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2)
+	scene->player->plane[X] = sin(scene->player->p_angle + M_PI / 2)
 		* 16.5;
 }
 
@@ -94,9 +94,9 @@ void	gameloop(void *scene2)
 	scene->oldtime = scene->time;
 	scene->time = mlx_get_time();
 	scene->frame_time = (scene->time - scene->oldtime);
+	printf("FPS: %f\n", 1 / scene->frame_time);
 	check_pole(scene);
 	check_enemy_state(scene);
-	state_machine(scene);
 	movement_logic(scene);
 	trap_logic(scene);
 	projectile_logic(scene);

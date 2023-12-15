@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 05:25:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:53:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	ray_vectors(t_scene *scene, t_floor_cast *floor)
 	floor->ray_dir_x1 = scene->player->dir[X] + scene->player->plane[X];
 	floor->ray_dir_y1 = scene->player->dir[Y] + scene->player->plane[Y];
 	floor->p = floor->y - WIN_HEIGHT;
-	floor->ray_pos_z = 0.5 * WIN_HEIGHT;
 	floor->row_distance = floor->ray_pos_z / floor->p;
 	floor->floor_step_x = floor->row_distance * (floor->ray_dir_x1
 			- floor->ray_dir_x0) / WIN_WIDTH;
@@ -89,6 +88,7 @@ void	floor_casting(t_scene *scene)
 
 	floor.y = WIN_HEIGHT / 2 - scene->player->crouch
 		+ scene->player->central_angle;
+	floor.ray_pos_z = 0.5 * WIN_HEIGHT;
 	while (floor.y < WIN_HEIGHT)
 	{
 		ray_vectors(scene, &floor);

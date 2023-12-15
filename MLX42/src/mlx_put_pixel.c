@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   mlx_put_pixel.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/12/28 03:30:13 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/06/29 16:00:30 by lde-la-h      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   mlx_put_pixel.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/28 03:30:13 by W2Wizard          #+#    #+#             */
+/*   Updated: 2023/12/15 12:28:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void mlx_draw_pixel(uint8_t* pixel, uint32_t color)
 void mlx_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 {
 	MLX_NONNULL(image);
+	if (x < 0 || y < 0 || x >= image->width || y >= image->height)
+		return ;
 	MLX_ASSERT(x < image->width, "Pixel is out of bounds");
 	MLX_ASSERT(y < image->height, "Pixel is out of bounds");
 

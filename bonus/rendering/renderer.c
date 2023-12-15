@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 04:03:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 12:31:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sprites_only(t_scene scene)
 {
 	int				i;
-	static double	frame;
+	static float	frame;
 
 	if (frame >= 40)
 		frame = 0;
@@ -100,7 +100,6 @@ void	renderitall(t_scene scene)
 	(void)scene;
 	if (scene.win != TRUE)
 	{
-		sky_floor_render(scene);
 		ray_caster(&scene);
 		sprites_projectiles(scene);
 		draw_attack(&scene);

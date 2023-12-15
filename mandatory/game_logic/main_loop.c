@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:28:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/14 05:53:28 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:59:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	rotate_left(t_scene *scene)
 		scene->player->p_angle -= 2 * M_PI;
 	else if (scene->player->p_angle < 0)
 		scene->player->p_angle += 2 * M_PI;
-	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
-	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
-	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)
+	scene->player->dir[Y] = (double)cos(scene->player->p_angle) * 25;
+	scene->player->dir[X] = (double)sin(scene->player->p_angle) * 25;
+	scene->player->plane[Y] = (double)cos(scene->player->p_angle + M_PI / 2)
 		* 16.5;
-	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2)
+	scene->player->plane[X] = (double)sin(scene->player->p_angle + M_PI / 2)
 		* 16.5;
 }
 
@@ -34,11 +34,11 @@ void	rotate_right(t_scene *scene)
 		scene->player->p_angle += 2 * M_PI;
 	else if (scene->player->p_angle > 2 * M_PI)
 		scene->player->p_angle -= 2 * M_PI;
-	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
-	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
-	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)
+	scene->player->dir[Y] = (double)cos(scene->player->p_angle) * 25;
+	scene->player->dir[X] = (double)sin(scene->player->p_angle) * 25;
+	scene->player->plane[Y] = (double)cos(scene->player->p_angle + M_PI / 2)
 		* 16.5;
-	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2)
+	scene->player->plane[X] = (double)sin(scene->player->p_angle + M_PI / 2)
 		* 16.5;
 }
 
@@ -56,32 +56,6 @@ void	movement_logic(t_scene *scene)
 		rotate_left(scene);
 	if (scene->player->rot_right)
 		rotate_right(scene);
-}
-
-void	trap_logic(t_scene *scene)
-{
-	if (scene->player->is_trapped)
-	{
-		scene->damaged_time = mlx_get_time();
-		if (scene->player->is_trapped == 1.00)
-		{
-			system("afplay assets/acid.mp3 &");
-			scene->old_damaged_time = scene->damaged_time;
-			if (scene->player->health_points - 10 < 0)
-				scene->player->health_points = 0;
-			else
-				scene->player->health_points -= 10;
-		}
-		if (scene->damaged_time - scene->old_damaged_time > 1)
-		{
-			system("afplay assets/acid.mp3 &");
-			if (scene->player->health_points - 10 < 0)
-				scene->player->health_points = 0;
-			else
-				scene->player->health_points -= 10;
-			scene->old_damaged_time = scene->damaged_time;
-		}
-	}
 }
 
 void	gameloop(void *scene2)

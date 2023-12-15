@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:50:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 05:30:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 10:54:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ void	player_dir(t_scene *scene, int i, int j)
 
 void	initialize_player(t_scene *scene)
 {
-	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
-	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
-	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)
+	scene->player->dir[Y] = (double)cos(scene->player->p_angle) * 25;
+	scene->player->dir[X] = (double)sin(scene->player->p_angle) * 25;
+	scene->player->plane[Y] = (double)cos(scene->player->p_angle + M_PI / 2)
 		* 16.5;
-	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2)
+	scene->player->plane[X] = (double)sin(scene->player->p_angle + M_PI / 2)
 		* 16.5;
 	scene->player->health_points = UNIT;
 	scene->player->mana_points = UNIT;

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 20:07:21 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 16:45:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 12:28:54 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	minimap_init(t_minimap *minimap, t_scene *scene)
 {
-	minimap->player_pos_x = (float)((scene->player->pos[Y]) / UNIT);
-	minimap->player_pos_y = (float)((scene->player->pos[X]) / UNIT);
+	minimap->player_pos_x = (double)((scene->player->pos[Y]) / UNIT);
+	minimap->player_pos_y = (double)((scene->player->pos[X]) / UNIT);
 	minimap->i = minimap->player_pos_x - 2.5;
 	minimap->j = minimap->player_pos_y - 2.5;
 	minimap->pos_x = 0;

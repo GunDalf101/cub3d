@@ -27,6 +27,7 @@ def generate_room(size, num_rooms):
     # Function to connect two rooms with a corridor
     def connect_rooms(room1, room2):
         row, col = room1['bottom'] + 1, random.randint(room1['left'], room1['right'])
+        game_map[row][col] = 'D'
         while row < room2['top']:
             game_map[row][col] = '0'
             row += 1
@@ -38,6 +39,7 @@ def generate_room(size, num_rooms):
             while col > room2['right']:
                 game_map[row][col] = '0'
                 col -= 1
+        game_map[row][col] = 'D'
 
     # Generate rooms
     for _ in range(num_rooms):
@@ -57,6 +59,10 @@ def generate_room(size, num_rooms):
         if rooms:
             connect_rooms(room, random.choice(rooms))
 
+        # Add a door 'D' at the entrance of the room
+        # door_row, door_col = room['bottom'], (room['left'] + room['right']) // 2
+        # game_map[door_row][door_col] = 'D'
+
         # Add the new room to the list
         rooms.append(room)
 
@@ -71,27 +77,10 @@ def generate_room(size, num_rooms):
     exit_row, exit_col = random.randint(exit_room['top'], exit_room['bottom']), random.randint(exit_room['left'], exit_room['right'])
     game_map[exit_row][exit_col] = 'L'
 
-    return game_map
-
-def generate_map(size):
-    game_map = [['1' for _ in range(size + 2)] for _ in range(size + 2)]
-
-    for row in range(1, size + 1):
-        for col in range(1, size + 1):
-            game_map[row][col] = '0'
-
-    for _ in range(size * size // 4):
-        row, col = random.randint(1, size), random.randint(1, size)
-        game_map[row][col] = '1'
-
-    player_row, player_col = random.randint(1, size), random.randint(1, size)
-    game_map[player_row][player_col] = 'E'
-
-    exit_row, exit_col = random.randint(1, size), random.randint(1, size)
-    game_map[exit_row][exit_col] = 'L'
-
+    # Place 'Z' and 'Y' in random positions on the map
     z_row, z_col = random.randint(1, size), random.randint(1, size)
     y_row, y_col = random.randint(1, size), random.randint(1, size)
+
     game_map[z_row][z_col] = 'Z'
     game_map[y_row][y_col] = 'Y'
 

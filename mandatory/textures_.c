@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 03:34:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 03:34:37 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 12:09:20 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	load_textures(void *mlxptr, t_map *map)
 		map->textures_mlx_imgs[i] = mlx_texture_to_image(mlxptr, texture);
 		if (!map->textures_mlx_imgs[i])
 			perror_faulty_texuture(map->textures_paths[i]);
-		mlx_resize_image(map->textures_mlx_imgs[i], WIN_WIDTH, WIN_WIDTH);
+		mlx_resize_image(map->textures_mlx_imgs[i], UNIT, UNIT);
 		mlx_delete_texture(texture);
 		i++;
 	}

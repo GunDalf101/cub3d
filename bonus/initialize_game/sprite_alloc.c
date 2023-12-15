@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:04:52 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 06:04:24 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 10:54:13 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	initsprites(t_scene *scene)
 	scene->win = FALSE;
 	scene->fast_travel = FALSE;
 	scene->light_multiplier = 0.5;
+	scene->z_buffer = malloc(sizeof(double) * WIN_WIDTH);
 	scene->timer.time_origin = mlx_get_time();
 	load_sprites(scene);
 	load_projectiles(scene);

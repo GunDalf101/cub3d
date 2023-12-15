@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 12:46:26 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 05:25:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:46:11 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	cray_vectors(t_scene *scene, t_floor_cast *ceilin)
 	ceilin->ray_dir_x1 = scene->player->dir[X] + scene->player->plane[X];
 	ceilin->ray_dir_y1 = scene->player->dir[Y] + scene->player->plane[Y];
 	ceilin->p = ceilin->y - WIN_HEIGHT;
-	ceilin->ray_pos_z = 0.5 * WIN_HEIGHT;
 	ceilin->row_distance = ceilin->ray_pos_z / ceilin->p;
 	ceilin->floor_step_x = ceilin->row_distance * (ceilin->ray_dir_x1
 			- ceilin->ray_dir_x0) / WIN_WIDTH;
@@ -71,6 +70,7 @@ void	ceiling_casting(t_scene *scene)
 
 	ceilin.y = WIN_HEIGHT / 2 + scene->player->crouch
 		- scene->player->central_angle;
+	ceilin.ray_pos_z = 0.5 * WIN_HEIGHT;
 	while (ceilin.y < WIN_HEIGHT - 1)
 	{
 		cray_vectors(scene, &ceilin);

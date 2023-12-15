@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 10:48:27 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 05:11:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:03:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,9 @@ int	projectile_hit(t_projectile *projectile, t_sprite *sprite, t_scene *scene)
 
 int	projectile_collide(t_scene *scene, t_projectile *projectile)
 {
-	int	i;
-	int	j;
 	int	it;
 
 	it = 0;
-	i = projectile->pos[X];
-	j = projectile->pos[Y];
 	while (it < scene->sprite_count)
 	{
 		if (projectile_hit(projectile, scene->sprites[it], scene))

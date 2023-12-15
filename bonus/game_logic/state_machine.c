@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 17:08:43 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 04:14:01 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 10:57:36 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,15 @@ void	attack(t_scene *scene, int i)
 	frame += 0.7 / scene->move_speed;
 }
 
-void	state_machine(t_scene *scene)
+void	state_machine(t_scene *scene, int i)
 {
-	int	i;
-
-	i = 0;
-	while (i < scene->sprite_count)
+	if (scene->sprites[i]->sprite_type == WARLOCK)
 	{
-		if (scene->sprites[i]->sprite_type == WARLOCK)
-		{
-			if (scene->sprites[i]->state == IDLE)
-				idle(scene, i);
-			else if (scene->sprites[i]->state == PURSUIT)
-				pursuit(scene, i);
-			else if (scene->sprites[i]->state == ATTACK)
-				attack(scene, i);
-		}
-		i++;
+		if (scene->sprites[i]->state == IDLE)
+			idle(scene, i);
+		else if (scene->sprites[i]->state == PURSUIT)
+			pursuit(scene, i);
+		else if (scene->sprites[i]->state == ATTACK)
+			attack(scene, i);
 	}
 }

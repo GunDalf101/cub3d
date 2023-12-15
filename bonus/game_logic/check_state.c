@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:45:09 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 04:17:53 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:01:40 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	check_enemy_state(t_scene *scene)
 			is_pursuit = is_player_in_range_for_pursuit(scene->player,
 					scene->sprites[i], &player_dda, scene);
 			set_enemy_state(scene->sprites[i], is_attack, is_pursuit);
+			state_machine(scene, i);
 		}
 		i++;
 	}

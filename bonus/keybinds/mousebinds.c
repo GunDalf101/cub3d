@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:37:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 06:12:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 10:54:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	hookercur(double xpos, double ypos, void *scene2)
 	else if (old_ypos > ypos)
 		scene->player->central_angle += 70.0;
 	angle_update(scene);
-	scene->player->dir[Y] = (double)cosf(scene->player->p_angle) * 25;
-	scene->player->dir[X] = (double)sinf(scene->player->p_angle) * 25;
-	scene->player->plane[Y] = (double)cosf(scene->player->p_angle + M_PI / 2)
+	scene->player->dir[Y] = (double)cos(scene->player->p_angle) * 25;
+	scene->player->dir[X] = (double)sin(scene->player->p_angle) * 25;
+	scene->player->plane[Y] = (double)cos(scene->player->p_angle + M_PI_2)
 		* 16.5;
-	scene->player->plane[X] = (double)sinf(scene->player->p_angle + M_PI / 2)
+	scene->player->plane[X] = (double)sin(scene->player->p_angle + M_PI_2)
 		* 16.5;
 	old_ypos = ypos;
 }

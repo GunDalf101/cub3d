@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 22:03:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 04:26:10 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:51:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,25 @@ void	load_floor_textures(t_scene *scene)
 	if (!scene->floor_tex)
 		exit(0);
 	scene->floor_img = mlx_texture_to_image(scene->mlx_ptr, scene->floor_tex);
-	mlx_resize_image(scene->floor_img, WIN_WIDTH, WIN_HEIGHT);
+	mlx_resize_image(scene->floor_img, UNIT, UNIT);
 	mlx_delete_texture(scene->floor_tex);
 	scene->ceil_tex = mlx_load_png("textures/ceil.png");
 	if (!scene->ceil_tex)
 		exit(0);
 	scene->ceil_img = mlx_texture_to_image(scene->mlx_ptr, scene->ceil_tex);
-	mlx_resize_image(scene->ceil_img, WIN_WIDTH, WIN_HEIGHT);
+	mlx_resize_image(scene->ceil_img, UNIT, UNIT);
 	mlx_delete_texture(scene->ceil_tex);
 	scene->trap_tex = mlx_load_png("textures/acid.png");
 	if (!scene->trap_tex)
 		exit(0);
 	scene->trap_img = mlx_texture_to_image(scene->mlx_ptr, scene->trap_tex);
-	mlx_resize_image(scene->trap_img, WIN_WIDTH, WIN_HEIGHT);
+	mlx_resize_image(scene->trap_img, UNIT, UNIT);
 	mlx_delete_texture(scene->trap_tex);
 	scene->door_tex = mlx_load_png("textures/door.png");
 	if (!scene->door_tex)
 		exit(0);
 	scene->door_img = mlx_texture_to_image(scene->mlx_ptr, scene->door_tex);
-	mlx_resize_image(scene->door_img, WIN_WIDTH, WIN_WIDTH);
+	mlx_resize_image(scene->door_img, UNIT, UNIT);
 	mlx_delete_texture(scene->door_tex);
 }
 

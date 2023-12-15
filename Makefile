@@ -66,6 +66,7 @@ SOURCES_BNS = bonus/cube.c \
 		bonus/keybinds/keybinds.c \
 		bonus/keybinds/mousebinds.c \
 		bonus/keybinds/door_checker.c \
+		bonus/keybinds/spellbook.c \
 		bonus/parser.c \
 		bonus/parser_.c \
 		bonus/parser__.c \
@@ -81,7 +82,7 @@ OBJECTS_BNS = $(SOURCES_BNS:.c=.o)
 INCLUDES = cube.h gnl/get_next_line.h
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ofast
+CFLAGS = -Wall -Wextra -Werror -Ofast -march=native -mtune=native -flto -fomit-frame-pointer
 LIBFT = libft/libft.a
 all: elderscroll libft gnl $(NAME)
 	@if [ $$? -eq 0 ]; then \

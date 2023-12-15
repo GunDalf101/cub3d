@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:51:16 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/11 11:22:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 12:28:09 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	reached_endpoint(t_dda *dda, int x2, int y2)
 
 void	drawline(t_dda *dda, int x2, int y2, t_scene scene)
 {
+	(void)scene;
 	dda->dx = abs(x2 - dda->x1);
 	dda->dy = abs(y2 - dda->y1);
 	set_signs(dda, x2, y2);

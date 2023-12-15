@@ -6,15 +6,15 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:47:01 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 05:31:48 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:22:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
 # define CUBE_H
 
-# define WIN_WIDTH 1280
-# define WIN_HEIGHT 720
+# define WIN_WIDTH 1000
+# define WIN_HEIGHT 1000
 # define MINIMAP_SCALE_FACTOR 0.015
 # define UNIT 100
 
@@ -460,12 +460,13 @@ void					check_win(t_scene *scene);
 void					check_timer(t_scene *scene);
 void					draw_ending(t_scene scene);
 void					check_enemy_state(t_scene *scene);
-void					state_machine(t_scene *scene);
 int						line_o_sight(t_dda dda, int x2, int y2, t_scene scene);
 void					load_sword(void *mlxptr, t_scene *scene);
 void					draw_attack(t_scene *scene);
 void					melee_attack(t_scene *scene);
 int						test_color(t_scene *scene, t_floor_cast *floor);
 void					calcul_score(t_sprite *sprite, t_scene *scene);
+void					spells_keys(mlx_key_data_t keycode, t_scene *scene);
+void					state_machine(t_scene *scene, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:43:00 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 20:27:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:53:53 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ int	occasional_free(t_scene *scene)
 	int	i;
 
 	i = 0;
-	if (scene->z_buffer)
-		free(scene->z_buffer);
-	scene->z_buffer = NULL;
 	while (i < WIN_WIDTH)
 	{
 		free(scene->player->vision_rays[i]);
@@ -60,6 +57,7 @@ void	free_parsin_elements(t_scene *scene)
 		i++;
 	}
 	free(scene->evil_warlock);
+	scene->z_buffer = NULL;
 }
 
 int	final_free(t_scene *scene)
@@ -68,6 +66,8 @@ int	final_free(t_scene *scene)
 	int				i;
 
 	i = 0;
+	if (scene->z_buffer)
+		free(scene->z_buffer);
 	free_parsin_elements(scene);
 	while (i < scene->sprite_count)
 	{

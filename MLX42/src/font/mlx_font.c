@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 12:01:37 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/12/10 17:30:01 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 12:24:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ mlx_image_t* mlx_put_string(mlx_t* mlx, const char* str, int32_t x, int32_t y)
 	MLX_NONNULL(str);
 
 	mlx_image_t* strimage;
+	if (x < 0 || y < 0)
+		return (NULL);
 	const size_t len = strlen(str);
 	if (len > MLX_MAX_STRING)
 		return ((void*)mlx_error(MLX_STRTOOBIG));	
