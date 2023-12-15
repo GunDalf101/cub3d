@@ -13,6 +13,12 @@
 #include "cube.h"
 #include <stdio.h>
 
+static void	close_window(void *p)
+{
+	final_free(p);
+	exit(0);
+}
+
 void	hookermouse(mouse_key_t button, action_t action, \
 modifier_key_t mods, void *scene2)
 {
@@ -48,6 +54,7 @@ int	main(int argc, char *argv[])
 	mlx_cursor_hook(scene.mlx_ptr, hookercur, &scene);
 	mlx_mouse_hook(scene.mlx_ptr, hookermouse, &scene);
 	mlx_key_hook(scene.mlx_ptr, hooker, &scene);
+	mlx_close_hook(scene.mlx_ptr, close_window, &scene);
 	mlx_loop(scene.mlx_ptr);
 	return (0);
 }

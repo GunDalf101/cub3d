@@ -468,5 +468,7 @@ int						test_color(t_scene *scene, t_floor_cast *floor);
 void					calcul_score(t_sprite *sprite, t_scene *scene);
 void					spells_keys(mlx_key_data_t keycode, t_scene *scene);
 void					state_machine(t_scene *scene, int i);
+void					perror_exit(char *str);
+int						this_or_that(int a, int b);
 
 #endif

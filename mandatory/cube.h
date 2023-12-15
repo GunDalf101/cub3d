@@ -461,5 +461,7 @@ void					load_sword(void *mlxptr, t_scene *scene);
 void					draw_attack(t_scene *scene);
 void					melee_attack(t_scene *scene);
 int						test_color(t_scene *scene, t_floor_cast *floor);
+void					perror_exit(char *str);
+int						this_or_that(int a, int b);
 
 #endif

@@ -13,6 +13,12 @@
 #include "cube.h"
 #include <stdio.h>
 
+static void	close_window(void *p)
+{
+	final_free(p);
+	exit(0);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_scene	scene;
@@ -33,6 +39,7 @@ int	main(int argc, char *argv[])
 	scene.mlx_img = mlx_new_image(scene.mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	mlx_loop_hook(scene.mlx_ptr, gameloop, &scene);
 	mlx_key_hook(scene.mlx_ptr, hooker, &scene);
+	mlx_close_hook(scene.mlx_ptr, close_window, &scene);
 	mlx_loop(scene.mlx_ptr);
 	return (0);
 }

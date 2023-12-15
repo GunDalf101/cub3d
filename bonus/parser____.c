@@ -33,10 +33,10 @@ int	read_map(t_map *map, int fd)
 
 	lv = ft_calloc(sizeof(char *), 2);
 	if (!lv)
-		return (1);
+		return (perror_exit("System Error @ malloc()."), 1);
 	l = non_empty_gnl(fd);
 	if (!l)
-		return (1);
+		return (perror_exit("no actual map found."), 1);
 	lv[0] = l;
 	while (1)
 	{
