@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 17:08:43 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 10:57:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/16 00:20:11 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	attack(t_scene *scene, int i)
 		pursuit(scene, i);
 	if (scene->sprites[i]->sprite_distance < 100 && (int)frame % 10 == 0)
 		scene->player->health_points -= 5;
-	frame += 0.7 / scene->move_speed;
+	frame += 1 / (scene->frame_time * 35);
 }
 
 void	state_machine(t_scene *scene, int i)

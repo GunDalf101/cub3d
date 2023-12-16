@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 10:54:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/15 21:47:26 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,12 @@ void	wall_height_calculation(t_scene *scene, t_ray_caster *wizard)
 {
 	if (scene->player->vision_rays[wizard->x]->side == EW)
 		scene->player->vision_rays[wizard->x]->wall_dist = (scene->player->\
-		vision_rays[wizard->x]->current_cell[Y]
-				- scene->player->vision_rays[wizard->x]->pos[Y] + (1
-					- scene->player->vision_rays[wizard->x]->step[Y]) / 2)
-			/ scene->player->vision_rays[wizard->x]->dir[Y];
+		vision_rays[wizard->x]->side_cell[Y]
+				- scene->player->vision_rays[wizard->x]->delta_ray[Y]) / UNIT;
 	else
 		scene->player->vision_rays[wizard->x]->wall_dist = (scene->player->\
-		vision_rays[wizard->x]->current_cell[X]
-				- scene->player->vision_rays[wizard->x]->pos[X] + (1
-					- scene->player->vision_rays[wizard->x]->step[X]) / 2)
-			/ scene->player->vision_rays[wizard->x]->dir[X];
+		vision_rays[wizard->x]->side_cell[X]
+				- scene->player->vision_rays[wizard->x]->delta_ray[X]) / UNIT;
 	scene->player->vision_rays[wizard->x]->wall_height = (int)(WIN_HEIGHT
 			/ scene->player->vision_rays[wizard->x]->wall_dist * 3 \
 			* WIN_WIDTH / WIN_HEIGHT * UNIT / 100);

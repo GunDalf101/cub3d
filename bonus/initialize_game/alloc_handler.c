@@ -81,7 +81,8 @@ void	load_sword(void *mlxptr, t_scene *scene)
 	{
 		scene->finn_sword[i] = mlx_texture_to_image(mlxptr,
 				load_single_sword_texture(mlxptr, sword_path));
-		mlx_resize_image(scene->finn_sword[i], WIN_WIDTH, 360 * WIN_WIDTH / 640);
+		mlx_resize_image(scene->finn_sword[i], WIN_WIDTH, 360 * WIN_WIDTH
+			/ 640);
 		if (i % 10 == 8)
 		{
 			sword_path[23] = '0';

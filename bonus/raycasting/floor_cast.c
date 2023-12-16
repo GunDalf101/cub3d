@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:46:30 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 11:53:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/16 01:58:30 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,10 @@
 
 int	is_trap(t_scene *scene, t_floor_cast *floor)
 {
-	if (floor->current_floor_y / (34 + 1 / 3.0) + scene->player->pos[Y] / (UNIT
-			* (34 + 1 / 3.0)) > 0 && floor->current_floor_x / (34 + 1 / 3.0)
-		+ scene->player->pos[X] / (UNIT * (34 + 1 / 3.0)) > 0
-		&& floor->current_floor_y / (34 + 1 / 3.0) + scene->player->pos[Y]
-		/ (UNIT * (34 + 1 / 3.0)) < scene->map->map_width
-		&& floor->current_floor_x / (34 + 1 / 3.0) + scene->player->pos[X]
-		/ (UNIT * (34 + 1 / 3.0)) < scene->map->map_height
-		&& scene->map->map[(int)(floor->current_floor_x / (34 + 1 / 3.0)
-			+ scene->player->pos[X] / (UNIT * (34 + 1
-					/ 3.0)))][(int)(floor->current_floor_y / (34 + 1 / 3.0)
-			+ scene->player->pos[Y] / (UNIT * (34 + 1 / 3.0)))] == 'T')
+	if (floor->cell_y > 0 && floor->cell_x > 0
+		&& floor->cell_y < scene->map->map_width
+		&& floor->cell_x < scene->map->map_height
+		&& scene->map->map[(int)(floor->cell_x)][(int)(floor->cell_y)] == 'T')
 		return (1);
 	return (0);
 }
@@ -51,35 +44,38 @@ void	render_floor_pixel(t_scene *scene, t_floor_cast *floor)
 	floor->current_dist = WIN_HEIGHT / (2.0 * (floor->y + scene->player->crouch
 				- scene->player->central_angle) - WIN_HEIGHT) * WIN_WIDTH
 		/ WIN_HEIGHT;
-	floor->weight = floor->current_dist / floor->row_distance;
-	floor->current_floor_x = floor->weight * floor->floor_x + (1.0
-			- floor->weight) * scene->player->pos[X] / 3;
-	floor->current_floor_y = floor->weight * floor->floor_y + (1.0
-			- floor->weight) * scene->player->pos[Y] / 3;
-	floor->tx = (int)(scene->trap_img->width * (floor->current_floor_x) / (UNIT
-				/ 3.0)) % scene->trap_img->width;
-	floor->ty = (int)(scene->trap_img->height * (floor->current_floor_y) / (UNIT
-				/ 3.0)) % scene->trap_img->height;
+	floor->cell_x = (int)(floor->floor_x);
+	floor->cell_y = (int)(floor->floor_y);
+	floor->tx = ((int)(scene->trap_img->width * (floor->floor_x
+					- floor->cell_x)) % scene->trap_img->width);
+	floor->ty = ((int)(scene->trap_img->height * (floor->floor_y
+					- floor->cell_y)) % scene->trap_img->height);
 	get_floor_texture_color(scene, floor);
 	mlx_put_pixel(scene->mlx_img, floor->x, floor->y, floor->color);
 }
 
 void	ray_vectors(t_scene *scene, t_floor_cast *floor)
 {
-	floor->ray_dir_x0 = scene->player->dir[X] - scene->player->plane[X];
-	floor->ray_dir_y0 = scene->player->dir[Y] - scene->player->plane[Y];
-	floor->ray_dir_x1 = scene->player->dir[X] + scene->player->plane[X];
-	floor->ray_dir_y1 = scene->player->dir[Y] + scene->player->plane[Y];
-	floor->p = floor->y - WIN_HEIGHT;
-	floor->row_distance = floor->ray_pos_z / floor->p;
-	floor->floor_step_x = floor->row_distance * (floor->ray_dir_x1
-			- floor->ray_dir_x0) / WIN_WIDTH;
-	floor->floor_step_y = floor->row_distance * (floor->ray_dir_y1
-			- floor->ray_dir_y0) / WIN_WIDTH;
-	floor->floor_x = floor->row_distance * floor->ray_dir_x0
-		+ scene->player->pos[X] / 3;
-	floor->floor_y = floor->row_distance * floor->ray_dir_y0
-		+ scene->player->pos[Y] / 3;
+	floor->ray_dir_x0 = scene->player->dir[X] / (UNIT / 3.0)
+		- scene->player->plane[X] / (UNIT / 3.0);
+	floor->ray_dir_y0 = scene->player->dir[Y] / (UNIT / 3.0)
+		- scene->player->plane[Y] / (UNIT / 3.0);
+	floor->ray_dir_x1 = scene->player->dir[X] / (UNIT / 3.0)
+		+ scene->player->plane[X] / (UNIT / 3.0);
+	floor->ray_dir_y1 = scene->player->dir[Y] / (UNIT / 3.0)
+		+ scene->player->plane[Y] / (UNIT / 3.0);
+	floor->p = floor->y - WIN_HEIGHT / 2 + scene->player->crouch
+		- scene->player->central_angle;
+	floor->row_distance = (floor->ray_pos_z / floor->p) * WIN_WIDTH
+		/ WIN_HEIGHT;
+	floor->floor_step_x = (floor->row_distance * (floor->ray_dir_x1
+				- floor->ray_dir_x0) / WIN_WIDTH);
+	floor->floor_step_y = (floor->row_distance * (floor->ray_dir_y1
+				- floor->ray_dir_y0) / WIN_WIDTH);
+	floor->floor_x = (floor->row_distance * floor->ray_dir_x0
+			+ scene->player->pos[X] / (UNIT));
+	floor->floor_y = (floor->row_distance * floor->ray_dir_y0
+			+ scene->player->pos[Y] / (UNIT));
 }
 
 void	floor_casting(t_scene *scene)

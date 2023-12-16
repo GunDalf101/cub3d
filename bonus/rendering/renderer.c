@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 12:31:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/16 00:20:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	sprites_only(t_scene scene)
 			spawn_sprites(&scene, i);
 		i++;
 	}
-	frame += 0.7 / scene.move_speed;
+	frame += 1 / (scene.frame_time * 35);
 }
 
 void	sprites_projectiles(t_scene scene)

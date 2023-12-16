@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:39:38 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 10:54:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/16 00:20:52 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ void	draw_attack(t_scene *scene)
 	}
 	display_sword(scene, (int)frame, death);
 	if (scene->player->attacking == TRUE)
-		frame += 0.4 / scene->move_speed;
+		frame += 1 / (scene->frame_time * 30);
 }

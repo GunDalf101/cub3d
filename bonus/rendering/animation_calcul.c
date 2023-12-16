@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 01:36:34 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/12 23:21:29 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/16 01:57:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	initial_anime_calculation(t_scene *scene, int count)
 		* (scene->player->dir[X] * scene->sprites[count]->relative_pos[Y]
 			- scene->player->dir[Y] * scene->sprites[count]->relative_pos[X]);
 	scene->sprites[count]->v_move_screen = (int)(scene->sprites[count]->v_move
-			/ scene->sprites[count]->transform[Y]) * WIN_WIDTH / WIN_HEIGHT;
+			/ scene->sprites[count]->transform[Y]);
 	scene->sprites[count]->sprite_screen_x = (int)((WIN_WIDTH / 2) * (1
 				+ scene->sprites[count]->transform[X]
 				/ scene->sprites[count]->transform[Y]));
