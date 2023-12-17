@@ -105,7 +105,7 @@ static int	read_map_info(t_map *map, int fd, int *tfds)
 	while (1)
 	{
 		l = non_empty_gnl(fd);
-		if (!l || (ft_strlen(l) > 4 && l[3] == ' ') || ends_with_ws(l))
+		if (!l || ends_with_ws(l))
 			return (free(l), perror_exit("Invalid map info."), 1);
 		else if (str_starts_with(l, "NO ") || str_starts_with(l, "SO ")
 			|| str_starts_with(l, "WE ") || str_starts_with(l, "EA "))
