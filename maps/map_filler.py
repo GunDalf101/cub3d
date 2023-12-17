@@ -27,7 +27,6 @@ def generate_room(size, num_rooms):
     # Function to connect two rooms with a corridor
     def connect_rooms(room1, room2):
         row, col = room1['bottom'] + 1, random.randint(room1['left'], room1['right'])
-        game_map[row][col] = 'D'
         while row < room2['top']:
             game_map[row][col] = '0'
             row += 1
@@ -39,7 +38,6 @@ def generate_room(size, num_rooms):
             while col > room2['right']:
                 game_map[row][col] = '0'
                 col -= 1
-        game_map[row][col] = 'D'
 
     # Generate rooms
     for _ in range(num_rooms):
@@ -90,8 +88,8 @@ def print_map(game_map):
     for row in game_map:
         print("".join(row))
 
-map_size = 100
-num_rooms = 100
+map_size = 60
+num_rooms = 40
 game_map = generate_room(map_size , num_rooms)
 # game_map = generate_map(map_size)
 

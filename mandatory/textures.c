@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:46:46 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/15 10:54:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/17 15:51:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,9 @@ void	drawline_from_textures(t_scene *scene, t_ray_caster *wizard)
 	double		wh;
 	double		y;
 
-	if (UNIT > WIN_WIDTH)
-		wizard->unit = WIN_WIDTH;
-	else
-		wizard->unit = UNIT;
+	wizard->unit = UNIT;
 	wtext = get_texture(scene, wizard);
 	i = get_index(scene, wizard);
-	i *= (wtext->width / wizard->unit);
 	wh = wizard->trueend - wizard->truestart;
 	wh = wtext->height / wh;
 	y = abs(wizard->truestart - wizard->linestart) * wh;

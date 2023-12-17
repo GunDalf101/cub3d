@@ -6,13 +6,13 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:16:36 by mbennani          #+#    #+#             */
-/*   Updated: 2023/12/13 05:36:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/12/16 08:13:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-void	sky_floor_render(t_scene scene)
+void	heavens_and_earth(t_scene scene)
 {
 	t_dda	dda;
 	int		j;
@@ -42,7 +42,7 @@ void	sky_floor_render(t_scene scene)
 
 void	renderitall(t_scene scene)
 {
-	sky_floor_render(scene);
+	heavens_and_earth(scene);
 	ray_caster(&scene);
 	mlx_image_to_window(scene.mlx_ptr, scene.mlx_img, 0, 0);
 	occasional_free(&scene);

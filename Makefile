@@ -90,15 +90,15 @@ all: elderscroll libft gnl $(NAME)
 	fi
 
 $(NAME):$(OBJECTS) $(GNLOBJ)
-	@cc $(CFLAGS) $(OBJECTS) $(LIBFT) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
+	@cc $(CFLAGS) $(OBJECTS) $(LIBFT) -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME) libmlx42.a
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 bonus: elderscroll libft gnl $(OBJECTS_BNS)
-	@cc $(CFLAGS) $(OBJECTS_BNS) $(LIBFT) libmlx42.a -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME)
+	@cc $(CFLAGS) $(OBJECTS_BNS) $(LIBFT) -L$(shell brew --prefix glfw)/lib -lglfw  -o $(NAME) libmlx42.a
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
-%.o: %.c bonus/cub3d.h mandatory/cub3d.h gnl/get_next_line.h
-	@$(CC) $(CFLAGS) libmlx42.a -Iinclude -I$(shell brew --prefix glfw)/include -c $< -o $@
+%.o: %.c bonus/cube.h mandatory/cube.h gnl/get_next_line.h
+	@$(CC) $(CFLAGS) -Iinclude -I$(shell brew --prefix glfw)/include -c $< -o $@
 	@echo "\033[33m$< compiled \033[0m"
 
 
@@ -145,7 +145,7 @@ fclean: clean
 	@echo "\033[3m\033[1m\033[42m\033[31m~~The directory have been fully wiped~~\033[0m"; \
 
 m : all clean
-	./cub3d maps/map.cub
+	./cub3D maps/map.cub
 
 re: fclean all
 
