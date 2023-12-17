@@ -41,7 +41,7 @@ int	main(int argc, char *argv[])
 	if (!scene.map)
 		return (1);
 	if (parser(argv[1], scene.map))
-		return (printf("ERROR\n"), 1);
+		return (printf("ERROR\nMAP ERROR\n"), 1);
 	allocat_player(&scene);
 	scene.mlx_ptr = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Escape From GunDalf", 1);
 	if (load_textures(scene.mlx_ptr, scene.map))

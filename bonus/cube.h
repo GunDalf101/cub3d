@@ -474,5 +474,5 @@ void					render_ceiling_pixel(t_scene *scene,
 							t_floor_cast *ceilin);
 void					get_ceiling_texture_color(t_scene *scene,
 							t_floor_cast *ceilin);
-
+int						ensure_portals_sanity(char **map);
 #endif

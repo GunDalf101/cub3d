@@ -44,3 +44,30 @@ int	this_or_that(int a, int b)
 		return (a);
 	return (b);
 }
+
+int	ensure_portals_sanity(char **map)
+{
+	int	i;
+	int	j;
+	int	yfound;
+	int	zfound;
+
+	i = 0;
+	yfound = 0;
+	zfound = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'Y')
+				yfound++;
+			else if (map[i][j] == 'Z')
+				zfound++;
+			j++;
+		}
+		i++;
+	}
+	return ((!yfound && !zfound) || \
+			(yfound == 1 && zfound == 1));
+}

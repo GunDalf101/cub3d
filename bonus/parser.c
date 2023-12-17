@@ -147,6 +147,8 @@ int	parser(char *filename, t_map *map)
 		perror_exit("missing mandatory token in map.");
 	else if (ret == 1337)
 		perror_exit("map is escapable.");
+	if (!ensure_portals_sanity(map->map))
+		return (perror_exit("Invalid portals."), 1);
 	if (set_map_props(map))
 		return (1);
 	return (0);
